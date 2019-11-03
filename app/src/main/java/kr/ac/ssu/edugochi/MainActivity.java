@@ -5,12 +5,15 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.LinearLayout;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 
+import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
@@ -20,9 +23,26 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
-        Toolbar toolbar = (Toolbar)findViewById(R.id.bottom_app_bar);
+        Toolbar toolbar = findViewById(R.id.bottom_app_bar);
         setSupportActionBar(toolbar);
+
+        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            boolean status = false;
+            @Override
+            public void onClick(View view) {
+                if(status == false) {
+                    fab.setImageResource(R.drawable.ic_pause_black_24dp);
+                    status = true;
+                } else {
+                    fab.setImageResource(R.drawable.ic_play_arrow_white_24dp);
+                    status = false;
+                }
+            }
+        });
     }
+
+
     @Override
      public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();

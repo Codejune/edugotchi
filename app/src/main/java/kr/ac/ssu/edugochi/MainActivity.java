@@ -26,12 +26,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         Toolbar toolbar = findViewById(R.id.bottom_app_bar);
         setSupportActionBar(toolbar);
 
-        final FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+        final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             boolean status = false;
             @Override
             public void onClick(View view) {
-                if(status == false) {
+                Toast.makeText(getApplicationContext(), "버튼 눌림",
+                        Toast.LENGTH_SHORT).show();
+                if(!status) {
                     fab.setImageResource(R.drawable.ic_pause_black_24dp);
                     status = true;
                 } else {
@@ -58,14 +60,23 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationDrawerFragment.show(getSupportFragmentManager(), bottomNavigationDrawerFragment.getTag());
                 return true;
             case R.id.app_bar_home:
+                findViewById(R.id.content_main).setVisibility(View.VISIBLE);
+                findViewById(R.id.content_timeline).setVisibility(View.GONE);
+                findViewById(R.id.content_todo).setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "메인",
                         Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.app_bar_timeline:
+                findViewById(R.id.content_main).setVisibility(View.GONE);
+                findViewById(R.id.content_timeline).setVisibility(View.VISIBLE);
+                findViewById(R.id.content_todo).setVisibility(View.GONE);
                 Toast.makeText(getApplicationContext(), "타임라인",
                         Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.app_bar_todo:
+                findViewById(R.id.content_main).setVisibility(View.GONE);
+                findViewById(R.id.content_timeline).setVisibility(View.GONE);
+                findViewById(R.id.content_todo).setVisibility(View.VISIBLE);
                 Toast.makeText(getApplicationContext(), "TODO리스트",
                         Toast.LENGTH_SHORT).show();
                 return true;

@@ -4,4 +4,5 @@
     <string name="timeline">타임라인</string>
     <string name="todo">ToDo</string>
     <string name="settings">설정</string>
+    <string name="nav_item">아이템</string>
 </resources>

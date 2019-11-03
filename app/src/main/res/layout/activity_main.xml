@@ -5,7 +5,18 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <include layout="@layout/content_main" />
+    <include
+        android:id="@+id/content_main"
+        layout="@layout/content_main"
+        android:visibility="visible"/>
+    <include
+        android:id="@+id/content_timeline"
+        layout="@layout/content_timeline"
+        android:visibility="gone"/>
+    <include
+        android:id="@+id/content_todo"
+        layout="@layout/content_todo"
+        android:visibility="gone"/>
 
 
     <com.google.android.material.bottomappbar.BottomAppBar

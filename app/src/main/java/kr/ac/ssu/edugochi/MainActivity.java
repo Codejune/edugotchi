@@ -6,6 +6,7 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
@@ -15,6 +16,8 @@ import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+
+    TextView title;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -27,6 +30,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         ImageView character = findViewById(R.id.character);
         Glide.with(this).load(R.drawable.character).into(character);
 
+        title = findViewById(R.id.title);
 
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -62,6 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 bottomNavigationDrawerFragment.show(getSupportFragmentManager(), bottomNavigationDrawerFragment.getTag());
                 return true;
             case R.id.app_bar_home:
+                title.setText("Home");
                 findViewById(R.id.content_main).setVisibility(View.VISIBLE);
                 findViewById(R.id.content_timeline).setVisibility(View.GONE);
                 findViewById(R.id.content_todo).setVisibility(View.GONE);
@@ -69,6 +74,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.app_bar_timeline:
+                title.setText("Timeline");
                 findViewById(R.id.content_main).setVisibility(View.GONE);
                 findViewById(R.id.content_timeline).setVisibility(View.VISIBLE);
                 findViewById(R.id.content_todo).setVisibility(View.GONE);
@@ -76,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Toast.LENGTH_SHORT).show();
                 return true;
             case R.id.app_bar_todo:
+                title.setText("Todo");
                 findViewById(R.id.content_main).setVisibility(View.GONE);
                 findViewById(R.id.content_timeline).setVisibility(View.GONE);
                 findViewById(R.id.content_todo).setVisibility(View.VISIBLE);

@@ -1,6 +1,7 @@
 <resources>
     <string name="app_name">Edugochi</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="home">홈</string>
+    <string name="timeline">타임라인</string>
+    <string name="todo">ToDo</string>
+    <string name="settings">설정</string>
 </resources>

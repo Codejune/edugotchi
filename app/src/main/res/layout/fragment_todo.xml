@@ -32,7 +32,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="120dp"
                     android:layout_gravity="center"
-                    android:text="content_todo의 화면"
+                    android:text="content_timeline의 화면"
                     android:textSize="18sp"
                     android:textStyle="bold"
                     app:layout_constraintEnd_toEndOf="parent"

@@ -14,19 +14,10 @@
         android:text="Main"
         android:padding="20dp" />
 
-    <include
-        android:id="@+id/content_main"
-        layout="@layout/content_main"
-        android:visibility="visible"/>
-    <include
-        android:id="@+id/content_timeline"
-        layout="@layout/content_timeline"
-        android:visibility="gone"/>
-    <include
-        android:id="@+id/content_todo"
-        layout="@layout/content_todo"
-        android:visibility="gone"/>
-
+    <FrameLayout
+        android:id="@+id/content_fragment_layout"
+        android:layout_height="match_parent"
+        android:layout_width="match_parent" />
 
     <com.google.android.material.bottomappbar.BottomAppBar
         android:id="@+id/bottom_app_bar"

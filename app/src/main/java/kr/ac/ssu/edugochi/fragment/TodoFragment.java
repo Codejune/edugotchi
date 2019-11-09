@@ -1,72 +1,130 @@
 package kr.ac.ssu.edugochi.fragment;
 
+import android.content.ContentValues;
+import android.content.DialogInterface;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ListView;
+import android.widget.TextView;
+
+import java.util.ArrayList;
+
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.TodoContract;
+import kr.ac.ssu.edugochi.TodoDBHelper;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TodoFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TodoFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TodoFragment extends Fragment {
-    // TODO: Rename parameter arguments, choose names that match
-    // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
 
-    // TODO: Rename and change types of parameters
-    private String mParam1;
-    private String mParam2;
+public class TodoFragment extends Fragment implements Button.OnClickListener{
 
-    //private OnFragmentInteractionListener mListener;
+
+    private static final String TAG = "TodoFragment";
+    private TodoDBHelper mHelper;
+    private ListView mTaskListView;
+    private ArrayAdapter mAdapter;
 
     public TodoFragment() {
-        // Required empty public constructor
+
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TodoFragment.
-     */
-    // TODO: Rename and change types and number of parameters
-    public static TodoFragment newInstance(String param1, String param2) {
-        TodoFragment fragment = new TodoFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
+
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         return inflater.inflate(R.layout.fragment_todo, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        Button button = (Button) view.findViewById(R.id.todo_add_btn);
+        button.setOnClickListener(this);
+
+        mTaskListView = view.findViewById(R.id.todo_list);
+        mHelper = new TodoDBHelper(getActivity());
+        updateUI();
+    }
+
+
+
+    private void deleteTask(View view) {
+        View parent = (View) view.getParent();
+        TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
+        String task = String.valueOf(taskTextView.getText());
+        SQLiteDatabase db = mHelper.getWritableDatabase();
+        db.delete(TodoContract.TaskEntry.TABLE,
+                TodoContract.TaskEntry.COL_TASK_TITLE + " = ?",
+                new String[]{task});
+        db.close();
+        updateUI();
+    }
+
+    private void updateUI() {
+        ArrayList<String> taskList = new ArrayList<>();
+        SQLiteDatabase db = mHelper.getReadableDatabase();
+        Cursor cursor = db.query(TodoContract.TaskEntry.TABLE,
+                new String[]{TodoContract.TaskEntry._ID, TodoContract.TaskEntry.COL_TASK_TITLE},
+                null, null, null, null, null);
+        while (cursor.moveToNext()) {
+            int idx = cursor.getColumnIndex(TodoContract.TaskEntry.COL_TASK_TITLE);
+            taskList.add(cursor.getString(idx));
+        }
+
+        if (mAdapter == null) {
+            mAdapter = new ArrayAdapter<>(getActivity(),
+                    R.layout.item_todo,
+                    R.id.task_title,
+                    taskList);
+            mTaskListView.setAdapter(mAdapter);
+        } else {
+            mAdapter.clear();
+            mAdapter.addAll(taskList);
+            mAdapter.notifyDataSetChanged();
+        }
+
+        cursor.close();
+        db.close();
+    }
+
+    @Override
+    public void onClick(View v) {
+        final EditText taskEditText = new EditText(getActivity());
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                .setTitle("Add a new task")
+                .setMessage("What do you want to do next?")
+                .setView(taskEditText)
+                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        String task = String.valueOf(taskEditText.getText());
+                        SQLiteDatabase db = mHelper.getWritableDatabase();
+                        ContentValues values = new ContentValues();
+                        values.put(TodoContract.TaskEntry.COL_TASK_TITLE, task);
+                        db.insertWithOnConflict(TodoContract.TaskEntry.TABLE,
+                                null,
+                                values,
+                                SQLiteDatabase.CONFLICT_REPLACE);
+                        db.close();
+                        updateUI();
+                    }
+                })
+                .setNegativeButton("Cancel", null)
+                .create();
+        dialog.show();
     }
 }

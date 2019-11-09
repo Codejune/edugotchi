@@ -24,21 +24,127 @@
                 android:layout_width="match_parent"
                 android:layout_height="720dp"
                 android:orientation="vertical"
+                android:background="@color/soongsil"
                 tools:ignore="MissingConstraints">
 
-                <TextView
-                    android:id="@+id/screen_label"
-                    android:layout_width="wrap_content"
+                <LinearLayout
+                    android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="120dp"
-                    android:layout_gravity="center"
-                    android:text="content_timeline의 화면"
-                    android:textSize="18sp"
-                    android:textStyle="bold"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintHorizontal_bias="0.444"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="parent" />
+                    android:background="#FFFFFF"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/pre_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="10dp"
+                        android:text="@string/pre_month"/>
+
+                    <TextView
+                        android:id="@+id/tv_date"
+                        android:layout_width="wrap_content"
+                        android:layout_height="50dp"
+                        android:gravity="center"
+                        android:textSize="17sp" />
+
+                    <Button
+                        android:id="@+id/fore_button"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginLeft="10dp"
+                        android:text="@string/fore_month"/>
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:background="#CEFD9B"
+                    android:orientation="horizontal">
+
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="일" />
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/soongsil"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="월" />
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/soongsil"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="화" />
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/soongsil"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="수" />
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/soongsil"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="목" />
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/soongsil"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="금" />
+                    <View
+                        android:layout_width="2px"
+                        android:layout_height="20dp"
+                        android:layout_centerInParent="true"
+                        android:background="@color/soongsil"/>
+                    <TextView
+                        android:layout_width="0dp"
+                        android:layout_height="wrap_content"
+                        android:layout_weight="1"
+                        android:gravity="center"
+                        android:text="토" />
+                </LinearLayout>
+
+                <GridView
+                    android:id="@+id/gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"
+                    android:listSelector="@color/transparent"
+                    android:numColumns="7"
+                    android:horizontalSpacing="2px"
+                    android:verticalSpacing="2px"></GridView>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

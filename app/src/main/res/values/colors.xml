@@ -5,4 +5,11 @@
     <color name="colorAccent">#D81B60</color>
     <color name="white">#FFFFFF</color>
     <color name="dark">#212121</color>
+
+<!-- For TimelineFragment -->
+    <color name="soongsil">#00BCD4</color>
+    <color name="color_ffffff">#ffffff</color>
+    <color name="transparent">#2639AA</color>
+    <color name="color_000000">#000000</color>
+
 </resources>

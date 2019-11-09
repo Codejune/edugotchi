@@ -1,6 +1,7 @@
-package kr.ac.ssu.edugochi;
+package kr.ac.ssu.edugochi.activity;
 
 import android.annotation.SuppressLint;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -24,6 +25,9 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
+import kr.ac.ssu.edugochi.BottomNavigationDrawerFragment;
+import kr.ac.ssu.edugochi.MeasureTimeObject;
+import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 import kr.ac.ssu.edugochi.fragment.TodoFragment;
@@ -69,11 +73,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, timelineFragment, "timeline").hide(timelineFragment).commit();
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, mainFragment, "main").commit();
 
+        final Intent intent = new Intent(this, MeasureActivity.class);
         //  Floating Action Button 클릭 이벤트 처리
         final FloatingActionButton fab = findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                startActivity(intent);
+                /*
                 switch (timer_status) {
                     case init: // 정지 상태
                         base_time = SystemClock.elapsedRealtime();
@@ -91,8 +98,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             public void execute(Realm realm) {
                                 MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
                                 measureTimeObject.date = Calendar.getInstance().getTime();
+                                measureTimeObject.timeout = out_time;
                                 SimpleDateFormat formatter = new SimpleDateFormat ( "yyyy.MM.dd HH:mm:ss", Locale.KOREA );
-                                Toast.makeText(getApplicationContext(), formatter.format(measureTimeObject.date),
+                                Toast.makeText(getApplicationContext(), formatter.format(measureTimeObject.date) + " // "+ out_time,
                                         Toast.LENGTH_SHORT).show();
                             } });
                         timer.setText(getTimeOut());
@@ -101,6 +109,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                     case pause:
                         break;
                 }
+                 */
             }
         });
     }

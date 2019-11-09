@@ -5,6 +5,6 @@ import java.util.Date;
 import io.realm.RealmObject;
 
 public class MeasureTimeObject extends RealmObject {
-    Date date;
-    int timeoout;
+    public Date date;
+    public long timeout;
 }

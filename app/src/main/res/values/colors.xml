@@ -7,9 +7,12 @@
     <color name="dark">#212121</color>
 
 <!-- For TimelineFragment -->
-    <color name="soongsil">#00BCD4</color>
+    <color name="soongsilPrimary">#009bcb</color>
+    <color name="soongsilPrimaryDark">#006694</color>
+    <color name="soongsilAccent">#60c1c3</color>
     <color name="color_ffffff">#ffffff</color>
     <color name="transparent">#2639AA</color>
     <color name="color_000000">#000000</color>
     <color name="red">#FF0000</color>
-    <color name="blue">#0000FF</color></resources>
+    <color name="blue">#0000FF</color>
+</resources>

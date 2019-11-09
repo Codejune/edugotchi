@@ -54,6 +54,7 @@ public class TodoFragment extends Fragment implements Button.OnClickListener{
         super.onViewCreated(view, savedInstanceState);
         Button button = (Button) view.findViewById(R.id.todo_add_btn);
         button.setOnClickListener(this);
+
         mTaskListView = view.findViewById(R.id.todo_list);
         mHelper = new TodoDBHelper(getActivity());
         updateUI();
@@ -61,7 +62,7 @@ public class TodoFragment extends Fragment implements Button.OnClickListener{
 
 
 
-    public void deleteTask(View view) {
+    private void deleteTask(View view) {
         View parent = (View) view.getParent();
         TextView taskTextView = (TextView) parent.findViewById(R.id.task_title);
         String task = String.valueOf(taskTextView.getText());

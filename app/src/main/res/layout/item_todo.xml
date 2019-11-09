@@ -10,13 +10,15 @@
         android:layout_height="wrap_content"
         android:layout_alignParentLeft="true"
         android:layout_alignParentStart="true"
-        android:text="Hello"
+        android:paddingLeft="10dp"
+        android:text="Hellodsaff"
         android:textSize="20sp" />
 
     <Button
         android:id="@+id/task_delete"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_marginRight="10dp"
         android:layout_alignParentEnd="true"
         android:onClick="deleteTask"
         android:layout_alignParentRight="true"

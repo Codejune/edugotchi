@@ -3,13 +3,17 @@ package kr.ac.ssu.edugochi.fragment;
 import android.content.Context;
 import android.os.Bundle;
 import androidx.fragment.app.Fragment;
+
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
+import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 
 import java.text.SimpleDateFormat;
@@ -76,9 +80,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
-        pre_Button=(Button)myView.findViewById((R.id.pre_button));
+        pre_Button=(ImageView) myView.findViewById((R.id.pre_button));
         pre_Button.setOnClickListener(this);
-        fore_Button=(Button)myView.findViewById((R.id.fore_button));
+        fore_Button=(ImageView)myView.findViewById((R.id.fore_button));
         fore_Button.setOnClickListener(this);
         return myView;
     }
@@ -98,9 +102,14 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
     private GridView gridView;
     private Calendar mCal;
 
-    // 일단 버튼,, 이미지뷰로 대체할 예정
-    Button pre_Button;
-    Button fore_Button;
+    //연,월,일을 따로 저장
+    SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
+    SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
+    SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
+
+    // 이미지뷰로 대체 중
+    ImageView pre_Button;
+    ImageView fore_Button;
 
     // 달력의 년,월,일을 배치해주는 makeCalendar 메소드
     private void makeCalendar() {
@@ -111,10 +120,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
         mCal = Calendar.getInstance();
         mCal.add(Calendar.MONTH, month);
 
-        //연,월,일을 따로 저장
-        SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
-        SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
-        SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
 
         //현재 연도와 월을 텍스트뷰에 뿌려줌
         tvDate.setText(curYearFormat.format(mCal.getTime()) + "." + curMonthFormat.format(mCal.getTime()) + ".");
@@ -193,17 +198,24 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tvItemGridView.setText("" + getItem(position));
-
+            Log.d("superoid", "getViewout: "+position);
             if (month == 0) {
                 //해당 날짜 텍스트 컬러,배경 변경
-                mCal = Calendar.getInstance();
+               // mCal = Calendar.getInstance();
                 //오늘 day 가져옴
                 Integer today = mCal.get(Calendar.DAY_OF_MONTH);
                 String sToday = String.valueOf(today);
+                Log.d("superoid", "getViewout: "+position);
                 if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경
                     holder.tvItemGridView.setTextColor(getResources().getColor(R.color.color_000000));
                 }
             }
+
+                if ((position+1)%7==1)
+                    holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red));
+               else if ((position+1)%7==0)
+                    holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
+
             return convertView;
         }
     }

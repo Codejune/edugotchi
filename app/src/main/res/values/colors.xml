@@ -11,5 +11,5 @@
     <color name="color_ffffff">#ffffff</color>
     <color name="transparent">#2639AA</color>
     <color name="color_000000">#000000</color>
-
-</resources>
+    <color name="red">#FF0000</color>
+    <color name="blue">#0000FF</color></resources>

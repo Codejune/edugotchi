@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.core.widget.NestedScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
@@ -24,33 +23,18 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:orientation="vertical"
-                tools:context="kr.ac.ssu.edugochi.MainActivity">
-
-                <LinearLayout
-                    android:layout_width="match_parent"
+                tools:ignore ="MissingConstraints">
+                <Button
+                    android:id="@+id/todo_add_btn"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="55dp"
-                    android:layout_marginBottom="12dp"
-                    android:orientation="horizontal">
-                    
-                    <EditText
-                        android:id="@+id/item_edit_text"
-                        android:hint="할일을 입력하시오"
-                        android:layout_width="0dp"
-                        android:layout_weight="4"
-                        android:layout_height="wrap_content"/>
-                    <Button
-                        android:id="@+id/add_btn"
-                        android:text="추가"
-                        android:layout_width="0dp"
-                        android:layout_weight="1"
-                        android:layout_height="wrap_content"/>
+                    android:layout_gravity="bottom"
+                    android:text="추가" />
 
-                </LinearLayout>
                 <ListView
                     android:id="@+id/todo_list"
                     android:layout_marginBottom="12dp"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"/>
             </LinearLayout>
 

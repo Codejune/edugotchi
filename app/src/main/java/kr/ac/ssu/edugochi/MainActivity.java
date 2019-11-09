@@ -1,12 +1,10 @@
 package kr.ac.ssu.edugochi;
 
 import android.annotation.SuppressLint;
-import android.content.Context;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -21,14 +19,18 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import org.w3c.dom.Text;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
 
+import io.realm.Realm;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 import kr.ac.ssu.edugochi.fragment.TodoFragment;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
 
+    Realm mRealm;
     TextView title;
     TextView timer;
     MainFragment fragment;
@@ -42,6 +44,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     final static int pause = 2;
     int timer_status = init; //현재의 상태를 저장할변수를 초기화함.
     long base_time;
+    long current_time;
+    long out_time;
     long pause_time;
 
     @Override
@@ -55,6 +59,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 툴바 설정
         Toolbar toolbar = findViewById(R.id.bottom_app_bar);
         setSupportActionBar(toolbar);
+
+        // Realm DB 등록
+        Realm.init(this);
+        mRealm = Realm.getDefaultInstance();
 
         // Fragment 등록
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, todoFragment, "todo").hide(todoFragment).commit();
@@ -78,6 +86,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
                         pause_time = SystemClock.elapsedRealtime();
                         fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        mRealm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
+                                measureTimeObject.date = Calendar.getInstance().getTime();
+                                SimpleDateFormat formatter = new SimpleDateFormat ( "yyyy.MM.dd HH:mm:ss", Locale.KOREA );
+                                Toast.makeText(getApplicationContext(), formatter.format(measureTimeObject.date),
+                                        Toast.LENGTH_SHORT).show();
+                            } });
                         timer.setText(getTimeOut());
                         timer_status = init;
                         break;
@@ -103,9 +120,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     //현재시간을 계속 구해서 출력하는 메소드
     @SuppressLint("DefaultLocale")
     String getTimeOut(){
-        long now = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
-        long outTime = now - base_time;
-        return String.format("%02d:%02d:%02d", outTime/1000 / 60, (outTime/1000)%60,(outTime%1000)/10);
+        current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
+        out_time = current_time - base_time;
+        return String.format("%02d:%02d:%02d", out_time/1000 / 60, (out_time/1000)%60,(out_time%1000)/10);
     }
 
     // 네비게이션 메뉴 생성

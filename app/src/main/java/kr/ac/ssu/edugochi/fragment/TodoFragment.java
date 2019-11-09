@@ -5,36 +5,29 @@ import android.content.DialogInterface;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
-
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
-
 import java.util.ArrayList;
-
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.TodoContract;
 import kr.ac.ssu.edugochi.TodoDBHelper;
 
 
-public class TodoFragment extends Fragment implements Button.OnClickListener{
+public class TodoFragment extends Fragment implements ImageButton.OnClickListener{
 
 
     private static final String TAG = "TodoFragment";
     private TodoDBHelper mHelper;
     private ListView mTaskListView;
     private ArrayAdapter mAdapter;
-
-    public TodoFragment() {
-
-    }
 
 
     @Override
@@ -52,7 +45,8 @@ public class TodoFragment extends Fragment implements Button.OnClickListener{
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Button button = (Button) view.findViewById(R.id.todo_add_btn);
+
+        ImageButton button = view.findViewById(R.id.todo_add_btn);
         button.setOnClickListener(this);
 
         mTaskListView = view.findViewById(R.id.todo_list);
@@ -105,10 +99,9 @@ public class TodoFragment extends Fragment implements Button.OnClickListener{
     public void onClick(View v) {
         final EditText taskEditText = new EditText(getActivity());
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                .setTitle("Add a new task")
-                .setMessage("What do you want to do next?")
+                .setTitle("새로운 할일 추가")
                 .setView(taskEditText)
-                .setPositiveButton("Add", new DialogInterface.OnClickListener() {
+                .setPositiveButton("추가", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
                         String task = String.valueOf(taskEditText.getText());
@@ -123,7 +116,7 @@ public class TodoFragment extends Fragment implements Button.OnClickListener{
                         updateUI();
                     }
                 })
-                .setNegativeButton("Cancel", null)
+                .setNegativeButton("취소", null)
                 .create();
         dialog.show();
     }

@@ -8,6 +8,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.GridView;
@@ -24,15 +25,8 @@ import java.util.Locale;
 
 import kr.ac.ssu.edugochi.R;
 
-/**
- * A simple {@link Fragment} subclass.
- * Activities that contain this fragment must implement the
- * {@link TimelineFragment.OnFragmentInteractionListener} interface
- * to handle interaction events.
- * Use the {@link TimelineFragment#newInstance} factory method to
- * create an instance of this fragment.
- */
-public class TimelineFragment extends Fragment implements View.OnClickListener {
+
+public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
     // TODO: Rename parameter arguments, choose names that match
     // the fragment initialization parameters, e.g. ARG_ITEM_NUMBER
     private static final String ARG_PARAM1 = "param1";
@@ -84,6 +78,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
         pre_Button.setOnClickListener(this);
         fore_Button=(ImageView)myView.findViewById((R.id.fore_button));
         fore_Button.setOnClickListener(this);
+        gridView=(GridView)myView.findViewById((R.id.gridview));
+        gridView.setOnItemClickListener(this);
         return myView;
     }
 
@@ -122,7 +118,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
 
 
         //현재 연도와 월을 텍스트뷰에 뿌려줌
-        tvDate.setText(curYearFormat.format(mCal.getTime()) + "." + curMonthFormat.format(mCal.getTime()) + ".");
+        tvDate.setText(curYearFormat.format(mCal.getTime()) + "년 " + curMonthFormat.format(mCal.getTime()) + "월");
 
         dayList = new ArrayList<String>();
 
@@ -134,6 +130,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
             dayList.add("");
         }
         setCalendarDate(mCal.get(Calendar.MONTH) + 1);
+
+        int j= dayList.size();
+        for(int i = mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i<=j;i++){
+            dayList.add("");
+        }
 
         gridAdapter = new GridAdapter(getActivity(), dayList);
         gridView.setAdapter(gridAdapter);
@@ -198,24 +199,24 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
                 holder = (ViewHolder) convertView.getTag();
             }
             holder.tvItemGridView.setText("" + getItem(position));
-            Log.d("superoid", "getViewout: "+position);
+
+            // 토요일과 일요일에 색깔 지정
+            if ((position+1)%7==1)
+                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red));
+            else if ((position+1)%7==0)
+                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
+
             if (month == 0) {
                 //해당 날짜 텍스트 컬러,배경 변경
-               // mCal = Calendar.getInstance();
+                mCal = Calendar.getInstance();
                 //오늘 day 가져옴
                 Integer today = mCal.get(Calendar.DAY_OF_MONTH);
                 String sToday = String.valueOf(today);
-                Log.d("superoid", "getViewout: "+position);
+
                 if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경
                     holder.tvItemGridView.setTextColor(getResources().getColor(R.color.color_000000));
                 }
             }
-
-                if ((position+1)%7==1)
-                    holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red));
-               else if ((position+1)%7==0)
-                    holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
-
             return convertView;
         }
     }
@@ -236,5 +237,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener {
             month++;
             makeCalendar();
         }
+    }
+
+    @Override
+    public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+
+            Toast.makeText(getActivity(),"Good : "+v.getId(),Toast.LENGTH_LONG).show();
     }
 }

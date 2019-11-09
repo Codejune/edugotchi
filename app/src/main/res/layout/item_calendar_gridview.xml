@@ -12,7 +12,7 @@
         android:layout_height="match_parent"
         android:textSize="15sp"
         android:minHeight="40dip"
-        android:background="#FFF"/>
+        android:textColor="@color/dark" />
 
 
 

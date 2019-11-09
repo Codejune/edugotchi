@@ -24,13 +24,12 @@
                 android:layout_width="match_parent"
                 android:layout_height="720dp"
                 android:orientation="vertical"
-                android:background="@color/soongsil"
+                android:background="#FFFFFF"
                 tools:ignore="MissingConstraints">
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#FFFFFF"
                     android:gravity="center"
                     android:orientation="horizontal">
 
@@ -58,10 +57,15 @@
                         android:layout_marginLeft="10dp"/>
                 </LinearLayout>
 
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:background="@color/soongsil"
+                    android:layout_centerInParent="true"/>
+
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:background="#CEFD9B"
                     android:orientation="horizontal">
 
                     <TextView
@@ -69,73 +73,63 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:textColor="@color/red"
                         android:text="일" />
-                    <View
-                        android:layout_width="2px"
-                        android:layout_height="20dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/soongsil"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text="월" />
-                    <View
-                        android:layout_width="2px"
-                        android:layout_height="20dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/soongsil"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text="화" />
-                    <View
-                        android:layout_width="2px"
-                        android:layout_height="20dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/soongsil"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text="수" />
-                    <View
-                        android:layout_width="2px"
-                        android:layout_height="20dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/soongsil"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text="목" />
-                    <View
-                        android:layout_width="2px"
-                        android:layout_height="20dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/soongsil"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:text="금" />
-                    <View
-                        android:layout_width="2px"
-                        android:layout_height="20dp"
-                        android:layout_centerInParent="true"
-                        android:background="@color/soongsil"/>
+
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textSize="17sp"
+                        android:textStyle="bold"
                         android:textColor="@color/blue"
                         android:text="토" />
                 </LinearLayout>
@@ -146,9 +140,7 @@
                     android:layout_height="0dp"
                     android:layout_weight="1"
                     android:listSelector="@color/transparent"
-                    android:numColumns="7"
-                    android:horizontalSpacing="2px"
-                    android:verticalSpacing="2px"></GridView>
+                    android:numColumns="7"></GridView>
             </LinearLayout>
 
         </androidx.constraintlayout.widget.ConstraintLayout>

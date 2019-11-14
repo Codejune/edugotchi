@@ -1,7 +1,9 @@
 package kr.ac.ssu.edugochi.fragment;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
+
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -16,6 +18,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
 
+
+import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -42,14 +46,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         // Required empty public constructor
     }
 
-    /**
-     * Use this factory method to create a new instance of
-     * this fragment using the provided parameters.
-     *
-     * @param param1 Parameter 1.
-     * @param param2 Parameter 2.
-     * @return A new instance of fragment TimelineFragment.
-     */
     // TODO: Rename and change types and number of parameters
     public static TimelineFragment newInstance(String param1, String param2) {
         TimelineFragment fragment = new TimelineFragment();
@@ -74,11 +70,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
         View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
-        pre_Button=(ImageView) myView.findViewById((R.id.pre_button));
+        pre_Button = (ImageView) myView.findViewById((R.id.pre_button));
         pre_Button.setOnClickListener(this);
-        fore_Button=(ImageView)myView.findViewById((R.id.fore_button));
+        fore_Button = (ImageView) myView.findViewById((R.id.fore_button));
         fore_Button.setOnClickListener(this);
-        gridView=(GridView)myView.findViewById((R.id.gridview));
+        gridView = (GridView) myView.findViewById((R.id.gridview));
         gridView.setOnItemClickListener(this);
         return myView;
     }
@@ -90,6 +86,10 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     int month = 0;  // 달력 표시 달 수정용 변수
+
+    View pre_view;
+    int pre_position;
+
 
     // 달력 관련 클래스 변수
     private TextView tvDate;
@@ -131,16 +131,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         }
         setCalendarDate(mCal.get(Calendar.MONTH) + 1);
 
-        int j= dayList.size();
-        for(int i = mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i<=j;i++){
-            dayList.add("");
-        }
-
         gridAdapter = new GridAdapter(getActivity(), dayList);
         gridView.setAdapter(gridAdapter);
     }
 
-     // 해당 월에 표시할 일 수 구함
+    // 해당 월에 표시할 일 수 구함
     private void setCalendarDate(int month) {
         mCal.set(Calendar.MONTH, month - 1);
 
@@ -186,6 +181,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
 
+            Log.d("Superoid", "now");
             ViewHolder holder = null;
 
             if (convertView == null) {
@@ -201,9 +197,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             holder.tvItemGridView.setText("" + getItem(position));
 
             // 토요일과 일요일에 색깔 지정
-            if ((position+1)%7==1)
+            if ((position + 1) % 7 == 1)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red));
-            else if ((position+1)%7==0)
+            else if ((position + 1) % 7 == 0)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
 
             if (month == 0) {
@@ -229,19 +225,23 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onClick(View v) {
         // implements your things
-        if(v==pre_Button){
+        if (v == pre_Button) {
             month--;
             makeCalendar();
-        }
-        else if(v==fore_Button){
+        } else if (v == fore_Button) {
             month++;
             makeCalendar();
         }
     }
 
+
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-
-            Toast.makeText(getActivity(),"Good : "+v.getId(),Toast.LENGTH_LONG).show();
+        if (pre_position > 0) {
+            pre_view.setBackgroundColor(Color.argb(0, 0, 0, 0));
+        }
+        v.setBackgroundResource(R.drawable.selected_date);
+        pre_position = position;
+        pre_view = v;
     }
 }

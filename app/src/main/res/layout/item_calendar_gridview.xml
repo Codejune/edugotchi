@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
+    android:layout_width="35sp"
+    android:layout_height="35sp"
     android:orientation="vertical"
     android:gravity="center">
 
@@ -9,10 +9,9 @@
         android:gravity="center"
         android:id="@+id/tv_item_gridview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:textSize="15sp"
-        android:minHeight="40dip"
-        android:textColor="@color/dark" />
+        android:layout_height="50sp"
+        android:textSize="14sp"
+        android:textColor="@color/dark"/>
 
 
 

@@ -11,5 +11,14 @@
     <string name="fore_month">fore</string>
 
     <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="clear_list">Clear list</string>
+    <string name="todo_item">Enter todo item</string>
+    <string name="label_add">Add</string>
+    <string name="add_item_success">Item added</string>
+    <string name="add_item_failed">Failed to add item</string>
+    <string name="message_item_not_empty">Todo item cannot be empty!</string>
+    <string name="message_remove_all_failed">Failed to remove all items in list</string>
+    <string name="remove_item_success">Item removed</string>
+    <string name="remove_item_failed">Error deleting item</string>
+    <string name="confirm_remove_item">Are you sure you want to remove this item?</string>
 </resources>

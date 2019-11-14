@@ -8,15 +8,16 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import io.realm.Realm;
 import kr.ac.ssu.edugochi.BottomNavigationDrawerFragment;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;

@@ -15,32 +15,62 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <LinearLayout
-            android:id="@+id/constraintLayout"
+        <RelativeLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="vertical">
+            android:layout_height="match_parent"
+            android:paddingTop="10dp"
+            tools:context=".MainActivity$PlaceholderFragment">
 
+            <EditText
+                android:id="@+id/todo_data"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentLeft="true"
+                android:hint="@string/todo_item"
+                android:layout_alignParentStart="true"
+                android:layout_toLeftOf="@+id/btn_add"
+                android:layout_toStartOf="@+id/btn_add"
+                android:layout_alignBottom="@+id/btn_add" />
 
-                <ImageButton
-                    android:id="@+id/todo_add_btn"
+            <Button
+                style="?android:attr/buttonStyleSmall"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="@string/label_add"
+                android:padding="4dp"
+                android:id="@+id/btn_add"
+                android:layout_alignParentTop="true"
+                android:layout_alignParentRight="true"
+                android:layout_alignParentEnd="true" />
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="5dp"
+                android:layout_centerHorizontal="true"
+                android:layout_alignParentBottom="true"
+                android:gravity="center"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/empty_view"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="right"
-                    android:layout_marginRight="10dp"
-                    android:background="@drawable/ic_playlist_add_black_48dp"/>
-
+                    android:textStyle="bold"
+                    android:visibility="gone"
+                    android:textAppearance="?android:attr/textAppearanceMedium"
+                    android:text="No Items to display" />
 
                 <ListView
                     android:id="@+id/todo_list"
-                    android:layout_marginBottom="12dp"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="true"
-                    android:paddingBottom="40dp"
-                    android:scrollbars="vertical"/>
+                    android:nestedScrollingEnabled="true"/>
 
             </LinearLayout>
+
+        </RelativeLayout>
 
 
 

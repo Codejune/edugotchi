@@ -32,7 +32,6 @@ public class MeasureActivity extends AppCompatActivity {
     private long base_time;
     private long current_time;
     private long out_time;
-
     Realm mRealm;
     TextView timer;
 
@@ -69,8 +68,31 @@ public class MeasureActivity extends AppCompatActivity {
                         timer_status = run; //현재상태를 런상태로 변경
                         break;
                     case run: // 측정 상태
-                        measureTimer.removeMessages(0); //핸들러 메세지 제거
                         pause_time = SystemClock.elapsedRealtime();
+                        measureTimer.removeMessages(0); //핸들러 메세지 제거
+                        fab.setImageResource(R.drawable.ic_pause_black_24dp);
+                        timer_status = pause;
+                        break;
+                    case pause:
+                        long now = SystemClock.elapsedRealtime();
+                        //잠깐 스톱워치를 멈췄다가 다시 시작하면 기준점이 변하게 되므로..
+                        base_time += (now - pause_time);
+                        measureTimer.sendEmptyMessage(0);
+                        fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        timer_status = run;
+                        break;
+                }
+            }
+        });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Log.d("MeasureActivity", "onLongClick(" + timer_status + ")");
+                switch (timer_status) {
+                    case init: // 정지 상태
+                        return false;
+                    case run: // 측정 상태
+                        measureTimer.removeMessages(0); //핸들러 메세지 제거
                         fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
                         // DB에 기록된 데이터 저장
                         mRealm.executeTransaction(new Realm.Transaction() {
@@ -85,31 +107,10 @@ public class MeasureActivity extends AppCompatActivity {
                                 measureTimeObject.setDate(Calendar.getInstance().getTime());
                                 measureTimeObject.setTimeout(out_time);
                                 measureTimeObject.setExp(out_time/60);
-
-                                SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
-                                Log.d("MeasureActivity", formatter.format(measureTimeObject.getDate()) + " / " + measureTimeObject.getExp());
                             }
                         });
                         timer.setText(getTimeOut());
                         timer_status = init;
-                        break;
-                    case pause:
-
-                        break;
-                }
-                MeasureTimeObject test = mRealm.where(MeasureTimeObject.class).findFirst();
-                SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
-                Log.d("MeasureActivity", formatter.format(test.getDate()) + " / " + test.getExp());
-            }
-        });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
-            @Override
-            public boolean onLongClick(View view) {
-                Log.d("MeasureActivity", "onLongClick(" + timer_status + ")");
-                switch (timer_status) {
-                    case init: // 정지 상태
-                        return false;
-                    case run: // 측정 상태
                         return true;
                     default:
                         return false;
@@ -134,6 +135,7 @@ public class MeasureActivity extends AppCompatActivity {
     String getTimeOut(){
         current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
-        return String.format("%02d:%02d:%02d", out_time/1000 / 60, (out_time/1000)%60,(out_time%1000)/10);
+        return String.format("%02d:%02d:%02d", out_time / 1000 / 60, (out_time / 1000) % 60,(out_time % 1000) / 10);
     }
 }
+

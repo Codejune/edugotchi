@@ -18,7 +18,10 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.BottomNavigationDrawerFragment;
+import kr.ac.ssu.edugochi.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
@@ -106,5 +109,16 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         return false;
+    }
+
+    @Override
+    protected void onResume() {
+        Realm mRealm;
+        // Realm DB 등록
+        Realm.init(this);
+        mRealm = Realm.getDefaultInstance();
+        RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+        Toast.makeText(this, allTransactions.last().getTimeout() + " / " + allTransactions.last().getExp(), Toast.LENGTH_SHORT).show();
+        super.onResume();
     }
 }

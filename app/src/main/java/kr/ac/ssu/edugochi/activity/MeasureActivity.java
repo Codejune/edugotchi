@@ -14,9 +14,7 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Locale;
 
 import io.realm.Realm;
 import kr.ac.ssu.edugochi.MeasureTimeObject;
@@ -106,7 +104,7 @@ public class MeasureActivity extends AppCompatActivity {
                                 MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
                                 measureTimeObject.setDate(Calendar.getInstance().getTime());
                                 measureTimeObject.setTimeout(out_time);
-                                measureTimeObject.setExp(out_time/60);
+                                measureTimeObject.setExp(out_time / 60);
                             }
                         });
                         timer.setText(getTimeOut());
@@ -136,6 +134,11 @@ public class MeasureActivity extends AppCompatActivity {
         current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
         return String.format("%02d:%02d:%02d", out_time / 1000 / 60, (out_time / 1000) % 60,(out_time % 1000) / 10);
+    }
+
+    @Override
+    protected void onDestroy() {
+        super.onDestroy();
     }
 }
 

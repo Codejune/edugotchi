@@ -1,19 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.core.widget.NestedScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".activity.MainActivity"
-    android:id="@+id/nestedScrollView"
-    tools:showIn="@layout/activity_main"
-    tools:ignore="PrivateResource">
+    tools:ignore="PrivateResource"
+    tools:showIn="@layout/activity_main">
 
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout2"
+
+        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="wrap_content">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -22,10 +22,16 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="720dp"
-                android:orientation="vertical"
+                android:layout_height="1280dp"
                 android:background="#FFFFFF"
+                android:orientation="vertical"
                 tools:ignore="MissingConstraints">
+
+                <View
+                    android:layout_width="match_parent"
+                    android:layout_height="2px"
+                    android:layout_centerInParent="true"
+                    android:background="@color/soongsilAccent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -35,11 +41,11 @@
 
                     <ImageView
                         android:id="@+id/pre_button"
-                        android:src="@drawable/left_arrow"
-                        android:adjustViewBounds="true"
                         android:layout_width="wrap_content"
                         android:layout_height="15sp"
-                        android:layout_marginRight="10dp" />
+                        android:layout_marginRight="10dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/left_arrow" />
 
                     <TextView
                         android:id="@+id/tv_date"
@@ -50,18 +56,19 @@
 
                     <ImageView
                         android:id="@+id/fore_button"
-                        android:src="@drawable/right_arrow"
-                        android:adjustViewBounds="true"
                         android:layout_width="wrap_content"
                         android:layout_height="15sp"
-                        android:layout_marginLeft="10dp"/>
+                        android:layout_marginLeft="10dp"
+                        android:adjustViewBounds="true"
+                        android:src="@drawable/right_arrow" />
                 </LinearLayout>
 
                 <View
                     android:layout_width="match_parent"
                     android:layout_height="2px"
-                    android:background="@color/soongsilAccent"
-                    android:layout_centerInParent="true"/>
+                    android:layout_centerInParent="true"
+                    android:layout_marginBottom="10dp"
+                    android:background="@color/soongsilAccent" />
 
                 <LinearLayout
                     android:layout_width="match_parent"
@@ -72,82 +79,252 @@
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:paddingLeft="14sp"
-                        android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
+                        android:text="Sun"
                         android:textColor="@color/red"
-                        android:text="일" />
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:paddingLeft="9sp"
-                        android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:text="월" />
+                        android:text="Mon"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:paddingLeft="5sp"
-                        android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:text="화" />
+                        android:text="Tue"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:text="수" />
+                        android:text="Wed"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:paddingRight="5sp"
-                        android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:text="목" />
+                        android:text="Thu"
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
+                        android:gravity="center"
                         android:paddingRight="9sp"
-                        android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
-                        android:text="금" />
+                        android:text="Fri"
+                        android:textSize="16sp"/>
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
-                        android:paddingRight="14sp"
                         android:gravity="center"
-                        android:textSize="17sp"
-                        android:textStyle="bold"
+                        android:paddingRight="14sp"
+                        android:text="Sat"
                         android:textColor="@color/blue"
-                        android:text="토" />
+                        android:textSize="16sp" />
                 </LinearLayout>
 
                 <GridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
-                    android:layout_height="0dp"
-                    android:layout_weight="1"
-                    android:paddingLeft="15dp"
-                    android:numColumns="7"></GridView>
-            </LinearLayout>
+                    android:layout_height="wrap_content"
+                    android:numColumns="7"
+                    android:paddingLeft="15dp"></GridView>
+
+                <TabHost xmlns:android="http://schemas.android.com/apk/res/android"
+                    android:id="@+id/host"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent">
+
+                    <LinearLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:orientation="vertical">
+
+                        <TabWidget
+                            android:id="@android:id/tabs"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:background="@color/soongsilAccent" />
+
+                        <FrameLayout
+                            android:id="@android:id/tabcontent"
+                            android:layout_width="match_parent"
+                            android:layout_height="match_parent">
+
+                            <LinearLayout
+                                android:id="@+id/tab_content1"
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="vertical">
+                            <LinearLayout
+                                android:layout_width="match_parent"
+                                android:layout_height="wrap_content"
+                                android:orientation="horizontal">
+                            <TextView
+                                android:id="@+id/total_time"
+                                android:layout_width="0dp"
+                                android:layout_height="match_parent"
+                                android:layout_weight="1"
+                                android:gravity="center"
+                                android:text="Total Time"
+                                android:textSize="30dp"/>
+                            <LinearLayout
+                                android:id="@+id/timelist"
+                                android:layout_width="0dp"
+                                android:layout_height="wrap_content"
+                                android:layout_weight="1"
+                                android:orientation="vertical">
+                                <TextView
+                                    android:background="@drawable/text_edge"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textSize="25dp"
+                                    android:text="전날 대비"/>
+                                <TextView
+                                    android:background="@drawable/text_edge"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textSize="25dp"
+                                    android:text="00 : 00 : 00"/>
+                                <TextView
+                                    android:background="@drawable/text_edge"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textSize="25dp"
+                                    android:text="어제"/>
+                                <TextView
+                                    android:background="@drawable/text_edge"
+                                    android:layout_width="match_parent"
+                                    android:layout_height="wrap_content"
+                                    android:gravity="center"
+                                    android:textSize="25dp"
+                                    android:text="00 : 00 : 00"/>
+
+
+                            </LinearLayout>
+
+                            </LinearLayout>
+                                <TableLayout
+                                    android:layout_width="wrap_content"
+                                    android:layout_height="wrap_content"
+                                    android:paddingTop="20dp"
+                                    android:layout_gravity="center">
+                                    <TableRow>
+                                        <TextView
+                                            android:background="@drawable/text_edge"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="15dp"
+                                            android:text="케릭터 레벨"
+                                            android:gravity="center"/>
+                                        <TextView
+                                            android:background="@drawable/text_edge"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="15dp"
+                                            android:text="휴식 횟수"
+                                            android:gravity="center"/>
+                                        <TextView
+                                            android:background="@drawable/text_edge"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="15dp"
+                                            android:text="평균 공부시간"
+                                            android:gravity="center"/>
+                                        <TextView
+                                            android:background="@drawable/text_edge"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:textSize="15dp"
+                                            android:text="준비 중"
+                                            android:gravity="center"/>
+
+                                    </TableRow>
+                                    <TableRow>
+                                        <TextView
+                                            android:id="@+id/level"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="999"
+                                            android:textSize="15dp"
+                                            android:background="@drawable/text_edge"
+                                            android:gravity="center"/>
+                                        <TextView
+                                            android:id="@+id/rest_time"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="3회"
+                                            android:textSize="15dp"
+                                            android:background="@drawable/text_edge"
+                                            android:gravity="center"/>
+                                        <TextView
+                                            android:id="@+id/avg_study"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="00 : 00 : 00"
+                                            android:textSize="15dp"
+                                            android:background="@drawable/text_edge"
+                                            android:gravity="center"/>
+                                        <TextView
+                                            android:id="@+id/notyet"
+                                            android:layout_width="wrap_content"
+                                            android:layout_height="wrap_content"
+                                            android:text="준비 중"
+                                            android:textSize="15dp"
+                                            android:background="@drawable/text_edge"
+                                            android:gravity="center"/>
+
+                                    </TableRow>
+
+                                </TableLayout>
+                            </LinearLayout>
+
+                            <TextView
+                                android:id="@+id/tab_content2"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Tab2"
+                                android:textSize="30dp"
+                                android:textStyle="bold" />
+
+                            <TextView
+                                android:id="@+id/tab_content3"
+                                android:layout_width="match_parent"
+                                android:layout_height="match_parent"
+                                android:gravity="center"
+                                android:text="Tab3"
+                                android:textSize="30dp"
+                                android:textStyle="bold" />
+                        </FrameLayout>
+                    </LinearLayout>
+                </TabHost>
+
+
+
+                </LinearLayout>
+
+
 
         </androidx.constraintlayout.widget.ConstraintLayout>
 

@@ -6,6 +6,6 @@
         android:topRightRadius="64dp"
         android:topLeftRadius="64dp"/>
     <stroke
-        android:width="1sp"
-        android:color="#000000" />
+        android:width="0.5sp"
+        android:color="@color/soongsilAccent" />
 </shape>

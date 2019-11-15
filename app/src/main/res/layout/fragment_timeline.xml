@@ -11,9 +11,9 @@
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/coordinatorLayout2"
 
-        android:descendantFocusability="blocksDescendants"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:descendantFocusability="blocksDescendants">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/constraintLayout"
@@ -22,14 +22,14 @@
 
             <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="1280dp"
+                android:layout_height="650dp"
                 android:background="#FFFFFF"
                 android:orientation="vertical"
                 tools:ignore="MissingConstraints">
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2px"
+                    android:layout_height="0.5sp"
                     android:layout_centerInParent="true"
                     android:background="@color/soongsilAccent" />
 
@@ -50,7 +50,7 @@
                     <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
-                        android:layout_height="50dp"
+                        android:layout_height="40dp"
                         android:gravity="center"
                         android:textSize="17sp" />
 
@@ -65,7 +65,7 @@
 
                 <View
                     android:layout_width="match_parent"
-                    android:layout_height="2px"
+                    android:layout_height="0.5sp"
                     android:layout_centerInParent="true"
                     android:layout_marginBottom="10dp"
                     android:background="@color/soongsilAccent" />
@@ -83,7 +83,7 @@
                         android:paddingLeft="14sp"
                         android:text="Sun"
                         android:textColor="@color/red"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -127,7 +127,7 @@
                         android:gravity="center"
                         android:paddingRight="9sp"
                         android:text="Fri"
-                        android:textSize="16sp"/>
+                        android:textSize="16sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -160,8 +160,8 @@
                         <TabWidget
                             android:id="@android:id/tabs"
                             android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:background="@color/soongsilAccent" />
+                            android:layout_height="30dp"
+                            android:background="@drawable/text_edge" />
 
                         <FrameLayout
                             android:id="@android:id/tabcontent"
@@ -173,126 +173,205 @@
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="vertical">
-                            <LinearLayout
-                                android:layout_width="match_parent"
-                                android:layout_height="wrap_content"
-                                android:orientation="horizontal">
-                            <TextView
-                                android:id="@+id/total_time"
-                                android:layout_width="0dp"
-                                android:layout_height="match_parent"
-                                android:layout_weight="1"
-                                android:gravity="center"
-                                android:text="Total Time"
-                                android:textSize="30dp"/>
-                            <LinearLayout
-                                android:id="@+id/timelist"
-                                android:layout_width="0dp"
-                                android:layout_height="wrap_content"
-                                android:layout_weight="1"
-                                android:orientation="vertical">
-                                <TextView
-                                    android:background="@drawable/text_edge"
+
+                                <LinearLayout
                                     android:layout_width="match_parent"
                                     android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:textSize="25dp"
-                                    android:text="전날 대비"/>
-                                <TextView
-                                    android:background="@drawable/text_edge"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:textSize="25dp"
-                                    android:text="00 : 00 : 00"/>
-                                <TextView
-                                    android:background="@drawable/text_edge"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:textSize="25dp"
-                                    android:text="어제"/>
-                                <TextView
-                                    android:background="@drawable/text_edge"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:gravity="center"
-                                    android:textSize="25dp"
-                                    android:text="00 : 00 : 00"/>
+                                    android:orientation="horizontal"
+                                    android:weightSum="100">
+
+                                    <FrameLayout
+                                        android:layout_width="0dp"
+                                        android:layout_height="match_parent"
+                                        android:layout_marginTop="15dp"
+                                        android:layout_weight="60"
+                                        android:background="#0000">
+
+                                        <ImageView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+                                            android:src="@drawable/circle" />
+
+                                        <TextView
+                                            android:id="@+id/total_time"
+                                            android:layout_width="match_parent"
+                                            android:layout_height="120dp"
+                                            android:gravity="center"
+                                            android:text="Total"
+                                            android:textSize="15dp" />
 
 
-                            </LinearLayout>
+                                    </FrameLayout>
 
-                            </LinearLayout>
+                                    <LinearLayout
+                                        android:id="@+id/timelist"
+                                        android:layout_width="0dp"
+                                        android:layout_height="130dp"
+                                        android:layout_marginTop="30dp"
+                                        android:layout_weight="35"
+                                        android:layout_marginLeft="10dp"
+                                        android:orientation="vertical">
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="전날 대비"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="00 : 00 : 00"
+                                            android:textColor="@color/soongsilPrimary"
+                                            android:textSize="16dp" />
+                                        <View
+                                            android:layout_width="match_parent"
+                                            android:layout_height="1dp"
+                                            android:layout_marginTop="10dp"
+                                            android:layout_marginBottom="10dp"
+                                            android:background="@color/soongsilAccent" />
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="어제"
+                                            android:textSize="14dp" />
+
+                                        <TextView
+                                            android:layout_width="match_parent"
+                                            android:layout_height="wrap_content"
+                                            android:text="00 : 00 : 00"
+                                            android:textSize="16dp" />
+
+
+                                    </LinearLayout>
+
+                                </LinearLayout>
+
                                 <TableLayout
-                                    android:layout_width="wrap_content"
-                                    android:layout_height="wrap_content"
-                                    android:paddingTop="20dp"
-                                    android:layout_gravity="center">
+                                    android:layout_width="265dp"
+                                    android:layout_height="40dp"
+                                    android:layout_gravity="center"
+                                    android:background="@drawable/edge_round">
+
                                     <TableRow>
+
                                         <TextView
-                                            android:background="@drawable/text_edge"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:textSize="15dp"
-                                            android:text="케릭터 레벨"
-                                            android:gravity="center"/>
+                                            android:layout_height="20dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:gravity="center"
+                                            android:text="Level"
+                                            android:textStyle="bold"
+                                            android:textSize="12dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="12dp"
+                                            android:layout_marginLeft="12.5dp"
+                                            android:layout_marginTop="8dp"
+                                            android:layout_marginRight="12.5dp"
+                                            android:background="@color/soongsilAccent" />
+
                                         <TextView
-                                            android:background="@drawable/text_edge"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:textSize="15dp"
-                                            android:text="휴식 횟수"
-                                            android:gravity="center"/>
+                                            android:layout_height="20dp"
+                                            android:gravity="center"
+                                            android:text="획득 경험치"
+                                            android:textStyle="bold"
+                                            android:textSize="12dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="12dp"
+                                            android:layout_marginLeft="12.5dp"
+                                            android:layout_marginTop="8dp"
+                                            android:layout_marginRight="12.5dp"
+                                            android:background="@color/soongsilAccent" />
+
                                         <TextView
-                                            android:background="@drawable/text_edge"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:textSize="15dp"
+                                            android:layout_height="20dp"
+                                            android:gravity="center"
                                             android:text="평균 공부시간"
-                                            android:gravity="center"/>
+                                            android:textStyle="bold"
+                                            android:textSize="12dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="12dp"
+                                            android:layout_marginLeft="12.5dp"
+                                            android:layout_marginTop="8dp"
+                                            android:layout_marginRight="12.5dp"
+                                            android:background="@color/soongsilAccent" />
+
                                         <TextView
-                                            android:background="@drawable/text_edge"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:textSize="15dp"
-                                            android:text="준비 중"
-                                            android:gravity="center"/>
+                                            android:layout_height="20dp"
+                                            android:gravity="center"
+                                            android:text="휴식"
+                                            android:textStyle="bold"
+                                            android:textSize="12dp" />
 
                                     </TableRow>
+
                                     <TableRow>
+
                                         <TextView
                                             android:id="@+id/level"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="20dp"
+                                            android:layout_marginLeft="5dp"
+                                            android:gravity="center"
                                             android:text="999"
-                                            android:textSize="15dp"
-                                            android:background="@drawable/text_edge"
-                                            android:gravity="center"/>
+                                            android:textSize="11dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="12dp"
+                                            android:layout_centerInParent="true"
+                                            android:layout_marginLeft="12.5dp"
+                                            android:layout_marginRight="12.5dp"
+                                            android:background="@color/soongsilAccent" />
+
                                         <TextView
                                             android:id="@+id/rest_time"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="3회"
-                                            android:textSize="15dp"
-                                            android:background="@drawable/text_edge"
-                                            android:gravity="center"/>
+                                            android:layout_height="20dp"
+                                            android:gravity="center"
+                                            android:text="999"
+                                            android:textSize="11dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="12dp"
+                                            android:layout_centerInParent="true"
+                                            android:layout_marginLeft="12.5dp"
+                                            android:layout_marginRight="12.5dp"
+                                            android:background="@color/soongsilAccent" />
+
                                         <TextView
                                             android:id="@+id/avg_study"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
+                                            android:layout_height="20dp"
+                                            android:gravity="center"
                                             android:text="00 : 00 : 00"
-                                            android:textSize="15dp"
-                                            android:background="@drawable/text_edge"
-                                            android:gravity="center"/>
+                                            android:textSize="11dp" />
+
+                                        <View
+                                            android:layout_width="1dp"
+                                            android:layout_height="12dp"
+                                            android:layout_centerInParent="true"
+                                            android:layout_marginLeft="12.5dp"
+                                            android:layout_marginRight="12.5dp"
+                                            android:background="@color/soongsilAccent" />
+
                                         <TextView
                                             android:id="@+id/notyet"
                                             android:layout_width="wrap_content"
-                                            android:layout_height="wrap_content"
-                                            android:text="준비 중"
-                                            android:textSize="15dp"
-                                            android:background="@drawable/text_edge"
-                                            android:gravity="center"/>
+                                            android:layout_height="20dp"
+                                            android:gravity="center"
+                                            android:text="3회"
+                                            android:textSize="11dp" />
 
                                     </TableRow>
 
@@ -321,9 +400,7 @@
                 </TabHost>
 
 
-
-                </LinearLayout>
-
+            </LinearLayout>
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

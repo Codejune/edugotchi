@@ -85,15 +85,15 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         TabHost tabHost = getView().findViewById(R.id.host);
         tabHost.setup();
         TabHost.TabSpec spec = tabHost.newTabSpec("tab1");
-        spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.left_arrow, null));
+        spec.setIndicator("일간");
         spec.setContent(R.id.tab_content1);
         tabHost.addTab(spec);
         spec = tabHost.newTabSpec("tab2");
-        spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.left_arrow, null));
+        spec.setIndicator("주간");
         spec.setContent(R.id.tab_content2);
         tabHost.addTab(spec);
         spec = tabHost.newTabSpec("tab3");
-        spec.setIndicator(null, ResourcesCompat.getDrawable(getResources(), R.drawable.left_arrow, null));
+        spec.setIndicator("월간");
         spec.setContent(R.id.tab_content3);
         tabHost.addTab(spec);
     }

@@ -10,6 +10,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -28,9 +29,7 @@ public class TodoFragment extends Fragment {
     private static final String TAG = TodoFragment.class.getSimpleName();
 
     private TodoDBManager mTodoDBManager;
-
-    private EditText mTodoData;
-    private View mAdd;
+    private ImageButton mAdd;
     private ListView mTodoList;
 
     @Override
@@ -44,20 +43,18 @@ public class TodoFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View rootView = inflater.inflate(R.layout.fragment_todo, container, false);
-        return rootView;
+        return inflater.inflate(R.layout.fragment_todo, container, false);
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        mTodoData = (EditText) view.findViewById(R.id.todo_data);
         mAdd = view.findViewById(R.id.btn_add);
-        mTodoList = (ListView) view.findViewById(R.id.todo_list);
+        mTodoList = view.findViewById(R.id.todo_list);
 
         listItems();
-        initOnAddClick();
+        AddClick();
     }
 
     private View.OnClickListener mOnItemDeleteListener = new View.OnClickListener() {
@@ -117,59 +114,55 @@ public class TodoFragment extends Fragment {
         }
     }
 
-    private void initOnAddClick() {
+    private void AddClick() {
         if (mAdd != null) {
             mAdd.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    addItem();
+                    final EditText taskEditText = new EditText(getActivity());
+                    android.app.AlertDialog addDialog = new AlertDialog.Builder(getActivity())
+                            .setTitle("일정을 추가하시오")
+                            .setView(taskEditText)
+                            .setPositiveButton("추가", new DialogInterface.OnClickListener() {
+                                @Override
+                                public void onClick(DialogInterface dialogInterface, int i) {
+
+                                    if (taskEditText.getText() == null || TextUtils.isEmpty(taskEditText.getText().toString())) {
+                                        Toast.makeText(getActivity(), getActivity().getString(R.string.message_item_not_empty), Toast.LENGTH_LONG).show();
+                                        return;
+                                    }
+                                    String todoText = taskEditText.getText().toString();
+                                    TodoItem todoItem = new TodoItem(todoText);
+                                    long rowId = mTodoDBManager.insert(todoItem);
+                                    todoItem.setId((int) rowId);
+                                    if (rowId == -1) {
+
+                                        Toast.makeText(getActivity(), getActivity().getString(R.string.add_item_failed), Toast.LENGTH_LONG).show();
+                                    } else {
+                                        // 저장성
+                                        taskEditText.setText(null);
+                                        Toast.makeText(getActivity(), getActivity().getString(R.string.add_item_success), Toast.LENGTH_LONG).show();
+
+                                        if (mTodoList.getAdapter() == null) {
+                                            // if the list was empty previously
+                                            listItems();
+                                        } else {
+                                            ((ArrayAdapter) mTodoList.getAdapter()).insert(todoItem, 0);        // add the item to the top of the list
+                                            ((ArrayAdapter) mTodoList.getAdapter()).notifyDataSetChanged();      // update the UI.
+                                        }
+                                    }
+                                }
+                            })
+                            .setNegativeButton("취소", null)
+                            .create();
+                    addDialog.show();
                 }
             });
         }
     }
 
-    private void addItem() {
-        if (mTodoData.getText() == null || TextUtils.isEmpty(mTodoData.getText().toString())) {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.message_item_not_empty), Toast.LENGTH_LONG).show();
-            return;
-        }
-
-        String todoText = mTodoData.getText().toString();
-        TodoItem todoItem = new TodoItem(todoText);
-        long rowId = mTodoDBManager.insert(todoItem);
-        todoItem.setId((int) rowId);
-
-        if (rowId == -1) {
-            // some issue in adding item.
-            Toast.makeText(getActivity(), getActivity().getString(R.string.add_item_failed), Toast.LENGTH_LONG).show();
-        } else {
-            // successfully added
-            mTodoData.setText(null);
-            Toast.makeText(getActivity(), getActivity().getString(R.string.add_item_success), Toast.LENGTH_LONG).show();
-
-            if (mTodoList.getAdapter() == null) {
-                // if the list was empty previously
-                listItems();
-            } else {
-                ((ArrayAdapter) mTodoList.getAdapter()).insert(todoItem, 0);        // add the item to the top of the list
-                ((ArrayAdapter) mTodoList.getAdapter()).notifyDataSetChanged();      // update the UI.
-            }
-        }
-    }
 
     private ArrayList<TodoItem> getItems() {
         return mTodoDBManager.getItems();
-    }
-
-    private void removeAllItems() {
-        int rowsAffected = mTodoDBManager.removeAll();
-
-        if (rowsAffected == -1) {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.message_remove_all_failed), Toast.LENGTH_LONG).show();
-        } else {
-            // removal was successful, update the UI.
-            ((ArrayAdapter) mTodoList.getAdapter()).clear();    // clear the list in the UI.
-            listItems();
-        }
     }
 }

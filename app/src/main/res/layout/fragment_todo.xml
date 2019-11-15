@@ -15,42 +15,24 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content" >
 
-        <RelativeLayout
+        <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:paddingTop="10dp"
+            android:orientation="vertical"
             tools:context=".MainActivity$PlaceholderFragment">
 
-            <EditText
-                android:id="@+id/todo_data"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentLeft="true"
-                android:hint="@string/todo_item"
-                android:layout_alignParentStart="true"
-                android:layout_toLeftOf="@+id/btn_add"
-                android:layout_toStartOf="@+id/btn_add"
-                android:layout_alignBottom="@+id/btn_add" />
 
-            <Button
-                style="?android:attr/buttonStyleSmall"
+            <ImageButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/label_add"
-                android:padding="4dp"
+                android:background="@drawable/ic_playlist_add_black_48dp"
                 android:id="@+id/btn_add"
-                android:layout_alignParentTop="true"
-                android:layout_alignParentRight="true"
-                android:layout_alignParentEnd="true" />
+                android:layout_gravity="top|right" />
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:padding="5dp"
-                android:layout_centerHorizontal="true"
-                android:layout_alignParentBottom="true"
-                android:gravity="center"
+                android:gravity="top"
                 android:orientation="vertical">
 
                 <TextView
@@ -59,22 +41,19 @@
                     android:layout_height="wrap_content"
                     android:textStyle="bold"
                     android:visibility="gone"
+                    android:layout_gravity="center"
                     android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="No Items to display" />
+                    android:text="일정이 없습니다." />
 
                 <ListView
                     android:id="@+id/todo_list"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:nestedScrollingEnabled="true"/>
+                    android:nestedScrollingEnabled="true" />
 
             </LinearLayout>
 
-        </RelativeLayout>
-
-
-
-
+        </LinearLayout>
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.core.widget.NestedScrollView>

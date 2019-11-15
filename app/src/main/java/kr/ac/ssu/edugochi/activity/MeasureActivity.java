@@ -11,7 +11,6 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
@@ -51,7 +50,14 @@ public class MeasureActivity extends AppCompatActivity {
         mRealm = Realm.getDefaultInstance();
 
         final FloatingActionButton fab = findViewById(R.id.record_btn);
+        // 측정 중 짧게 누르면 일시 정지
+        // 측정 중 길게 누르면 정지
         fab.setOnClickListener(new View.OnClickListener() {
+            /*
+                init    : 정지
+                run     : 측정 중
+                pause   : 측정 일시정지
+            */
             @Override
             public void onClick(View view) {
                 switch (timer_status) {
@@ -88,11 +94,26 @@ public class MeasureActivity extends AppCompatActivity {
                         timer_status = init;
                         break;
                     case pause:
+
                         break;
                 }
                 MeasureTimeObject test = mRealm.where(MeasureTimeObject.class).findFirst();
                 SimpleDateFormat formatter = new SimpleDateFormat("yyyy.MM.dd HH:mm:ss", Locale.KOREA);
                 Log.d("MeasureActivity", formatter.format(test.getDate()) + " / " + test.getExp());
+            }
+        });
+        fab.setOnLongClickListener(new View.OnLongClickListener() {
+            @Override
+            public boolean onLongClick(View view) {
+                Log.d("MeasureActivity", "onLongClick(" + timer_status + ")");
+                switch (timer_status) {
+                    case init: // 정지 상태
+                        return false;
+                    case run: // 측정 상태
+                        return true;
+                    default:
+                        return false;
+                }
             }
         });
     }

@@ -4,7 +4,7 @@ import android.content.Context;
 import android.graphics.Color;
 import android.os.Bundle;
 
-import androidx.core.content.res.ResourcesCompat;
+
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
@@ -13,15 +13,12 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-import android.widget.Button;
+
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TabHost;
 import android.widget.TextView;
-import android.widget.Toast;
 
-
-import org.w3c.dom.Text;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -68,9 +65,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
         Log.d("Superoid", "onCreateView");
         View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        // 클릭리스너 부착 선언
         pre_Button = myView.findViewById((R.id.pre_button));
         pre_Button.setOnClickListener(this);
         fore_Button = myView.findViewById((R.id.fore_button));
@@ -84,7 +81,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         Log.d("Superoid", "onViewCreated");
-        makeCalendar();
+        makeCalendar(); // 달력 생성 함수
+        // 탭호스트 관련
         TabHost tabHost = getView().findViewById(R.id.host);
         tabHost.setup();
         TabHost.TabSpec spec = tabHost.newTabSpec("tab1");
@@ -102,10 +100,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     int month = 0;  // 달력 표시 달 수정용 변수
-
-    View pre_view;
+    int dayNum; // 매 달 공백 생성용 변수
     int pre_position;
-
+    View pre_view;
 
     // 달력 관련 클래스 변수
     private TextView tvDate;
@@ -114,13 +111,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private GridView gridView;
     private Calendar mCal;
 
-    //연,월,일을 따로 저장
+    // 연,월,일을 따로 저장
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
     SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
     SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
+    SimpleDateFormat curTotalFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
 
-
-    // 이미지뷰로 대체 중
+    // 달을 변경하는 버튼 이미지
     ImageView pre_Button;
     ImageView fore_Button;
 
@@ -128,21 +125,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private void makeCalendar() {
         Log.d("Superoid", "makeCalendar");
         tvDate = getView().findViewById(R.id.tv_date);
-        gridView =  getView().findViewById(R.id.gridview);
+        gridView = getView().findViewById(R.id.gridview);
 
         // 해당 월에 대한 정보를 세팅해준다.
         mCal = Calendar.getInstance();
         mCal.add(Calendar.MONTH, month);
 
-
         //현재 연도와 월을 텍스트뷰에 뿌려줌
         tvDate.setText(curYearFormat.format(mCal.getTime()) + "년 " + curMonthFormat.format(mCal.getTime()) + "월");
 
-        dayList = new ArrayList<>();
+        dayList = new ArrayList<>(); // 날짜를 넣어줄 콜렉터
 
         //이번달 1일 무슨요일인지 판단 mCal.set(Year,Month,Day)
         mCal.set(Integer.parseInt(curYearFormat.format(mCal.getTime())), Integer.parseInt(curMonthFormat.format(mCal.getTime())) - 1, 1);
-        int dayNum = mCal.get(Calendar.DAY_OF_WEEK);
+        dayNum = mCal.get(Calendar.DAY_OF_WEEK);
         //1일 - 요일 매칭 시키기 위해 공백 add
         for (int i = 1; i < dayNum; i++) {
             dayList.add("");
@@ -161,16 +157,12 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         for (int i = 0; i < mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
             dayList.add("" + (i + 1));
         }
-
     }
 
     // 그리드뷰 어댑터
     private class GridAdapter extends BaseAdapter {
-
         private final List<String> list;
-
         private final LayoutInflater inflater;
-
 
         public GridAdapter(Context context, List<String> list) {
             this.list = list;
@@ -194,7 +186,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
-
             Log.d("Superoid", "getView");
             ViewHolder holder = null;
 
@@ -202,9 +193,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 Log.d("Superoid", "getView null");
                 convertView = inflater.inflate(R.layout.item_calendar_gridview, parent, false);
                 holder = new ViewHolder();
-
                 holder.tvItemGridView = convertView.findViewById(R.id.tv_item_gridview);
-
                 convertView.setTag(holder);
             } else {
                 Log.d("Superoid", "getView else");
@@ -218,17 +207,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             else if ((position + 1) % 7 == 0)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
 
-            if (month == 0) {
-                //해당 날짜 텍스트 컬러,배경 변경
-                mCal = Calendar.getInstance();
-                //오늘 day 가져옴
-                Integer today = mCal.get(Calendar.DAY_OF_MONTH);
-                String sToday = String.valueOf(today);
-
-                if (sToday.equals(getItem(position))) { //오늘 day 텍스트 컬러 변경
-                    holder.tvItemGridView.setTextColor(getResources().getColor(R.color.color_000000));
-                }
-            }
             return convertView;
         }
     }
@@ -237,7 +215,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         TextView tvItemGridView;
     }
 
-    // onClick메소드 구현
+    // onClick 메소드 구현
     @Override
     public void onClick(View v) {
         // implements your things
@@ -250,26 +228,44 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         }
     }
 
-
+    // 날짜 클릭시 호출되는 onItemClick 메소드
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        if (pre_position > 0) {
+        // 선택 날짜에 시각 효과 표시
+        if (pre_position > 0)   // 선택된게 있었으면 효과 삭제
             pre_view.setBackgroundColor(Color.argb(0, 0, 0, 0));
-        }
+
         v.setBackgroundResource(R.drawable.selected_date);
         pre_position = position;
         pre_view = v;
 
-        Realm mRealm;
+        Log.d("check", "position : " + position);
+        Log.d("check", "dayNum : " + dayNum);
+        mCal.add(Calendar.DATE, position - dayNum + 1);
+
         // Realm DB 등록
+        Realm mRealm;
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
-        Log.d("Superoid","time"+allTransactions.last().getTimeout()+"exp:"+allTransactions.last().getExp()+"date:"+allTransactions.last().getDate());
-        Log.d("Superoid","time"+allTransactions.last().getTimeout()+"exp:"+allTransactions.last().getExp()+"date:"+allTransactions.last().getDate());
-        Log.d("Superoid","time"+allTransactions.last().getTimeout()+"exp:"+allTransactions.last().getExp()+"date:"+allTransactions.last().getDate());
-       allTransactions.sort("exp");
-        //  Toast.makeText(this, allTransactions.last().getTimeout() + " / " + allTransactions.last().getExp(), Toast.LENGTH_SHORT).show();
-        super.onResume();
+
+        String to;
+        long total_time = 0;
+        for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
+            Log.d("check", "total : " + allTransactions.get(i).getDate());
+            Log.d("check", "total : " + curTotalFormat.format(mCal.getTime()));
+            if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+                total_time += allTransactions.get(i).getTimeout();
+            }
+        }
+        if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+            total_time += allTransactions.last().getTimeout();
+        }
+        Log.d("check", "total : " + total_time);
+        to = Long.toString(total_time);
+        TextView timeview = getView().findViewById(R.id.total_time);
+        timeview.setText(to);
+
+        mCal.add(Calendar.DATE, -(position - dayNum + 1));
     }
 }

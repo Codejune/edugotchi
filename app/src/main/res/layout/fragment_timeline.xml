@@ -219,9 +219,10 @@
                                             android:textSize="14dp" />
 
                                         <TextView
+                                            android:id="@+id/differ_days"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="00 : 00 : 00"
+                                            android:text="00:00:00"
                                             android:textColor="@color/soongsilPrimary"
                                             android:textSize="16dp" />
                                         <View
@@ -237,9 +238,10 @@
                                             android:textSize="14dp" />
 
                                         <TextView
+                                            android:id="@+id/pre_day_time"
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="00 : 00 : 00"
+                                            android:text="00:00:00"
                                             android:textSize="16dp" />
 
 
@@ -334,7 +336,7 @@
                                             android:background="@color/soongsilAccent" />
 
                                         <TextView
-                                            android:id="@+id/rest_time"
+                                            android:id="@+id/total_exp"
                                             android:layout_width="wrap_content"
                                             android:layout_height="20dp"
                                             android:gravity="center"
@@ -350,7 +352,7 @@
                                             android:background="@color/soongsilAccent" />
 
                                         <TextView
-                                            android:id="@+id/avg_study"
+                                            android:id="@+id/avg_time"
                                             android:layout_width="wrap_content"
                                             android:layout_height="20dp"
                                             android:gravity="center"
@@ -366,7 +368,7 @@
                                             android:background="@color/soongsilAccent" />
 
                                         <TextView
-                                            android:id="@+id/notyet"
+                                            android:id="@+id/rest_time"
                                             android:layout_width="wrap_content"
                                             android:layout_height="20dp"
                                             android:gravity="center"

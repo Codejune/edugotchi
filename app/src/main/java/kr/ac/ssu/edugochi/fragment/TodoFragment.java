@@ -2,14 +2,13 @@ package kr.ac.ssu.edugochi.fragment;
 
 import android.app.AlertDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
-import android.text.TextUtils;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -51,10 +50,19 @@ public class TodoFragment extends Fragment {
         super.onViewCreated(view, savedInstanceState);
 
         mAdd = view.findViewById(R.id.btn_add);
+        mAdd.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(
+                        getActivity(),
+                        AddTodo.class);
+                startActivity(intent);
+            }
+        });
         mTodoList = view.findViewById(R.id.todo_list);
 
         listItems();
-        AddClick();
+       // AddClick();
     }
 
     private View.OnClickListener mOnItemDeleteListener = new View.OnClickListener() {
@@ -113,7 +121,7 @@ public class TodoFragment extends Fragment {
             mTodoList.setAdapter(adapter);
         }
     }
-
+/*
     private void AddClick() {
         if (mAdd != null) {
             mAdd.setOnClickListener(new View.OnClickListener() {
@@ -161,6 +169,8 @@ public class TodoFragment extends Fragment {
         }
     }
 
+
+ */
 
     private ArrayList<TodoItem> getItems() {
         return mTodoDBManager.getItems();

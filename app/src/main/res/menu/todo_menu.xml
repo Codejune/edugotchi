@@ -3,12 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item
         android:id="@+id/action_add_task"
-        android:icon="@android:drawable/ic_menu_add"
-        android:title="Add Task"
-        app:showAsAction="collapseActionView" />
-    <item
-        android:id="@+id/action_delete_task"
-        android:icon="@android:drawable/ic_menu_delete"
-        android:title="Delte Task"
-        app:showAsAction="collapseActionView"/>
+        android:icon="@drawable/ic_add_black_24dp"
+        app:showAsAction="ifRoom" />
+
 </menu>

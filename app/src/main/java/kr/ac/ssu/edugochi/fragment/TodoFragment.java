@@ -49,6 +49,7 @@ public class TodoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+
         mAdd = view.findViewById(R.id.btn_add);
         mAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -109,8 +110,15 @@ public class TodoFragment extends Fragment {
             }
         }
     }
+    public void onResume() {
+        listItems();
+        Log.d(this.getClass().getSimpleName(), "리스트갱신");
+        super.onResume();
+    }
 
-    private void listItems() {
+
+
+    public void listItems(){
         ArrayList<TodoItem> todoItems = getItems();
 
         if (todoItems == null || todoItems.size() == 0) {

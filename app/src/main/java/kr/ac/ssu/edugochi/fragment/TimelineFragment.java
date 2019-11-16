@@ -29,6 +29,9 @@ import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
+import io.realm.Realm;
+import io.realm.RealmResults;
+import kr.ac.ssu.edugochi.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
@@ -115,6 +118,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
     SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
     SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
+
 
     // 이미지뷰로 대체 중
     ImageView pre_Button;
@@ -255,5 +259,17 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         v.setBackgroundResource(R.drawable.selected_date);
         pre_position = position;
         pre_view = v;
+
+        Realm mRealm;
+        // Realm DB 등록
+        Realm.init(getActivity());
+        mRealm = Realm.getDefaultInstance();
+        RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+        Log.d("Superoid","time"+allTransactions.last().getTimeout()+"exp:"+allTransactions.last().getExp()+"date:"+allTransactions.last().getDate());
+        Log.d("Superoid","time"+allTransactions.last().getTimeout()+"exp:"+allTransactions.last().getExp()+"date:"+allTransactions.last().getDate());
+        Log.d("Superoid","time"+allTransactions.last().getTimeout()+"exp:"+allTransactions.last().getExp()+"date:"+allTransactions.last().getDate());
+       allTransactions.sort("exp");
+        //  Toast.makeText(this, allTransactions.last().getTimeout() + " / " + allTransactions.last().getExp(), Toast.LENGTH_SHORT).show();
+        super.onResume();
     }
 }

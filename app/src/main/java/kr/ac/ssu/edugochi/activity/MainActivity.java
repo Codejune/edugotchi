@@ -2,6 +2,7 @@ package kr.ac.ssu.edugochi.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -113,12 +114,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     @Override
     protected void onResume() {
-        Realm mRealm;
-        // Realm DB 등록
-        Realm.init(this);
-        mRealm = Realm.getDefaultInstance();
-        RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
-        Toast.makeText(this, allTransactions.last().getTimeout() + " / " + allTransactions.last().getExp(), Toast.LENGTH_SHORT).show();
         super.onResume();
     }
 }

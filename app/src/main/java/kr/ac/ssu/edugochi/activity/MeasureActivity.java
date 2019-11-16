@@ -14,7 +14,9 @@ import android.widget.TextView;
 
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Locale;
 
 import io.realm.Realm;
 import kr.ac.ssu.edugochi.MeasureTimeObject;
@@ -97,12 +99,13 @@ public class MeasureActivity extends AppCompatActivity {
                             @Override
                             public void execute(Realm realm) {
 
-                                //    date      : 측정 완료된 년/월/일/시/분/초
+                                //    date      : 측정 완료된 년/월/일
                                 //    timeout   : 측정된 시간량
                                 //    exp       : 측정된 시간의 경험치
 
+                                SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
                                 MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
-                                measureTimeObject.setDate(Calendar.getInstance().getTime());
+                                measureTimeObject.setDate(today_date.format(Calendar.getInstance().getTime()));
                                 measureTimeObject.setTimeout(out_time);
                                 measureTimeObject.setExp(out_time / 60);
                             }

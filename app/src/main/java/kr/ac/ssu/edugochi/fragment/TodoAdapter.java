@@ -12,9 +12,6 @@ import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.R;
 
-/**
- * Created by jay on 21/10/14.
- */
 public class TodoAdapter extends ArrayAdapter<TodoItem> {
 
     private View.OnClickListener mOnItemDeleteListener;

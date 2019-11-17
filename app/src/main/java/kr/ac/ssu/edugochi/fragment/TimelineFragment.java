@@ -207,6 +207,39 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             else if ((position + 1) % 7 == 0)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
 
+            // 공부량에 따른 시각화 태그 부여
+            // Realm DB 등록
+            Realm mRealm;
+            Realm.init(getActivity());
+            mRealm = Realm.getDefaultInstance();
+            RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+
+            long total_time = 0;
+            mCal.add(Calendar.DATE,position-dayNum+1);
+            // DB의 모든 데이터 검사 하는 for문
+            for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
+
+                // 날짜 값이 일치할 경우
+                if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+                    total_time += allTransactions.get(i).getTimeout();
+                }
+            }
+            // 마지막 값 검사하는 if문
+            if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+                total_time += allTransactions.last().getTimeout();
+            }
+
+            if(total_time>=(6*60*60*1000))
+               holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_green));
+
+            else if(total_time>=(3*60*60*1000))
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_yellow));
+
+            else if((position>=dayNum-1)&&total_time>0)
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_red));
+
+
+            mCal.add(Calendar.DATE,-(position-dayNum+1));
             return convertView;
         }
     }
@@ -249,23 +282,99 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
 
-        String to;
-        long total_time = 0;
+        long total_time = 0, total_exp = 0, avg_time, pre_total_time = 0;
+        int rest = -1;
+
+        // DB의 모든 데이터 검사 하는 for문
         for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
             Log.d("check", "total : " + allTransactions.get(i).getDate());
             Log.d("check", "total : " + curTotalFormat.format(mCal.getTime()));
+
+            // 날짜 값이 일치할 경우
             if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
                 total_time += allTransactions.get(i).getTimeout();
+                total_exp += allTransactions.get(i).getExp();
+                rest++;
             }
         }
+        // 마지막 값 검사하는 if문
         if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime()))) {
             total_time += allTransactions.last().getTimeout();
+            total_exp += allTransactions.last().getExp();
+            rest++;
         }
-        Log.d("check", "total : " + total_time);
-        to = Long.toString(total_time);
-        TextView timeview = getView().findViewById(R.id.total_time);
-        timeview.setText(to);
 
-        mCal.add(Calendar.DATE, -(position - dayNum + 1));
+        // DB의 모든 데이터 검사 하는 for문 [어제 날짜의 데이터]
+        mCal.add(Calendar.DATE, -1);
+        for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
+            // 날짜 값이 일치할 경우
+            if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime())))
+                pre_total_time += allTransactions.get(i).getTimeout();
+
+        }
+        // 마지막 값 검사하는 if문
+        if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime())))
+            pre_total_time += allTransactions.last().getTimeout();
+
+
+        TextView textview = getView().findViewById(R.id.total_time);
+        textview.setText(makeTimeForm(total_time));
+
+        textview = getView().findViewById(R.id.pre_day_time);
+        textview.setText(makeTimeForm(pre_total_time));
+
+        textview = getView().findViewById(R.id.differ_days);
+        textview.setText(makeTimeForm(total_time - pre_total_time));
+        if (total_time - pre_total_time < 0)
+            textview.setTextColor(getResources().getColor(R.color.colorAccent));
+        else
+            textview.setTextColor(getResources().getColor(R.color.soongsilPrimary));
+
+        textview = getView().findViewById(R.id.total_exp);
+        textview.setText("+" + total_exp);
+
+        textview = getView().findViewById(R.id.avg_time);
+        textview.setText(makeTimeForm((total_time)));
+
+        if (rest < 0) rest = 0;
+        textview = getView().findViewById(R.id.rest_time);
+        textview.setText(rest + "회");
+
+
+        mCal.add(Calendar.DATE, -(position - dayNum));
+    }
+
+    // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수
+    public String makeTimeForm(long Time) {
+        String hour, minute, seconds;
+        int nhour, nminute, nseconds;
+        boolean isMinus = false;
+
+        if (Time < 0) {
+            Time *= -1;
+            isMinus = true;
+        }
+        nhour = (int) Time / 3600000;
+        hour = Integer.toString(nhour);
+        Time %= 3600000;
+        nminute = (int) Time / 60000;
+        minute = Integer.toString(nminute);
+        Time %= 60000;
+        nseconds = (int) Time / 1000;
+        seconds = Integer.toString(nseconds);
+
+        // 각 파트별로 10이하면 0을 추가
+        if (nhour < 10)
+            hour = "0" + hour;
+        if (nminute < 10)
+            minute = "0" + minute;
+        if (nseconds < 10)
+            seconds = "0" + seconds;
+
+        if (isMinus)
+            return "-" + hour + ":" + minute + ":" + seconds;
+        else
+            return hour + ":" + minute + ":" + seconds;
+
     }
 }

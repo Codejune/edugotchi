@@ -1,4 +1,4 @@
-package kr.ac.ssu.edugochi;
+package kr.ac.ssu.edugochi.object;
 
 import io.realm.RealmObject;
 

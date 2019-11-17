@@ -2,7 +2,6 @@ package kr.ac.ssu.edugochi.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -19,10 +18,7 @@ import androidx.fragment.app.FragmentManager;
 import com.google.android.material.floatingactionbutton.FloatingActionButton;
 import com.google.android.material.navigation.NavigationView;
 
-import io.realm.Realm;
-import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.BottomNavigationDrawerFragment;
-import kr.ac.ssu.edugochi.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;

@@ -207,6 +207,39 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             else if ((position + 1) % 7 == 0)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
 
+            // 공부량에 따른 시각화 태그 부여
+            // Realm DB 등록
+            Realm mRealm;
+            Realm.init(getActivity());
+            mRealm = Realm.getDefaultInstance();
+            RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+
+            long total_time = 0;
+            mCal.add(Calendar.DATE,position-dayNum+1);
+            // DB의 모든 데이터 검사 하는 for문
+            for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
+
+                // 날짜 값이 일치할 경우
+                if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+                    total_time += allTransactions.get(i).getTimeout();
+                }
+            }
+            // 마지막 값 검사하는 if문
+            if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+                total_time += allTransactions.last().getTimeout();
+            }
+
+            if(total_time>=(6*60*60*1000))
+               holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_green));
+
+            else if(total_time>=(3*60*60*1000))
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_yellow));
+
+            else if((position>=dayNum-1)&&total_time>0)
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_red));
+
+
+            mCal.add(Calendar.DATE,-(position-dayNum+1));
             return convertView;
         }
     }

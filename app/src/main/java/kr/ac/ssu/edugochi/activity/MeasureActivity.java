@@ -19,7 +19,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
-import kr.ac.ssu.edugochi.MeasureTimeObject;
+import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
 public class MeasureActivity extends AppCompatActivity {

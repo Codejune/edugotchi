@@ -3,6 +3,7 @@ package kr.ac.ssu.edugochi.fragment;
 
 import android.app.DatePickerDialog;
 import android.os.Bundle;
+import android.text.TextUtils;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
@@ -11,6 +12,7 @@ import android.widget.DatePicker;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
@@ -24,13 +26,13 @@ import kr.ac.ssu.edugochi.TodoDB.TodoDBManager;
 public class AddTodo extends AppCompatActivity {
 
 
-    private ImageButton mAdd;
-    private EditText taskEditText;
+    private EditText title;
+    private EditText memo;
     private TodoDBManager mTodoDBManager;
     private ImageButton DateBtn;
     TextView mTxtDate;
     Calendar c = Calendar.getInstance();
-    int mYear= c.get(Calendar.YEAR);
+    int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
     int mDay = c.get(Calendar.DAY_OF_MONTH);
 
@@ -39,10 +41,11 @@ public class AddTodo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
+        mTodoDBManager = new TodoDBManager(this);
         mTxtDate = findViewById(R.id.txtdate);
 
 
-        taskEditText = findViewById(R.id.todo_title);
+        title = findViewById(R.id.todo_title);
         DateBtn = findViewById(R.id.data_btn);
         DateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -60,11 +63,13 @@ public class AddTodo extends AppCompatActivity {
 
 
     }
-    void ChooseDate(){
+
+    void ChooseDate() {
         new DatePickerDialog(this, mDateSetListener, mYear,
                 mMonth, mDay).show();
 
     }
+
     DatePickerDialog.OnDateSetListener mDateSetListener =
 
             new DatePickerDialog.OnDateSetListener() {
@@ -90,7 +95,8 @@ public class AddTodo extends AppCompatActivity {
             }
             case R.id.action_add_task: { // 오른쪽 상단 버튼 눌렀을 때
                 AddClick();
-                //  Toast.makeText(this, "추가되었습니다.", Toast.LENGTH_SHORT).show();
+                finish();
+
 
             }
         }
@@ -104,11 +110,30 @@ public class AddTodo extends AppCompatActivity {
 
         return true;
     }
-    void UpdateNow(){
+
+    void UpdateNow() {
 
         mTxtDate.setText(String.format("%d년 %d월 %d일", mYear, mMonth + 1, mDay));
 
     }
+
     private void AddClick() {
+        if (title.getText() == null || TextUtils.isEmpty(title.getText().toString())) {
+            Toast.makeText(this, "Todo item cannot be empty!", Toast.LENGTH_LONG).show();
+            return;
+        }
+        String todoText = title.getText().toString();
+        TodoItem todoItem = new TodoItem(todoText);
+        long rowId = mTodoDBManager.insert(todoItem);
+        todoItem.setId((int) rowId);
+        if (rowId == -1) {
+
+            Toast.makeText(this, "Failed to add item", Toast.LENGTH_LONG).show();
+        } else {
+            // 저장성
+            title.setText(null);
+            Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
+
+        }
     }
 }

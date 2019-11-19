@@ -8,17 +8,19 @@ public class TodoItem {
 
 
     private int mId;
-    private String mTodoText;
+    private String mTodoTitle;
 
     public TodoItem(String todoText) {
-        mTodoText = todoText;
+        mTodoTitle = todoText;
     }
 
     public String getTodoText() {
-        return mTodoText;
+
+        return mTodoTitle;
     }
 
     public int getId() {
+
         return mId;
     }
 

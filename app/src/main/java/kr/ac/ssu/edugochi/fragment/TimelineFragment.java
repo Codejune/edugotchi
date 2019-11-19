@@ -28,7 +28,7 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.ac.ssu.edugochi.MeasureTimeObject;
+import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {

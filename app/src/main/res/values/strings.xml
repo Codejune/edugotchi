@@ -21,4 +21,7 @@
     <string name="remove_item_success">Item removed</string>
     <string name="remove_item_failed">Error deleting item</string>
     <string name="confirm_remove_item">Are you sure you want to remove this item?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 </resources>

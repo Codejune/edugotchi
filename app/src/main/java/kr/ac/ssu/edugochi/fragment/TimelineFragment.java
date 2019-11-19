@@ -215,7 +215,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
 
             long total_time = 0;
-            mCal.add(Calendar.DATE,position-dayNum+1);
+            mCal.add(Calendar.DATE, position - dayNum + 1);
             // DB의 모든 데이터 검사 하는 for문
             for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
 
@@ -229,17 +229,17 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 total_time += allTransactions.last().getTimeout();
             }
 
-            if(total_time>=(6*60*60*1000))
-               holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_green));
+            if (total_time >= (6 * 60 * 60 * 1000))
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.green_circle));
 
-            else if(total_time>=(3*60*60*1000))
-                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_yellow));
+            else if (total_time >= (3 * 60 * 60 * 1000))
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.yellow_circle));
 
-            else if((position>=dayNum-1)&&total_time>0)
-                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.set_red));
+            else if ((position >= dayNum - 1) && total_time > 0)
+                holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.red_circle));
 
 
-            mCal.add(Calendar.DATE,-(position-dayNum+1));
+            mCal.add(Calendar.DATE, -(position - dayNum + 1));
             return convertView;
         }
     }
@@ -272,9 +272,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         pre_position = position;
         pre_view = v;
 
-        Log.d("check", "position : " + position);
-        Log.d("check", "dayNum : " + dayNum);
-        mCal.add(Calendar.DATE, position - dayNum + 1);
 
         // Realm DB 등록
         Realm mRealm;
@@ -283,40 +280,75 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
 
         long total_time = 0, total_exp = 0, avg_time, pre_total_time = 0;
-        int rest = -1;
+        long total_week_time = 0, total_week_exp = 0, avg_week_time, pre_week_total_time = 0;
+        long total_month_time = 0, total_month_exp = 0, avg_month_time, pre_month_total_time = 0;
+        Calendar[] week = new Calendar[7];
+        Calendar[] pre_week = new Calendar[7];
+        Calendar week_day, pre_day,month_day;
+        int rest = -1,pre_rest=-1,month_rest;
 
-        // DB의 모든 데이터 검사 하는 for문
+        mCal.add(Calendar.DATE, position - dayNum + 1); // 클릭 된 날짜로 세팅
+
+        // 클릭된 날짜의 어제 날짜 세팅
+        pre_day = (Calendar) mCal.clone();
+        pre_day.add(Calendar.DATE, -1);
+
+        // 클릭된 날짜의 주에서 일요일로 세팅
+       week_day = (Calendar)mCal.clone();
+        week_day.add(Calendar.DATE,-(position%7));
+        for(int i=0;i<7;i++){
+            week[i]=(Calendar)week_day.clone();
+            week_day.add(Calendar.DATE,1);
+        }
+        week_day.add(Calendar.DATE,-14); // 전 주 일요일 세팅
+        for(int i=0;i<7;i++){
+            pre_week[i]=(Calendar)week_day.clone();
+            week_day.add(Calendar.DATE,1);
+        }
+
+        month_day = (Calendar) mCal.clone();
+        month_day.add(Calendar.MONTH, -1);
+
+        /** 탭호스트 레이아웃의 데이터 세팅 **/
         for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
-            Log.d("check", "total : " + allTransactions.get(i).getDate());
-            Log.d("check", "total : " + curTotalFormat.format(mCal.getTime()));
-
-            // 날짜 값이 일치할 경우
-            if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+            if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) { // 날짜 값이 일치할 경우
                 total_time += allTransactions.get(i).getTimeout();
                 total_exp += allTransactions.get(i).getExp();
                 rest++;
+            } else if (allTransactions.get(i).getDate().equals(curTotalFormat.format(pre_day.getTime()))) // 어제 날짜 값이 일치할 경우
+                pre_total_time += allTransactions.get(i).getTimeout();
+
+            // 주간 단위 비교
+            for(int j=0;j<7;j++){
+                if(allTransactions.get(i).getDate().equals(curTotalFormat.format(week[j].getTime()))){
+                    total_week_time+=allTransactions.get(i).getTimeout();
+                    total_week_exp+=allTransactions.get(i).getExp();
+                    pre_rest++;
+                } else if(allTransactions.get(i).getDate().equals(curTotalFormat.format(pre_week[j].getTime())))
+                    pre_week_total_time+=allTransactions.get(i).getTimeout();
             }
+            // 월간 단위 비교
+           // for(int i=0;i<)
         }
+
         // 마지막 값 검사하는 if문
         if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime()))) {
             total_time += allTransactions.last().getTimeout();
             total_exp += allTransactions.last().getExp();
             rest++;
-        }
-
-        // DB의 모든 데이터 검사 하는 for문 [어제 날짜의 데이터]
-        mCal.add(Calendar.DATE, -1);
-        for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
-            // 날짜 값이 일치할 경우
-            if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime())))
-                pre_total_time += allTransactions.get(i).getTimeout();
-
-        }
-        // 마지막 값 검사하는 if문
-        if (allTransactions.last().getDate().equals(curTotalFormat.format(mCal.getTime())))
+        } else if (allTransactions.last().getDate().equals(curTotalFormat.format(pre_day.getTime())))
             pre_total_time += allTransactions.last().getTimeout();
+        for(int j=0;j<7;j++){
+            if(allTransactions.last().getDate().equals(curTotalFormat.format(week[j].getTime()))){
+                total_week_time+=allTransactions.last().getTimeout();
+                total_week_exp+=allTransactions.last().getExp();
+                pre_rest++;
+            }else if(allTransactions.last().getDate().equals(curTotalFormat.format(pre_week[j].getTime())))
+                pre_week_total_time+=allTransactions.last().getTimeout();
+        }
 
 
+        /** 일간 탭호스트 레이아웃 세팅 **/
         TextView textview = getView().findViewById(R.id.total_time);
         textview.setText(makeTimeForm(total_time));
 
@@ -340,8 +372,33 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         textview = getView().findViewById(R.id.rest_time);
         textview.setText(rest + "회");
 
+        /** 주간 탭호스트 레이아웃 세팅 **/
+        textview = getView().findViewById(R.id.total_week_time);
+        textview.setText(makeTimeForm(total_week_time));
 
-        mCal.add(Calendar.DATE, -(position - dayNum));
+        textview = getView().findViewById(R.id.pre_week_time);
+        textview.setText(makeTimeForm(pre_week_total_time));
+
+        textview = getView().findViewById(R.id.differ_week_days);
+        textview.setText(makeTimeForm(total_week_time-pre_week_total_time));
+        if (total_week_time - pre_week_total_time < 0)
+            textview.setTextColor(getResources().getColor(R.color.colorAccent));
+        else
+            textview.setTextColor(getResources().getColor(R.color.soongsilPrimary));
+
+        textview = getView().findViewById(R.id.total_week_exp);
+        textview.setText("+" + total_week_exp);
+
+        textview = getView().findViewById(R.id.avg_week_time);
+        textview.setText(makeTimeForm((total_week_time/7)));
+
+        if (pre_rest < 0) pre_rest = 0;
+        textview = getView().findViewById(R.id.rest_week_time);
+        textview.setText(pre_rest + "회");
+
+        /** 월간 탭호스트 레이아웃 세팅 **/
+
+        mCal.add(Calendar.DATE, -(position - dayNum + 1));
     }
 
     // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수

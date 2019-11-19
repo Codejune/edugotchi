@@ -24,12 +24,7 @@ class TodoDBHelper extends SQLiteOpenHelper {
         sqLiteDatabase = this.getWritableDatabase();
     }
 
-    /**
-     * Single instance of DB helper through application life.
-     *
-     * @param context
-     * @return - instance of the DB helper class.
-     */
+
     public static TodoDBHelper getInstance(Context context) {
         if (_instance == null) {
             _instance = new TodoDBHelper(context);

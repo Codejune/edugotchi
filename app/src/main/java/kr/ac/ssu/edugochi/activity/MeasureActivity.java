@@ -19,6 +19,7 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
@@ -139,9 +140,14 @@ public class MeasureActivity extends AppCompatActivity {
         return String.format("%02d:%02d:%02d", out_time / 1000 / 60, (out_time / 1000) % 60,(out_time % 1000) / 10);
     }
 
+    /*
     @Override
-    protected void onDestroy() {
-        super.onDestroy();
+    public void onBackPressed() {
+        mRealm = Realm.getDefaultInstance();
+        RealmResults<MeasureTimeObject> characterTransaction = mRealm.where(MeasureTimeObject.class).findAllSorted("exp");
+        characterTransaction.first().setExp(characterTransaction.first().getExp() + out_time / 60);
+        mRealm.commitTransaction();
     }
+     */
 }
 

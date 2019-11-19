@@ -1,30 +1,26 @@
 package kr.ac.ssu.edugochi.activity;
 
-import android.content.Intent;
+import android.graphics.Typeface;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
-
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
-import com.google.android.material.navigation.NavigationView;
-
-import kr.ac.ssu.edugochi.BottomNavigationDrawerFragment;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 import kr.ac.ssu.edugochi.fragment.TodoFragment;
+import kr.ac.ssu.edugochi.listener.CustomNavigationChangeListener;
+import kr.ac.ssu.edugochi.view.CustomNavigationLinearView;
+import kr.ac.ssu.edugochi.view.CustomToggleView;
 
-public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener{
+public class MainActivity extends AppCompatActivity {
 
     TextView title;
     final Fragment mainFragment = new MainFragment();
@@ -41,23 +37,39 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         // 화면 타이틀 id 연결
         title = findViewById(R.id.title);
 
-        // 툴바 설정
-        Toolbar toolbar = findViewById(R.id.bottom_app_bar);
-        setSupportActionBar(toolbar);
-
         // Fragment 등록
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, todoFragment, "todo").hide(todoFragment).commit();
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, timelineFragment, "timeline").hide(timelineFragment).commit();
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, mainFragment, "main").commit();
 
-        final Intent intent = new Intent(this, MeasureActivity.class);
+        final CustomNavigationLinearView customNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
 
-        //  Floating Action Button 클릭 이벤트 처리
-        final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
+        customNavigationLinearView.setNavigationChangeListener(new CustomNavigationChangeListener() {
             @Override
-            public void onClick(View view) {
-                startActivity(intent);
+            public void onNavigationChanged(View view, int position) {
+                switch(view.getId()) {
+                    case R.id.app_bar_home:
+                        title.setText("Home");
+                        fragmentManager.beginTransaction().hide(active).show(mainFragment).commit();
+                        active = mainFragment;
+                        Log.d("navigation", "home");
+                        return;
+                    case R.id.app_bar_timeline:
+                        title.setText("Timeline");
+                        fragmentManager.beginTransaction().hide(active).show(timelineFragment).commit();
+                        active = timelineFragment;
+                        Log.d("navigation", "timeline");
+                        return;
+                    case R.id.app_bar_todo:
+                        title.setText("Todo");
+                        fragmentManager.beginTransaction().hide(active).show(todoFragment).commit();
+                        active = todoFragment;
+                        Log.d("navigation", "todo");
+                        return;
+                    case R.id.app_bar_setting:
+                        Log.d("navigation", "setting");
+                        return;
+                }
             }
         });
     }
@@ -70,6 +82,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         return true;
     }
 
+    /*
     // 네비게이션 메뉴 아이콘 클릭 이벤트 처리
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
@@ -102,14 +115,5 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
         return super.onOptionsItemSelected(item);
     }
-
-    @Override
-    public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-        return false;
-    }
-
-    @Override
-    protected void onResume() {
-        super.onResume();
-    }
+    */
 }

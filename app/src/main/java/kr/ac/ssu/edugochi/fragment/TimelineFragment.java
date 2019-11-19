@@ -32,34 +32,10 @@ import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
-    private static final String ARG_PARAM1 = "param1";
-    private static final String ARG_PARAM2 = "param2";
-
-    private String mParam1;
-    private String mParam2;
-
-    public TimelineFragment() {
-        // Required empty public constructor
-    }
-
-    public static TimelineFragment newInstance(String param1, String param2) {
-        Log.d("Superoid", "TimelineFragment");
-        TimelineFragment fragment = new TimelineFragment();
-        Bundle args = new Bundle();
-        args.putString(ARG_PARAM1, param1);
-        args.putString(ARG_PARAM2, param2);
-        fragment.setArguments(args);
-        return fragment;
-    }
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        Log.d("Superoid", "onCreate");
-        if (getArguments() != null) {
-            mParam1 = getArguments().getString(ARG_PARAM1);
-            mParam2 = getArguments().getString(ARG_PARAM2);
-        }
     }
 
     @Override
@@ -217,7 +193,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             long total_time = 0;
             mCal.add(Calendar.DATE, position - dayNum + 1);
             // DB의 모든 데이터 검사 하는 for문
-            for (int i = 0; !allTransactions.get(i).equals(allTransactions.last()); i++) {
+            for (int i = 0; !allTransactions.get(i+1).equals(allTransactions.last()); i++) {
 
                 // 날짜 값이 일치할 경우
                 if (allTransactions.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {

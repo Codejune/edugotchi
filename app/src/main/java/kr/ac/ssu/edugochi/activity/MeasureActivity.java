@@ -145,7 +145,7 @@ public class MeasureActivity extends AppCompatActivity {
     String getTimeOut(){
         current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
-        return String.format("%02d : %02d : %02d", out_time / 1000 / 60, (out_time / 1000) % 60,(out_time % 1000) / 10);
+        return String.format("%02d : %02d : %02d", out_time / 1000 / 60 / 60, (out_time / 1000) / 60 % 60, (out_time / 1000) % 60 % 60);
     }
 
     /*

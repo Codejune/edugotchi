@@ -2,6 +2,7 @@ package kr.ac.ssu.edugochi.fragment;
 
 
 import android.app.DatePickerDialog;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.text.TextUtils;
 import android.view.Menu;
@@ -21,15 +22,15 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Calendar;
 
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.TodoDB.TodoDBManager;
+import kr.ac.ssu.edugochi.TodoDB.TodoDBHelper;
 
 public class AddTodo extends AppCompatActivity {
 
 
     private EditText title;
     private EditText memo;
-    private TodoDBManager mTodoDBManager;
     private ImageButton DateBtn;
+
     TextView mTxtDate;
     Calendar c = Calendar.getInstance();
     int mYear = c.get(Calendar.YEAR);
@@ -41,11 +42,11 @@ public class AddTodo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        mTodoDBManager = new TodoDBManager(this);
         mTxtDate = findViewById(R.id.txtdate);
 
 
         title = findViewById(R.id.todo_title);
+        memo = findViewById(R.id.todo_memo);
         DateBtn = findViewById(R.id.data_btn);
         DateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -98,6 +99,7 @@ public class AddTodo extends AppCompatActivity {
                 finish();
 
 
+
             }
         }
         return super.onOptionsItemSelected(item);
@@ -122,18 +124,19 @@ public class AddTodo extends AppCompatActivity {
             Toast.makeText(this, "Todo item cannot be empty!", Toast.LENGTH_LONG).show();
             return;
         }
-        String todoText = title.getText().toString();
-        TodoItem todoItem = new TodoItem(todoText);
-        long rowId = mTodoDBManager.insert(todoItem);
-        todoItem.setId((int) rowId);
-        if (rowId == -1) {
+        final String todoTitle = title.getText().toString();
+        final String todoDate = mTxtDate.getText().toString();
+        final String todoMemo = memo.getText().toString();
+        TodoDBHelper helper = new TodoDBHelper(this);
+        SQLiteDatabase db = helper.getWritableDatabase();
+        db.execSQL("insert into tb_todo (title, date, memo) values (?, ?, ?)", new String[]{todoTitle, todoDate, todoMemo});
+        db.close();
 
-            Toast.makeText(this, "Failed to add item", Toast.LENGTH_LONG).show();
-        } else {
-            // 저장성
-            title.setText(null);
-            Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
+        title.setText(null);
+        Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
+
+       // finish();
 
         }
     }
-}
+

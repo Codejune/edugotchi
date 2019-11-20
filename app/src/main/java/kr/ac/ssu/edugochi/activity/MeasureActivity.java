@@ -12,14 +12,13 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
-import com.google.android.material.floatingactionbutton.FloatingActionButton;
+import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
-import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
@@ -49,10 +48,13 @@ public class MeasureActivity extends AppCompatActivity {
         Realm.init(this);
         mRealm = Realm.getDefaultInstance();
 
-        final FloatingActionButton fab = findViewById(R.id.record_btn);
+        final MaterialButton record_btn = findViewById(R.id.record_btn);
+        final MaterialButton stop_btn = findViewById(R.id.stop_btn);
+        timer = findViewById(R.id.timer);
+
         // 측정 중 짧게 누르면 일시 정지
         // 측정 중 길게 누르면 정지
-        fab.setOnClickListener(new View.OnClickListener() {
+        record_btn.setOnClickListener(new View.OnClickListener() {
             /*
                 init    : 정지
                 run     : 측정 중
@@ -65,13 +67,15 @@ public class MeasureActivity extends AppCompatActivity {
                         base_time = SystemClock.elapsedRealtime();
                         //핸들러에 빈 메세지를 보내서 호출
                         measureTimer.sendEmptyMessage(0);
-                        fab.setImageResource(R.drawable.ic_pause_black_24dp);
+                        record_btn.setText("일시정지");
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause_white_24dp));
                         timer_status = run; //현재상태를 런상태로 변경
                         break;
                     case run: // 측정 상태
                         pause_time = SystemClock.elapsedRealtime();
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
-                        fab.setImageResource(R.drawable.ic_pause_black_24dp);
+                        record_btn.setText("다시시작");
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
                         timer_status = pause;
                         break;
                     case pause:
@@ -79,22 +83,25 @@ public class MeasureActivity extends AppCompatActivity {
                         //잠깐 스톱워치를 멈췄다가 다시 시작하면 기준점이 변하게 되므로..
                         base_time += (now - pause_time);
                         measureTimer.sendEmptyMessage(0);
-                        fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
+                        record_btn.setText("일시정지");
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
                         timer_status = run;
                         break;
                 }
             }
         });
-        fab.setOnLongClickListener(new View.OnLongClickListener() {
+
+        stop_btn.setOnClickListener(new View.OnClickListener() {
             @Override
-            public boolean onLongClick(View view) {
+            public void onClick(View view) {
                 Log.d("MeasureActivity", "onLongClick(" + timer_status + ")");
                 switch (timer_status) {
-                    case init: // 정지 상태
-                        return false;
+                    case init:
+                        timer.setText("00 : 00 : 00");
+                        break;
+                    case pause:
                     case run: // 측정 상태
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
-                        fab.setImageResource(R.drawable.ic_play_arrow_black_24dp);
                         // DB에 기록된 데이터 저장
                         mRealm.executeTransaction(new Realm.Transaction() {
                             @Override
@@ -111,11 +118,13 @@ public class MeasureActivity extends AppCompatActivity {
                                 measureTimeObject.setExp(out_time / 60);
                             }
                         });
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                        record_btn.setText("측정시작");
                         timer.setText(getTimeOut());
                         timer_status = init;
-                        return true;
+                        break;
                     default:
-                        return false;
+                        break;
                 }
             }
         });
@@ -125,7 +134,6 @@ public class MeasureActivity extends AppCompatActivity {
     @SuppressLint("HandlerLeak")
     Handler measureTimer = new Handler(){
         public void handleMessage(Message msg){
-            timer = findViewById(R.id.timer);
             timer.setText(getTimeOut());
             //sendEmptyMessage 는 비어있는 메세지를 Handler 에게 전송
             measureTimer.sendEmptyMessage(0);
@@ -137,7 +145,7 @@ public class MeasureActivity extends AppCompatActivity {
     String getTimeOut(){
         current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
-        return String.format("%02d:%02d:%02d", out_time / 1000 / 60, (out_time / 1000) % 60,(out_time % 1000) / 10);
+        return String.format("%02d : %02d : %02d", out_time / 1000 / 60, (out_time / 1000) % 60,(out_time % 1000) / 10);
     }
 
     /*

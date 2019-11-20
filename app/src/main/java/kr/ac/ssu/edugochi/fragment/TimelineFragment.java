@@ -30,6 +30,7 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.view.CustomGridView;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
@@ -84,7 +85,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private TextView tvDate;
     private GridAdapter gridAdapter;
     private ArrayList<String> dayList;
-    private GridView gridView;
+    private CustomGridView gridView;
     private Calendar mCal;
 
     // 연,월,일을 따로 저장

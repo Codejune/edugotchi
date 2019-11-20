@@ -637,7 +637,7 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="전날 대비"
+                                            android:text="저번달 대비"
                                             android:textSize="14dp" />
 
                                         <TextView
@@ -656,7 +656,7 @@
                                         <TextView
                                             android:layout_width="match_parent"
                                             android:layout_height="wrap_content"
-                                            android:text="어제"
+                                            android:text="저번달"
                                             android:textSize="14dp" />
 
                                         <TextView

@@ -261,7 +261,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         Calendar[] week = new Calendar[7];
         Calendar[] pre_week = new Calendar[7];
         Calendar week_day, pre_day,month_day;
-        int rest = -1,pre_rest=-1,month_rest;
+        int rest = -1,pre_rest=-1,month_rest=-1;
 
         mCal.add(Calendar.DATE, position - dayNum + 1); // 클릭 된 날짜로 세팅
 
@@ -304,7 +304,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                     pre_week_total_time+=allTransactions.get(i).getTimeout();
             }
             // 월간 단위 비교
-           // for(int i=0;i<)
+            if(allTransactions.get(i).getDate().substring(5,7).equals(curMonthFormat.format(mCal.getTime()))){
+                total_month_time+=allTransactions.get(i).getTimeout();
+                total_month_exp+=allTransactions.get(i).getExp();
+                month_rest++;
+            }
+            else if(allTransactions.get(i).getDate().substring(5,7).equals(curMonthFormat.format(month_day.getTime())))
+                pre_month_total_time+=allTransactions.get(i).getTimeout();
         }
 
         // 마지막 값 검사하는 if문
@@ -322,6 +328,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             }else if(allTransactions.last().getDate().equals(curTotalFormat.format(pre_week[j].getTime())))
                 pre_week_total_time+=allTransactions.last().getTimeout();
         }
+        if(allTransactions.last().getDate().substring(5,7).equals(curMonthFormat.format(mCal.getTime()))){
+            total_month_time+=allTransactions.last().getTimeout();
+            total_month_exp+=allTransactions.last().getExp();
+            month_rest++;
+        }
+        else if(allTransactions.last().getDate().substring(5,7).equals(curMonthFormat.format(month_day.getTime())))
+            pre_month_total_time+=allTransactions.last().getTimeout();
 
 
         /** 일간 탭호스트 레이아웃 세팅 **/
@@ -373,7 +386,28 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         textview.setText(pre_rest + "회");
 
         /** 월간 탭호스트 레이아웃 세팅 **/
+        textview = getView().findViewById(R.id.total_month_time);
+        textview.setText(makeTimeForm(total_month_time));
 
+        textview = getView().findViewById(R.id.pre_month_time);
+        textview.setText(makeTimeForm(pre_month_total_time));
+
+        textview = getView().findViewById(R.id.differ_month_days);
+        textview.setText(makeTimeForm(total_month_time-pre_month_total_time));
+        if (total_month_time - pre_month_total_time < 0)
+            textview.setTextColor(getResources().getColor(R.color.colorAccent));
+        else
+            textview.setTextColor(getResources().getColor(R.color.soongsilPrimary));
+
+        textview = getView().findViewById(R.id.total_month_exp);
+        textview.setText("+" + total_month_exp);
+
+        textview = getView().findViewById(R.id.avg_month_time);
+        textview.setText(makeTimeForm((total_week_time/mCal.getActualMaximum(Calendar.DAY_OF_MONTH))));
+
+        if (month_rest < 0) month_rest = 0;
+        textview = getView().findViewById(R.id.rest_month_time);
+        textview.setText(month_rest + "회");
         mCal.add(Calendar.DATE, -(position - dayNum + 1));
     }
 

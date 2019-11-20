@@ -6,6 +6,7 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -23,6 +24,7 @@ import kr.ac.ssu.edugochi.view.CustomToggleView;
 public class MainActivity extends AppCompatActivity {
 
     TextView title;
+    LinearLayout titlebar;
     final Fragment mainFragment = new MainFragment();
     final Fragment timelineFragment = new TimelineFragment();
     final Fragment todoFragment = new TodoFragment();
@@ -36,6 +38,8 @@ public class MainActivity extends AppCompatActivity {
 
         // 화면 타이틀 id 연결
         title = findViewById(R.id.title);
+        titlebar = findViewById(R.id.title_bar);
+        //titlebar.bringToFront();
 
         // Fragment 등록
         fragmentManager.beginTransaction().add(R.id.content_fragment_layout, todoFragment, "todo").hide(todoFragment).commit();

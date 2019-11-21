@@ -1,6 +1,5 @@
 package kr.ac.ssu.edugochi.fragment;
 
-import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,29 +13,30 @@ import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import androidx.annotation.NonNull;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.TodoDB.TodoDBManager;
+import kr.ac.ssu.edugochi.TodoDB.TodoAdapter;
+import kr.ac.ssu.edugochi.TodoDB.TodoDBHandler;
+import kr.ac.ssu.edugochi.TodoDB.TodoVO;
 
 
 public class TodoFragment extends Fragment {
 
     private static final String TAG = TodoFragment.class.getSimpleName();
 
-    private TodoDBManager mTodoDBManager;
+    private TodoDBHandler handler;
     private ImageButton AddBtn;
-    private ListView mTodoList;
-
+    private ListView TodoList;
+    private ArrayList<TodoVO> data;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setHasOptionsMenu(true);
-
-        mTodoDBManager = new TodoDBManager(getActivity());
+        handler = new TodoDBHandler(getActivity());
     }
 
     @Override
@@ -59,32 +59,31 @@ public class TodoFragment extends Fragment {
                 startActivity(intent);
             }
         });
-        mTodoList = view.findViewById(R.id.todo_list);
+        TodoList = view.findViewById(R.id.todo_list);
         listItems();
     }
-
     private View.OnClickListener mOnItemDeleteListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
             Object tag = v.getTag();
-
-            if (tag instanceof TodoItem) {
-                TodoItem todoItem = (TodoItem) tag;
-                confirmRemoval(todoItem);
+            if (tag instanceof TodoVO) {
+                TodoVO vo = (TodoVO) tag;
+                confirmRemoval(vo);
             } else {
-                Log.w(TAG, " Unexpected tag found. Expected " + TodoItem.class.getSimpleName() + " Found: " + tag.getClass());
+                Log.w(TAG, " Unexpected tag found. Expected " + TodoVO.class.getSimpleName() + " Found: " + tag.getClass());
             }
-
         }
     };
 
-    private void confirmRemoval(final TodoItem todoItem) {
-        android.app.AlertDialog dialog = new AlertDialog.Builder(getActivity())
+
+    private void confirmRemoval(final TodoVO vo) {
+        AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle("정말 삭제하시겠습니까?")
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
-                        removeItem(todoItem);
+                        removeItem(vo);
+                        listItems();
                     }
                 })
                 .setNegativeButton("아니오", null)
@@ -92,42 +91,47 @@ public class TodoFragment extends Fragment {
         dialog.show();
     }
 
-    private void removeItem(@NonNull TodoItem todoItem) {
-        long rowsAffected = mTodoDBManager.removeItem(todoItem.getId());
+    private void removeItem(TodoVO vo) {
+        long rowsAffected = handler.removeItem(vo.id);
         if (rowsAffected == -1) {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_LONG).show();
+        Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_LONG).show();
         } else {
-            Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_LONG).show();
-            ((ArrayAdapter) mTodoList.getAdapter()).remove(todoItem);            // remove the item to the list
-            ((ArrayAdapter) mTodoList.getAdapter()).notifyDataSetChanged();      // update the UI.
-
-            // show empty listview if there are no more items to be displayed.
-            if (mTodoList.getAdapter().getCount() == 0) {
-                listItems();
-            }
+        Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_LONG).show();
+        ((ArrayAdapter) TodoList.getAdapter()).remove(vo);            // remove the item to the list
+        ((ArrayAdapter) TodoList.getAdapter()).notifyDataSetChanged();
+        listItems();// update the UI.
+        if (TodoList.getAdapter().getCount() == 0) {
+            listItems();
+        }
         }
     }
-    public void onResume() {
+
+
+    public void onResume() { // AddTodo 엑티비티에서 복귀 했을때 리스트 갱신
         listItems();
         Log.d(this.getClass().getSimpleName(), "리스트갱신");
         super.onResume();
     }
 
 
+    private void listItems() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
 
-    public void listItems(){
-        ArrayList<TodoItem> todoItems = getItems();
 
-        if (todoItems == null || todoItems.size() == 0) {
-            TextView tv =  getView().findViewById(R.id.empty_view);
-            mTodoList.setEmptyView(tv);
+        data = getItems();
+
+        if (data == null || data.size() == 0) {
+            TextView tv = getView().findViewById(R.id.empty_view);
+            TodoList.setEmptyView(tv);
         } else {
-            TodoAdapter adapter = new TodoAdapter(getActivity(), R.layout.item_todo, todoItems, mOnItemDeleteListener);
-            mTodoList.setAdapter(adapter);
+            Log.d(this.getClass().getSimpleName(), "리스트갱신되는중");
+            TodoAdapter adapter = new TodoAdapter(getActivity(), R.layout.item_todo, data, mOnItemDeleteListener);
+            TodoList.setAdapter(adapter);
         }
-    }
 
-    private ArrayList<TodoItem> getItems() {
-        return mTodoDBManager.getItems();
+    }
+    private ArrayList<TodoVO> getItems() { //arraylist에 데이터를 받아옴
+        return handler.getItems();
     }
 }
+
+

@@ -21,16 +21,18 @@ import androidx.appcompat.widget.Toolbar;
 import java.util.Calendar;
 
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.TodoDB.TodoDBManager;
+import kr.ac.ssu.edugochi.TodoDB.TodoDBHandler;
 
 public class AddTodo extends AppCompatActivity {
 
+    TodoDBHandler mHandler = null;
 
     private EditText title;
     private EditText memo;
-    private TodoDBManager mTodoDBManager;
     private ImageButton DateBtn;
-    TextView mTxtDate;
+    private TextView mTxtDate;
+    private String emptyTxt = null;
+
     Calendar c = Calendar.getInstance();
     int mYear = c.get(Calendar.YEAR);
     int mMonth = c.get(Calendar.MONTH);
@@ -41,11 +43,12 @@ public class AddTodo extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_add_todo);
 
-        mTodoDBManager = new TodoDBManager(this);
+        mHandler = new TodoDBHandler(this);
         mTxtDate = findViewById(R.id.txtdate);
 
 
         title = findViewById(R.id.todo_title);
+        memo = findViewById(R.id.todo_memo);
         DateBtn = findViewById(R.id.data_btn);
         DateBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -75,19 +78,15 @@ public class AddTodo extends AppCompatActivity {
             new DatePickerDialog.OnDateSetListener() {
                 @Override
                 public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                    // TODO Auto-generated method stub
-                    //사용자가 입력한 값을 가져온뒤
                     mYear = year;
                     mMonth = monthOfYear;
                     mDay = dayOfMonth;
-                    //텍스트뷰의 값을 업데이트함
                     UpdateNow();
                 }
             };
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-
         switch (item.getItemId()) {
             case android.R.id.home: {
                 finish();
@@ -96,8 +95,6 @@ public class AddTodo extends AppCompatActivity {
             case R.id.action_add_task: { // 오른쪽 상단 버튼 눌렀을 때
                 AddClick();
                 finish();
-
-
             }
         }
         return super.onOptionsItemSelected(item);
@@ -107,33 +104,32 @@ public class AddTodo extends AppCompatActivity {
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater menuInflater = getMenuInflater();
         menuInflater.inflate(R.menu.todo_menu, menu);
-
         return true;
     }
 
     void UpdateNow() {
-
         mTxtDate.setText(String.format("%d년 %d월 %d일", mYear, mMonth + 1, mDay));
-
     }
 
     private void AddClick() {
+
         if (title.getText() == null || TextUtils.isEmpty(title.getText().toString())) {
             Toast.makeText(this, "Todo item cannot be empty!", Toast.LENGTH_LONG).show();
             return;
         }
-        String todoText = title.getText().toString();
-        TodoItem todoItem = new TodoItem(todoText);
-        long rowId = mTodoDBManager.insert(todoItem);
-        todoItem.setId((int) rowId);
-        if (rowId == -1) {
-
-            Toast.makeText(this, "Failed to add item", Toast.LENGTH_LONG).show();
-        } else {
-            // 저장성
-            title.setText(null);
-            Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
-
+        final String todoTitle = title.getText().toString();
+        final String todoDate = mTxtDate.getText().toString();
+        final String todoMemo = memo.getText().toString();
+        if( mHandler == null ) {
+            mHandler = TodoDBHandler.open(this);
+        }
+        if(mTxtDate.getText() == "0000년 00월 00일"){
+            mHandler.insert(todoTitle, emptyTxt, todoMemo);
+        }else {
+            mHandler.insert(todoTitle, todoDate, todoMemo);
+        }
+        title.setText(null);
+        Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
         }
     }
-}
+

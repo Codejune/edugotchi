@@ -12,23 +12,24 @@ import android.widget.Toast;
 import java.util.ArrayList;
 
 public class TodoAdapter extends ArrayAdapter<TodoVO> {
+
+    private View.OnClickListener mOnItemDeleteListener;
     Context context;
     int resId;
     ArrayList<TodoVO> data;
 
-    public TodoAdapter(Context context, int resId, ArrayList<TodoVO> data) {
+    public TodoAdapter(Context context, int resId, ArrayList<TodoVO> data, View.OnClickListener onItemDeleteListener) {
         super(context, resId);
         this.context = context;
         this.resId = resId;
         this.data = data;
+        mOnItemDeleteListener = onItemDeleteListener;
     }
 
     @Override
     public int getCount() {
         return data.size();
     }
-
-
 
     @Override
     public View getView(int position, View convertView, ViewGroup parent) {
@@ -43,20 +44,27 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
         TextView titleView = holder.titleView;
         TextView dateView = holder.dateView;
         ImageView deleteBtn = holder.deleteBtn;
+        View view = convertView;
 
         final TodoVO vo = data.get(position);
 
         titleView.setText(vo.title);
+        if(vo.date == null) {
+            dateView.setText(" ");
+        }
         dateView.setText(vo.date);
 
 
+        holder.deleteBtn.setOnClickListener(mOnItemDeleteListener);
+        holder.deleteBtn.setTag(vo);
 
-        deleteBtn.setOnClickListener(new View.OnClickListener() {
+        view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(context, vo.title+" menu click", Toast.LENGTH_SHORT); toast.show();
+                Toast toast = Toast.makeText(context, vo.title+" click", Toast.LENGTH_SHORT); toast.show();
             }
         });
+
         return convertView;
     }
 

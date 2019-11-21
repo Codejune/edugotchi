@@ -19,7 +19,7 @@
         <activity android:name=".fragment.AddTodo" />
         <activity android:name=".activity.MeasureActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".TodoDB.ReadTodoActivity"/>
+        <activity android:name=".TodoDB.ReadTodoActivity" />
     </application>
 
 </manifest>

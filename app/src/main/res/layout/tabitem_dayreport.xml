@@ -159,7 +159,7 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="day"
+                android:text="1"
                 android:textSize="11sp" />
 
             <View

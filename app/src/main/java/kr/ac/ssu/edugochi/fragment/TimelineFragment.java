@@ -279,13 +279,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 날짜 클릭시 호출되는 onItemClick 메소드
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        // 선택 날짜에 시각 효과 표시
-        if (pre_position >= 0)   // 선택된게 있었으면 효과 삭제
-            pre_view.setBackgroundColor(Color.argb(0, 0, 0, 0));
-
-        v.setBackgroundResource(R.drawable.selected_date);
-        pre_position = position;
-        pre_view = v;
 
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();

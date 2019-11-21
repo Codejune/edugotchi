@@ -6,6 +6,7 @@
     <color name="background">#f8f6f9</color>
     <color name="black">#000000</color>
     <color name="dark">#212121</color>
+    <color name="transparent">#00000000</color>
 
     <color name="default_inactive_shape_color">#e5e5e5</color>
     <color name="default_inactive_color">#212121</color>

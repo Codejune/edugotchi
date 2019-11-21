@@ -17,7 +17,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="280dp"
+            android:layout_height="270dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -28,8 +28,8 @@
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                android:layout_marginBottom="16dp"
+                android:layout_marginTop="10dp"
+                android:layout_marginBottom="14dp"
                 android:orientation="vertical">
 
                 <LinearLayout
@@ -51,7 +51,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:gravity="center"
-                        android:textSize="17sp" />
+                        android:textSize="15sp" />
 
                     <ImageView
                         android:id="@+id/fore_button"
@@ -72,28 +72,25 @@
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingLeft="14sp"
                         android:text="Sun"
-                        android:textColor="@color/red"
-                        android:textSize="16sp" />
+                        android:textColor="@color/red_inactive"
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingLeft="9sp"
                         android:text="Mon"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingLeft="5sp"
                         android:text="Tue"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
@@ -101,44 +98,41 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Wed"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingRight="5sp"
                         android:text="Thu"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingRight="9sp"
                         android:text="Fri"
-                        android:textSize="16sp" />
+                        android:textSize="13sp" />
 
                     <TextView
                         android:layout_width="0dp"
                         android:layout_height="wrap_content"
                         android:layout_weight="1"
                         android:gravity="center"
-                        android:paddingRight="14sp"
                         android:text="Sat"
-                        android:textColor="@color/blue"
-                        android:textSize="16sp" />
+                        android:textColor="@color/blue_inactive"
+                        android:textSize="13sp" />
                 </LinearLayout>
 
                 <kr.ac.ssu.edugochi.view.CustomGridView
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_marginLeft="7sp"
                     android:isScrollContainer="false"
-                    android:numColumns="7"
-                    android:paddingLeft="15dp" />
+                    android:numColumns="7" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

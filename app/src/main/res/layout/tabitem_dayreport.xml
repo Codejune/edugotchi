@@ -86,8 +86,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
-        android:background="@drawable/edge_round"
-        android:padding="16dp">
+        android:layout_marginBottom="300dp"
+        android:background="@drawable/edge_round">
 
         <TableRow>
 
@@ -97,7 +97,7 @@
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
                 android:text="Level"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <View
@@ -113,7 +113,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="획득 경험치"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <View
@@ -129,7 +129,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="평균 공부시간"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
             <View
@@ -145,7 +145,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="휴식"
-                android:textSize="12dp"
+                android:textSize="12sp"
                 android:textStyle="bold" />
 
         </TableRow>
@@ -158,8 +158,8 @@
                 android:layout_height="20dp"
                 android:layout_marginLeft="5dp"
                 android:gravity="center"
-                android:text="999"
-                android:textSize="11dp" />
+                android:text="day"
+                android:textSize="11sp" />
 
             <View
                 android:layout_width="1dp"
@@ -175,7 +175,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="999"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
 
             <View
                 android:layout_width="1dp"
@@ -191,7 +191,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="00 : 00 : 00"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
 
             <View
                 android:layout_width="1dp"
@@ -207,7 +207,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="3회"
-                android:textSize="11dp" />
+                android:textSize="11sp" />
 
         </TableRow>
 

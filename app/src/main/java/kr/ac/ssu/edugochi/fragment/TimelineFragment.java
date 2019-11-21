@@ -38,7 +38,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     int month = 0;  // 달력 표시 달 수정용 변수
     int dayNum; // 매 달 공백 생성용 변수
-    int pre_position;
+    int pre_position=-1;
     View pre_view;
 
     // 달력 관련 클래스 변수
@@ -86,7 +86,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
-                // TODO : process tab selection event.
             }
 
             @Override
@@ -187,13 +186,18 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 Log.d("Superoid", "getView else");
                 holder = (ViewHolder) convertView.getTag();
             }
+
+            if(position+1<dayNum) // 1일 전의 리스트는 클릭이 안되도록 세팅
+            holder.tvItemGridView.setClickable(true);
+
+
             holder.tvItemGridView.setText("" + getItem(position));
 
             // 토요일과 일요일에 색깔 지정
             if ((position + 1) % 7 == 1)
-                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red));
+                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red_inactive));
             else if ((position + 1) % 7 == 0)
-                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
+                holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue_inactive));
 
             // 공부량에 따른 시각화 태그 부여
             Realm.init(getActivity());
@@ -224,8 +228,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             else if ((position >= dayNum - 1) && total_time > 0)
                 holder.tvItemGridView.setBackground(getResources().getDrawable(R.drawable.red_circle));
 
-
             mCal.add(Calendar.DATE, -(position - dayNum + 1));
+
             return convertView;
         }
     }
@@ -251,20 +255,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         // 선택 날짜에 시각 효과 표시
-        if (pre_position > 0)   // 선택된게 있었으면 효과 삭제
+        if (pre_position >= 0)   // 선택된게 있었으면 효과 삭제
             pre_view.setBackgroundColor(Color.argb(0, 0, 0, 0));
 
-        v.setBackgroundResource(R.drawable.selected_date);
-        pre_position = position;
-        pre_view = v;
+            v.setBackgroundResource(R.drawable.selected_date);
+            pre_position = position;
+            pre_view = v;
 
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
 
-        long total_time = 0, total_exp = 0, avg_time, pre_total_time = 0;
-        long total_week_time = 0, total_week_exp = 0, avg_week_time, pre_week_total_time = 0;
-        long total_month_time = 0, total_month_exp = 0, avg_month_time, pre_month_total_time = 0;
+        long total_time = 0, total_exp = 0, pre_total_time = 0;
+        long total_week_time = 0, total_week_exp = 0, pre_week_total_time = 0;
+        long total_month_time = 0, total_month_exp = 0, pre_month_total_time = 0;
         Calendar[] week = new Calendar[7];
         Calendar[] pre_week = new Calendar[7];
         Calendar week_day, pre_day,month_day;

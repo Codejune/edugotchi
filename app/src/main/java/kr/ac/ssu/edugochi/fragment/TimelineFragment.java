@@ -20,6 +20,8 @@ import android.widget.TabHost;
 import android.widget.TextView;
 
 
+import com.google.android.material.tabs.TabLayout;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
@@ -33,48 +35,6 @@ import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.view.CustomGridView;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
-
-    @Override
-    public void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        Log.d("Superoid", "onCreateView");
-        View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
-        // 클릭리스너 부착 선언
-        pre_Button = myView.findViewById((R.id.pre_button));
-        pre_Button.setOnClickListener(this);
-        fore_Button = myView.findViewById((R.id.fore_button));
-        fore_Button.setOnClickListener(this);
-        gridView = myView.findViewById((R.id.gridview));
-        gridView.setOnItemClickListener(this);
-        return myView;
-    }
-
-    @Override
-    public void onViewCreated(View view, Bundle savedInstanceState) {
-        super.onViewCreated(view, savedInstanceState);
-        Log.d("Superoid", "onViewCreated");
-        makeCalendar(); // 달력 생성 함수
-        // 탭호스트 관련
-        TabHost tabHost = getView().findViewById(R.id.host);
-        tabHost.setup();
-        TabHost.TabSpec spec = tabHost.newTabSpec("tab1");
-        spec.setIndicator("일간");
-        spec.setContent(R.id.tab_content1);
-        tabHost.addTab(spec);
-        spec = tabHost.newTabSpec("tab2");
-        spec.setIndicator("주간");
-        spec.setContent(R.id.tab_content2);
-        tabHost.addTab(spec);
-        spec = tabHost.newTabSpec("tab3");
-        spec.setIndicator("월간");
-        spec.setContent(R.id.tab_content3);
-        tabHost.addTab(spec);
-    }
 
     int month = 0;  // 달력 표시 달 수정용 변수
     int dayNum; // 매 달 공백 생성용 변수
@@ -97,6 +57,57 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 달을 변경하는 버튼 이미지
     ImageView pre_Button;
     ImageView fore_Button;
+
+    // 탭레이아웃 변수
+    TabLayout tabLayout;
+
+    // Realm DB 등록
+    Realm mRealm;
+
+    @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+    }
+
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container,
+                             Bundle savedInstanceState) {
+        Log.d("Superoid", "onCreateView");
+        View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        // 클릭리스너 부착 선언
+        pre_Button = myView.findViewById((R.id.pre_button));
+        pre_Button.setOnClickListener(this);
+        fore_Button = myView.findViewById((R.id.fore_button));
+        fore_Button.setOnClickListener(this);
+        gridView = myView.findViewById((R.id.gridview));
+        gridView.setOnItemClickListener(this);
+
+        tabLayout = myView.findViewById(R.id.tabs) ;
+        tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab) {
+                // TODO : process tab selection event.
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {
+                // do nothing
+            }
+
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {
+                // do nothing
+            }
+        }) ;
+        return myView;
+    }
+
+    @Override
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+        Log.d("Superoid", "onViewCreated");
+        makeCalendar(); // 달력 생성 함수
+    }
 
     // 달력의 년,월,일을 배치해주는 makeCalendar 메소드
     private void makeCalendar() {
@@ -185,8 +196,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue));
 
             // 공부량에 따른 시각화 태그 부여
-            // Realm DB 등록
-            Realm mRealm;
             Realm.init(getActivity());
             mRealm = Realm.getDefaultInstance();
             RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
@@ -249,9 +258,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         pre_position = position;
         pre_view = v;
 
-
-        // Realm DB 등록
-        Realm mRealm;
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureTimeObject> allTransactions = mRealm.where(MeasureTimeObject.class).findAllSorted("date");

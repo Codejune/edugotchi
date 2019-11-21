@@ -31,7 +31,6 @@ public class TodoFragment extends Fragment {
     private TodoDBHandler handler;
     private ImageButton AddBtn;
     private ListView TodoList;
-    private ArrayList<TodoVO> data;
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -115,9 +114,7 @@ public class TodoFragment extends Fragment {
 
 
     private void listItems() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
-
-
-        data = getItems();
+        ArrayList<TodoVO> data = getItems();
 
         if (data == null || data.size() == 0) {
             TextView tv = getView().findViewById(R.id.empty_view);

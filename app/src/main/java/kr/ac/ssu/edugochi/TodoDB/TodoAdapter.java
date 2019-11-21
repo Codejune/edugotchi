@@ -7,7 +7,8 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import androidx.appcompat.app.AlertDialog;
 
 import java.util.ArrayList;
 
@@ -17,6 +18,7 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
     Context context;
     int resId;
     ArrayList<TodoVO> data;
+    AlertDialog alertDialog;
 
     public TodoAdapter(Context context, int resId, ArrayList<TodoVO> data, View.OnClickListener onItemDeleteListener) {
         super(context, resId);
@@ -49,7 +51,7 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
         final TodoVO vo = data.get(position);
 
         titleView.setText(vo.title);
-        if(vo.date == null) {
+        if (vo.date == null) {
             dateView.setText(" ");
         }
         dateView.setText(vo.date);
@@ -61,12 +63,17 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Toast toast = Toast.makeText(context, vo.title+" click", Toast.LENGTH_SHORT); toast.show();
+                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        dialog.setTitle(vo.title);
+                        dialog.setMessage(vo.date);
+                        dialog.setMessage(vo.memo);
+                        dialog.setNegativeButton("확인", null);
+                alertDialog =dialog.create();
+                alertDialog.show();
+
             }
         });
-
         return convertView;
     }
-
 }
 

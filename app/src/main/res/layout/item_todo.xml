@@ -35,4 +35,9 @@
         android:background="@drawable/ic_close_black_24dp"
         android:layout_alignParentRight="true"
         android:layout_alignParentEnd="true" />
+    <TextView
+        android:id="@+id/todo_memo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:visibility="gone"/>
 </RelativeLayout>

@@ -8,9 +8,11 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import androidx.appcompat.app.AlertDialog;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
+
+import kr.ac.ssu.edugochi.R;
 
 public class TodoAdapter extends ArrayAdapter<TodoVO> {
 
@@ -18,7 +20,6 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
     Context context;
     int resId;
     ArrayList<TodoVO> data;
-    AlertDialog alertDialog;
 
     public TodoAdapter(Context context, int resId, ArrayList<TodoVO> data, View.OnClickListener onItemDeleteListener) {
         super(context, resId);
@@ -44,32 +45,37 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
         TodoHolder holder = (TodoHolder) convertView.getTag();
 
         TextView titleView = holder.titleView;
-        TextView dateView = holder.dateView;
+        final TextView dateView = holder.dateView;
+        TextView memoView = holder.memoView;
         ImageView deleteBtn = holder.deleteBtn;
         View view = convertView;
 
         final TodoVO vo = data.get(position);
 
         titleView.setText(vo.title);
-        if (vo.date == null) {
-            dateView.setText(" ");
-        }
         dateView.setText(vo.date);
+        memoView.setText(vo.memo);
+
 
 
         holder.deleteBtn.setOnClickListener(mOnItemDeleteListener);
         holder.deleteBtn.setTag(vo);
 
+
+
+        final String Date = dateView.getText().toString();
+        final String Memo = memoView.getText().toString();
         view.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
+
+                        dialog.setIcon(R.drawable.ic_done_all_black_24dp);
                         dialog.setTitle(vo.title);
-                        dialog.setMessage(vo.date);
-                        dialog.setMessage(vo.memo);
+                        dialog.setMessage(Date+"\n"+Memo);
                         dialog.setNegativeButton("확인", null);
-                alertDialog =dialog.create();
-                alertDialog.show();
+                        dialog.create();
+                    dialog.show();
 
             }
         });

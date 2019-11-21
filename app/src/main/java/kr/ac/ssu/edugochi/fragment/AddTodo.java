@@ -94,7 +94,7 @@ public class AddTodo extends AppCompatActivity {
             }
             case R.id.action_add_task: { // 오른쪽 상단 버튼 눌렀을 때
                 AddClick();
-                finish();
+
             }
         }
         return super.onOptionsItemSelected(item);
@@ -130,6 +130,7 @@ public class AddTodo extends AppCompatActivity {
         }
         title.setText(null);
         Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
+        finish();
         }
     }
 

@@ -44,6 +44,7 @@ public class TodoDBHandler{
             vo.id = cursor.getInt(0);
             vo.title = cursor.getString(1);
             vo.date = cursor.getString(2);
+            vo.memo = cursor.getString(3);
             data.add(vo);
         }
         return data;

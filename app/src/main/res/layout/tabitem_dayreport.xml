@@ -144,6 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
+                android:paddingRight="5sp"
                 android:text="휴식"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -206,7 +207,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:text="3회"
+                android:paddingRight="5sp"
+                android:text="0회"
                 android:textSize="11sp" />
 
         </TableRow>

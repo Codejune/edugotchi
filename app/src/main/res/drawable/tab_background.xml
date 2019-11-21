@@ -3,6 +3,7 @@
     android:shape="rectangle">
 
     <!-- unselected tab background -->
-    <solid android:color="@android:color/transparent" />
+    <solid
+        android:color="@android:color/transparent" />
 
 </shape>

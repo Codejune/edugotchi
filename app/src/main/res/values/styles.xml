@@ -8,6 +8,11 @@
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
+    <style name="ToolbarTitleText">
+        <item name="android:textSize">28dp</item>
+        <item name="android:textColor">@color/black</item>
+        <item name="android:textStyle">bold</item>
+    </style>
 
     <style name="NavigationDrawerStyle">
         <item name="android:textSize">16sp</item><!-- text size in menu-->

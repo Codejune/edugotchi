@@ -5,6 +5,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
@@ -32,6 +33,7 @@ public class TodoFragment extends Fragment {
     private TodoDBHandler handler;
     private ImageButton AddBtn;
     private ListView TodoList;
+
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -49,16 +51,6 @@ public class TodoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
-        AddBtn = view.findViewById(R.id.btn_add);
-        AddBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(
-                        getActivity(),
-                        AddTodoActivity.class);
-                startActivity(intent);
-            }
-        });
         TodoList = view.findViewById(R.id.todo_list);
         listItems();
     }
@@ -129,6 +121,19 @@ public class TodoFragment extends Fragment {
     }
     private ArrayList<TodoObject> getItems() { //arraylist에 데이터를 받아옴
         return handler.getItems();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_add_task:
+                Intent intent = new Intent(
+                        getActivity(),
+                        AddTodoActivity.class);
+                startActivity(intent);
+                break;
+        }
+        return true;
     }
 }
 

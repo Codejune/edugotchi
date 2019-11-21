@@ -17,13 +17,6 @@
         tools:context=".MainActivity$PlaceholderFragment">
 
 
-        <ImageButton
-            android:id="@+id/btn_add"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_gravity="top|right"
-            android:background="@drawable/ic_playlist_add_black_48dp" />
-
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"

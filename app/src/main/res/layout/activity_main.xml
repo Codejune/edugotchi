@@ -5,6 +5,25 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background">
+
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        android:paddingTop="8dp"
+        android:paddingBottom="8dp"
+        android:paddingRight="40dp"
+        app:contentInsetStart="40dp"
+        app:contentInsetLeft="40dp"
+        app:contentInsetRight="40dp"
+        app:contentInsetEnd="40dp"
+        app:titleTextAppearance="@style/ToolbarTitleText"
+        android:background="@color/background"
+        android:minHeight="?attr/actionBarSize"/>
+    <!--
     <LinearLayout
         android:id="@+id/title_bar"
         android:layout_width="match_parent"
@@ -26,13 +45,14 @@
             android:textSize="28dp"
             android:textStyle="bold"/>
     </LinearLayout>
+    -->
 
     <FrameLayout
         android:id="@+id/content_fragment_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        app:layout_constraintTop_toBottomOf="@id/title_bar"
-        app:layout_constraintStart_toEndOf="@id/title_bar"
+        app:layout_constraintTop_toBottomOf="@id/toolbar"
+        app:layout_constraintStart_toEndOf="@id/toolbar"
         app:layout_constraintEnd_toStartOf="@id/bottom_navigation_view_linear"/>
 
     <kr.ac.ssu.edugochi.view.CustomNavigationLinearView

@@ -5,10 +5,10 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
@@ -24,7 +24,7 @@ import kr.ac.ssu.edugochi.view.CustomNavigationLinearView;
 public class MainActivity extends AppCompatActivity {
 
     TextView title;
-    LinearLayout titlebar;
+    Toolbar toolbar;
     final Fragment mainFragment = new MainFragment();
     final Fragment timelineFragment = new TimelineFragment();
     final Fragment todoFragment = new TodoFragment();
@@ -40,7 +40,9 @@ public class MainActivity extends AppCompatActivity {
 
         // 화면 타이틀 id 연결
         title = findViewById(R.id.title);
-        titlebar = findViewById(R.id.title_bar);
+
+        toolbar = findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
 
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
@@ -54,22 +56,22 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager.popBackStack();
                 switch (position) {
                     case 0:
-                        title.setText("Home");
+                        toolbar.setTitle("Home");
                         fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
                         Log.d("navigation", "home");
                         break;
                     case 1:
-                        title.setText("Timeline");
+                        toolbar.setTitle("Timeline");
                         fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
                         Log.d("navigation", "timeline");
                         break;
                     case 2:
-                        title.setText("Todo");
+                        toolbar.setTitle("Todo");
                         fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
                         Log.d("navigation", "todo");
                         break;
                     case 3:
-                        title.setText("Settings");
+                        toolbar.setTitle("Settings");
                         fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
                         Log.d("navigation", "setting");
                         break;
@@ -84,7 +86,18 @@ public class MainActivity extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
-        inflater.inflate(R.menu.bottomappbar_menu, menu);
+        switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
+            case 0:
+                inflater.inflate(R.menu.home_menu, menu);
+                break;
+            case 1:
+                break;
+            case 2:
+                inflater.inflate(R.menu.todo_menu, menu);
+                break;
+            case 3:
+                break;
+        }
         return true;
     }
 
@@ -97,19 +110,19 @@ public class MainActivity extends AppCompatActivity {
 
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
             case 0:
-                title.setText("Home");
+                toolbar.setTitle("Home");
                 fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
                 break;
             case 1:
-                title.setText("Timeline");
+                toolbar.setTitle("Timeline");
                 fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
                 break;
             case 2:
-                title.setText("Todo");
+                toolbar.setTitle("Todo");
                 fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
                 break;
             case 3:
-                title.setText("Settings");
+                toolbar.setTitle("Settings");
                 fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
                 break;
         }

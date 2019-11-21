@@ -26,7 +26,7 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
     private static final int MIN_ITEMS = 2;
     private static final int MAX_ITEMS = 5;
 
-    private ArrayList<CustomToggleView> bubbleNavItems;
+    private ArrayList<CustomToggleView> customNavItems;
     private CustomNavigationChangeListener navigationChangeListener;
 
     private int currentActiveItemPosition = 0;
@@ -98,21 +98,21 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
     }
 
     private void updateChildNavItems() {
-        bubbleNavItems = new ArrayList<>();
+        customNavItems = new ArrayList<>();
         for (int index = 0; index < getChildCount(); ++index) {
             View view = getChildAt(index);
             if (view instanceof CustomToggleView)
-                bubbleNavItems.add((CustomToggleView) view);
+                customNavItems.add((CustomToggleView) view);
             else {
-                Log.w(TAG, "Cannot have child bubbleNavItems other than BubbleToggleView");
+                Log.w(TAG, "Cannot have child customNavItems other than customToggleView");
                 return;
             }
         }
 
-        if (bubbleNavItems.size() < MIN_ITEMS) {
-            Log.w(TAG, "The bubbleNavItems list should have at least 2 bubbleNavItems of BubbleToggleView");
-        } else if (bubbleNavItems.size() > MAX_ITEMS) {
-            Log.w(TAG, "The bubbleNavItems list should not have more than 5 bubbleNavItems of BubbleToggleView");
+        if (customNavItems.size() < MIN_ITEMS) {
+            Log.w(TAG, "The customNavItems list should have at least 2 customNavItems of customToggleView");
+        } else if (customNavItems.size() > MAX_ITEMS) {
+            Log.w(TAG, "The customNavItems list should not have more than 5 customNavItems of customToggleView");
         }
 
         setClickListenerForItems();
@@ -124,7 +124,7 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
             setTypeface(currentTypeface);
 
         //update the badge count
-        if (pendingBadgeUpdate != null && bubbleNavItems != null) {
+        if (pendingBadgeUpdate != null && customNavItems != null) {
             for (int i = 0; i < pendingBadgeUpdate.size(); i++)
                 setBadgeValue(pendingBadgeUpdate.keyAt(i), pendingBadgeUpdate.valueAt(i));
             pendingBadgeUpdate.clear();
@@ -132,42 +132,42 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
     }
 
     /**
-     * Makes sure that ONLY ONE child {@link #bubbleNavItems} is active
+     * Makes sure that ONLY ONE child {@link #customNavItems} is active
      */
     private void setInitialActiveState() {
 
-        if (bubbleNavItems == null) return;
+        if (customNavItems == null) return;
 
         boolean foundActiveElement = false;
 
         // find the initial state
         if (!loadPreviousState) {
-            for (int i = 0; i < bubbleNavItems.size(); i++) {
-                if (bubbleNavItems.get(i).isActive() && !foundActiveElement) {
+            for (int i = 0; i < customNavItems.size(); i++) {
+                if (customNavItems.get(i).isActive() && !foundActiveElement) {
                     foundActiveElement = true;
                     currentActiveItemPosition = i;
                 } else {
-                    bubbleNavItems.get(i).setInitialState(false);
+                    customNavItems.get(i).setInitialState(false);
                 }
             }
         } else {
-            for (int i = 0; i < bubbleNavItems.size(); i++) {
-                bubbleNavItems.get(i).setInitialState(false);
+            for (int i = 0; i < customNavItems.size(); i++) {
+                customNavItems.get(i).setInitialState(false);
             }
         }
         //set the active element
         if (!foundActiveElement)
-            bubbleNavItems.get(currentActiveItemPosition).setInitialState(true);
+            customNavItems.get(currentActiveItemPosition).setInitialState(true);
     }
 
     /**
-     * Update the measurements of the child components {@link #bubbleNavItems}
+     * Update the measurements of the child components {@link #customNavItems}
      */
     private void updateMeasurementForItems() {
-        int numChildElements = bubbleNavItems.size();
+        int numChildElements = customNavItems.size();
         if (numChildElements > 0) {
             int calculatedEachItemWidth = (getMeasuredWidth() - (getPaddingRight() + getPaddingLeft())) / numChildElements;
-            for (CustomToggleView btv : bubbleNavItems)
+            for (CustomToggleView btv : customNavItems)
                 btv.updateMeasurements(calculatedEachItemWidth);
         }
     }
@@ -176,19 +176,19 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
      * Sets {@link android.view.View.OnClickListener} for the child views
      */
     private void setClickListenerForItems() {
-        for (CustomToggleView btv : bubbleNavItems)
+        for (CustomToggleView btv : customNavItems)
             btv.setOnClickListener(this);
     }
 
     /**
-     * Gets the Position of the Child from {@link #bubbleNavItems} from its id
+     * Gets the Position of the Child from {@link #customNavItems} from its id
      *
      * @param id of view to be searched
      * @return position of the Item
      */
     private int getItemPositionById(int id) {
-        for (int i = 0; i < bubbleNavItems.size(); i++)
-            if (id == bubbleNavItems.get(i).getId())
+        for (int i = 0; i < customNavItems.size(); i++)
+            if (id == customNavItems.get(i).getId())
                 return i;
         return -1;
     }
@@ -214,8 +214,8 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
      */
     @Override
     public void setTypeface(Typeface typeface) {
-        if (bubbleNavItems != null) {
-            for (CustomToggleView btv : bubbleNavItems)
+        if (customNavItems != null) {
+            for (CustomToggleView btv : customNavItems)
                 btv.setTitleTypeface(typeface);
         } else {
             currentTypeface = typeface;
@@ -240,17 +240,17 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
     @Override
     public void setCurrentActiveItem(int position) {
 
-        if (bubbleNavItems == null) {
+        if (customNavItems == null) {
             currentActiveItemPosition = position;
             return;
         }
 
         if (currentActiveItemPosition == position) return;
 
-        if (position < 0 || position >= bubbleNavItems.size())
+        if (position < 0 || position >= customNavItems.size())
             return;
 
-        CustomToggleView btv = bubbleNavItems.get(position);
+        CustomToggleView btv = customNavItems.get(position);
         btv.performClick();
     }
 
@@ -262,8 +262,8 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
      */
     @Override
     public void setBadgeValue(int position, String value) {
-        if (bubbleNavItems != null) {
-            CustomToggleView btv = bubbleNavItems.get(position);
+        if (customNavItems != null) {
+            CustomToggleView btv = customNavItems.get(position);
             if (btv != null)
                 btv.setBadgeText(value);
         } else {
@@ -280,8 +280,8 @@ public class CustomNavigationLinearView extends LinearLayout implements View.OnC
             if (changedPosition == currentActiveItemPosition) {
                 return;
             }
-            CustomToggleView currentActiveToggleView = bubbleNavItems.get(currentActiveItemPosition);
-            CustomToggleView newActiveToggleView = bubbleNavItems.get(changedPosition);
+            CustomToggleView currentActiveToggleView = customNavItems.get(currentActiveItemPosition);
+            CustomToggleView newActiveToggleView = customNavItems.get(changedPosition);
             if (currentActiveToggleView != null)
                 currentActiveToggleView.toggle();
             if (newActiveToggleView != null)

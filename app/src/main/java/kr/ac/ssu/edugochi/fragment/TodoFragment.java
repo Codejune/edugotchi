@@ -19,9 +19,10 @@ import androidx.fragment.app.Fragment;
 import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.TodoDB.TodoAdapter;
+import kr.ac.ssu.edugochi.adapter.TodoAdapter;
 import kr.ac.ssu.edugochi.TodoDB.TodoDBHandler;
-import kr.ac.ssu.edugochi.TodoDB.TodoVO;
+import kr.ac.ssu.edugochi.object.TodoObject;
+import kr.ac.ssu.edugochi.activity.AddTodoActivity;
 
 
 public class TodoFragment extends Fragment {
@@ -54,7 +55,7 @@ public class TodoFragment extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(
                         getActivity(),
-                        AddTodo.class);
+                        AddTodoActivity.class);
                 startActivity(intent);
             }
         });
@@ -65,17 +66,17 @@ public class TodoFragment extends Fragment {
         @Override
         public void onClick(View v) {
             Object tag = v.getTag();
-            if (tag instanceof TodoVO) {
-                TodoVO vo = (TodoVO) tag;
+            if (tag instanceof TodoObject) {
+                TodoObject vo = (TodoObject) tag;
                 confirmRemoval(vo);
             } else {
-                Log.w(TAG, " Unexpected tag found. Expected " + TodoVO.class.getSimpleName() + " Found: " + tag.getClass());
+                Log.w(TAG, " Unexpected tag found. Expected " + TodoObject.class.getSimpleName() + " Found: " + tag.getClass());
             }
         }
     };
 
 
-    private void confirmRemoval(final TodoVO vo) {
+    private void confirmRemoval(final TodoObject vo) {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle("정말 삭제하시겠습니까?")
                 .setPositiveButton("예", new DialogInterface.OnClickListener() {
@@ -90,7 +91,7 @@ public class TodoFragment extends Fragment {
         dialog.show();
     }
 
-    private void removeItem(TodoVO vo) {
+    private void removeItem(TodoObject vo) {
         long rowsAffected = handler.removeItem(vo.id);
         if (rowsAffected == -1) {
         Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_LONG).show();
@@ -106,7 +107,7 @@ public class TodoFragment extends Fragment {
     }
 
 
-    public void onResume() { // AddTodo 엑티비티에서 복귀 했을때 리스트 갱신
+    public void onResume() { // AddTodoActivity 엑티비티에서 복귀 했을때 리스트 갱신
         listItems();
         Log.d(this.getClass().getSimpleName(), "리스트갱신");
         super.onResume();
@@ -114,7 +115,7 @@ public class TodoFragment extends Fragment {
 
 
     private void listItems() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
-        ArrayList<TodoVO> data = getItems();
+        ArrayList<TodoObject> data = getItems();
 
         if (data == null || data.size() == 0) {
             TextView tv = getView().findViewById(R.id.empty_view);
@@ -126,7 +127,7 @@ public class TodoFragment extends Fragment {
         }
 
     }
-    private ArrayList<TodoVO> getItems() { //arraylist에 데이터를 받아옴
+    private ArrayList<TodoObject> getItems() { //arraylist에 데이터를 받아옴
         return handler.getItems();
     }
 }

@@ -1,4 +1,4 @@
-package kr.ac.ssu.edugochi.TodoDB;
+package kr.ac.ssu.edugochi.adapter;
 
 import android.content.Context;
 import android.view.LayoutInflater;
@@ -13,15 +13,17 @@ import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.TodoDB.TodoHolder;
+import kr.ac.ssu.edugochi.object.TodoObject;
 
-public class TodoAdapter extends ArrayAdapter<TodoVO> {
+public class TodoAdapter extends ArrayAdapter<TodoObject> {
 
     private View.OnClickListener mOnItemDeleteListener;
     Context context;
     int resId;
-    ArrayList<TodoVO> data;
+    ArrayList<TodoObject> data;
 
-    public TodoAdapter(Context context, int resId, ArrayList<TodoVO> data, View.OnClickListener onItemDeleteListener) {
+    public TodoAdapter(Context context, int resId, ArrayList<TodoObject> data, View.OnClickListener onItemDeleteListener) {
         super(context, resId);
         this.context = context;
         this.resId = resId;
@@ -50,7 +52,7 @@ public class TodoAdapter extends ArrayAdapter<TodoVO> {
         ImageView deleteBtn = holder.deleteBtn;
         View view = convertView;
 
-        final TodoVO vo = data.get(position);
+        final TodoObject vo = data.get(position);
 
         titleView.setText(vo.title);
         dateView.setText(vo.date);

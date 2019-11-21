@@ -16,7 +16,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".fragment.AddTodo" />
+        <activity android:name=".activity.AddTodoActivity" />
         <activity android:name=".activity.MeasureActivity" />
         <activity android:name=".activity.MainActivity" />
         <activity android:name=".TodoDB.ReadTodoActivity" />

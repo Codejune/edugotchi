@@ -1,4 +1,4 @@
-package kr.ac.ssu.edugochi.fragment;
+package kr.ac.ssu.edugochi.activity;
 
 
 import android.app.DatePickerDialog;
@@ -23,7 +23,7 @@ import java.util.Calendar;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.TodoDB.TodoDBHandler;
 
-public class AddTodo extends AppCompatActivity {
+public class AddTodoActivity extends AppCompatActivity {
 
     TodoDBHandler mHandler = null;
 
@@ -89,7 +89,7 @@ public class AddTodo extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case android.R.id.home: {
-                finish();
+                onBackPressed();
                 return true;
             }
             case R.id.action_add_task: { // 오른쪽 상단 버튼 눌렀을 때
@@ -130,7 +130,7 @@ public class AddTodo extends AppCompatActivity {
         }
         title.setText(null);
         Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
-        finish();
+        onBackPressed();
         }
     }
 

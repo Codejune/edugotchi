@@ -11,6 +11,7 @@ import android.widget.TextView;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
@@ -28,8 +29,9 @@ public class MainActivity extends AppCompatActivity {
     final Fragment timelineFragment = new TimelineFragment();
     final Fragment todoFragment = new TodoFragment();
     final Fragment settingFragment = new SettingFragment();
-    final FragmentManager fragmentManager = getSupportFragmentManager();
-    Fragment active = mainFragment; // 현재 활성화된 Fragment
+    FragmentManager fragmentManager;
+    FragmentTransaction fragmentTransaction;
+    CustomNavigationLinearView customNavigationLinearView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -40,43 +42,40 @@ public class MainActivity extends AppCompatActivity {
         title = findViewById(R.id.title);
         titlebar = findViewById(R.id.title_bar);
 
-        // Fragment 등록
-        fragmentManager.beginTransaction().add(R.id.content_fragment_layout, settingFragment, "setting").hide(settingFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.content_fragment_layout, todoFragment, "todo").hide(todoFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.content_fragment_layout, timelineFragment, "timeline").hide(timelineFragment).commit();
-        fragmentManager.beginTransaction().add(R.id.content_fragment_layout, mainFragment, "main").commit();
-
-        final CustomNavigationLinearView customNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        customNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
 
         customNavigationLinearView.setNavigationChangeListener(new CustomNavigationChangeListener() {
             @Override
             public void onNavigationChanged(View view, int position) {
-                switch (view.getId()) {
-                    case R.id.app_bar_home:
+                fragmentManager = getSupportFragmentManager();
+                fragmentTransaction = fragmentManager.beginTransaction();
+                fragmentManager.popBackStack();
+                switch (position) {
+                    case 0:
                         title.setText("Home");
-                        fragmentManager.beginTransaction().hide(active).show(mainFragment).commit();
-                        active = mainFragment;
+                        fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
                         Log.d("navigation", "home");
-                        return;
-                    case R.id.app_bar_timeline:
+                        break;
+                    case 1:
                         title.setText("Timeline");
-                        fragmentManager.beginTransaction().hide(active).show(timelineFragment).commit();
-                        active = timelineFragment;
+                        fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
                         Log.d("navigation", "timeline");
-                        return;
-                    case R.id.app_bar_todo:
+                        break;
+                    case 2:
                         title.setText("Todo");
-                        fragmentManager.beginTransaction().hide(active).show(todoFragment).commit();
-                        active = todoFragment;
+                        fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
                         Log.d("navigation", "todo");
-                        return;
-                    case R.id.app_bar_setting:
+                        break;
+                    case 3:
                         title.setText("Settings");
-                        fragmentManager.beginTransaction().hide(active).show(settingFragment).commit();
-                        active = settingFragment;
+                        fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
                         Log.d("navigation", "setting");
-                        return;
+                        break;
                 }
+                fragmentTransaction.addToBackStack(null);
+                fragmentTransaction.commit();
             }
         });
     }
@@ -87,5 +86,35 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         inflater.inflate(R.menu.bottomappbar_menu, menu);
         return true;
+    }
+
+    @Override
+        protected void onResume() {
+        fragmentManager = getSupportFragmentManager();
+        fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentManager.popBackStack();
+        Log.d("onResume", String.valueOf(customNavigationLinearView.getCurrentActiveItemPosition()));
+
+        switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
+            case 0:
+                title.setText("Home");
+                fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
+                break;
+            case 1:
+                title.setText("Timeline");
+                fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
+                break;
+            case 2:
+                title.setText("Todo");
+                fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
+                break;
+            case 3:
+                title.setText("Settings");
+                fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
+                break;
+        }
+        fragmentTransaction.addToBackStack(null);
+        fragmentTransaction.commit();
+        super.onResume();
     }
 }

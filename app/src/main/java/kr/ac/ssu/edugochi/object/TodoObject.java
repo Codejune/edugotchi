@@ -1,6 +1,6 @@
-package kr.ac.ssu.edugochi.TodoDB;
+package kr.ac.ssu.edugochi.object;
 
-public class TodoVO {
+public class TodoObject {
     public int id;
     public String title;
     public String date;

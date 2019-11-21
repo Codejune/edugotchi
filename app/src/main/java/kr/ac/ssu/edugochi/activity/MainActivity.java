@@ -85,39 +85,4 @@ public class MainActivity extends AppCompatActivity {
         inflater.inflate(R.menu.bottomappbar_menu, menu);
         return true;
     }
-
-    /*
-    // 네비게이션 메뉴 아이콘 클릭 이벤트 처리
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch(item.getItemId()) {
-            case android.R.id.home:
-                final BottomNavigationDrawerFragment bottomNavigationDrawerFragment = new BottomNavigationDrawerFragment();
-                bottomNavigationDrawerFragment.show(getSupportFragmentManager(), bottomNavigationDrawerFragment.getTag());
-                return true;
-            case R.id.app_bar_home:
-                title.setText("Home");
-                fragmentManager.beginTransaction().hide(active).show(mainFragment).commit();
-                active = mainFragment;
-                Toast.makeText(getApplicationContext(), "메인",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.app_bar_timeline:
-                title.setText("Timeline");
-                fragmentManager.beginTransaction().hide(active).show(timelineFragment).commit();
-                active = timelineFragment;
-                Toast.makeText(getApplicationContext(), "타임라인",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-            case R.id.app_bar_todo:
-                title.setText("Todo");
-                fragmentManager.beginTransaction().hide(active).show(todoFragment).commit();
-                active = todoFragment;
-                Toast.makeText(getApplicationContext(), "TODO 리스트",
-                        Toast.LENGTH_SHORT).show();
-                return true;
-        }
-        return super.onOptionsItemSelected(item);
-    }
-    */
 }

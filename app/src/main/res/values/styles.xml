@@ -14,4 +14,8 @@
         <item name="listPreferredItemHeightSmall">56dp</item><!-- item size in menu-->
     </style>
 
+    <style name="TabWidgetTheme" parent="AppTheme">
+        <item name="android:textColorPrimary">@color/white</item>
+        <item name="android:textColorSecondary">@color/white</item>
+    </style>
 </resources>

@@ -4,55 +4,18 @@
         <item
             android:id="@+id/nav1"
             android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
+            android:title="다크모드" />
         <item
             android:id="@+id/nav2"
             android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
+            android:title="캐릭터 설정" />
         <item
             android:id="@+id/nav3"
             android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
+            android:title="백색소음 설정" />
         <item
             android:id="@+id/nav4"
             android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav5"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav6"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav7"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav8"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav9"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav10"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav11"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav12"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-        <item
-            android:id="@+id/nav13"
-            android:icon="@drawable/ic_playlist_add_check_black_24dp"
-            android:title="@string/nav_item" />
-
+            android:title="설정 초기화" />
     </group>
 </menu>

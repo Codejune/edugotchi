@@ -92,7 +92,7 @@ public class MainActivity extends AppCompatActivity {
         protected void onResume() {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentManager.popBackStack();
+        fragmentTransaction.addToBackStack(null);
         Log.d("onResume", String.valueOf(customNavigationLinearView.getCurrentActiveItemPosition()));
 
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
@@ -113,7 +113,6 @@ public class MainActivity extends AppCompatActivity {
                 fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
                 break;
         }
-        fragmentTransaction.addToBackStack(null);
         fragmentTransaction.commit();
         super.onResume();
     }

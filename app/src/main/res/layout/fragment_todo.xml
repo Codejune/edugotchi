@@ -1,66 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:orientation="vertical"
-    tools:context=".activity.MainActivity"
-    android:id="@+id/nestedScrollView"
-    tools:showIn="@layout/activity_main"
-    tools:ignore="PrivateResource"
-    android:fillViewport="true">
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
+    android:fillViewport="true"
+    android:orientation="vertical">
 
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
-        android:id="@+id/coordinatorLayout2"
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content" >
+        android:layout_height="match_parent"
+        android:layout_marginBottom="125sp"
+        android:orientation="vertical"
+        tools:context=".MainActivity$PlaceholderFragment">
+
+
+        <ImageButton
+            android:id="@+id/btn_add"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="top|right"
+            android:background="@drawable/ic_playlist_add_black_48dp" />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
-            android:layout_marginBottom="125sp"
-            tools:context=".MainActivity$PlaceholderFragment">
+            android:gravity="top"
+            android:orientation="vertical">
 
-
-            <ImageButton
+            <TextView
+                android:id="@+id/empty_view"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:background="@drawable/ic_playlist_add_black_48dp"
-                android:id="@+id/btn_add"
-                android:layout_gravity="top|right" />
+                android:layout_gravity="center"
+                android:text="일정이 없습니다."
+                android:textAppearance="?android:attr/textAppearanceMedium"
+                android:textStyle="bold"
+                android:visibility="gone" />
 
-            <LinearLayout
+            <ListView
+                android:id="@+id/todo_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:gravity="top"
-                android:orientation="vertical">
-
-                <TextView
-                    android:id="@+id/empty_view"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:textStyle="bold"
-                    android:visibility="gone"
-                    android:layout_gravity="center"
-                    android:textAppearance="?android:attr/textAppearanceMedium"
-                    android:text="일정이 없습니다." />
-
-                <ListView
-                    android:id="@+id/todo_list"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:layout_weight="1"
-                    android:scrollbarSize="3dp"
-                    android:scrollbarStyle="outsideOverlay"
-                    android:scrollbars="vertical"
-                    android:scrollingCache="true"
-                    android:smoothScrollbar="true" />
-
-            </LinearLayout>
+                android:layout_weight="1"
+                android:scrollbarSize="3dp"
+                android:scrollbarStyle="outsideOverlay"
+                android:scrollbars="vertical"
+                android:scrollingCache="true"
+                android:smoothScrollbar="true" />
 
         </LinearLayout>
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </LinearLayout>
 
 </LinearLayout>

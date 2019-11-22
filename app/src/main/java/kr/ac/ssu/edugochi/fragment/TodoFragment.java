@@ -19,11 +19,12 @@ import androidx.fragment.app.Fragment;
 
 import java.util.ArrayList;
 
+import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.adapter.TodoAdapter;
 import kr.ac.ssu.edugochi.TodoDB.TodoDBHandler;
-import kr.ac.ssu.edugochi.object.TodoObject;
 import kr.ac.ssu.edugochi.activity.AddTodoActivity;
+import kr.ac.ssu.edugochi.adapter.TodoAdapter;
+import kr.ac.ssu.edugochi.object.TodoObject;
 
 
 public class TodoFragment extends Fragment {
@@ -86,9 +87,9 @@ public class TodoFragment extends Fragment {
     private void removeItem(TodoObject vo) {
         long rowsAffected = handler.removeItem(vo.id);
         if (rowsAffected == -1) {
-        Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_LONG).show();
+        Toasty.error(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_LONG).show();
         } else {
-        Toast.makeText(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_LONG).show();
+        Toasty.success(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_LONG).show();
         ((ArrayAdapter) TodoList.getAdapter()).remove(vo);            // remove the item to the list
         ((ArrayAdapter) TodoList.getAdapter()).notifyDataSetChanged();
         listItems();// update the UI.

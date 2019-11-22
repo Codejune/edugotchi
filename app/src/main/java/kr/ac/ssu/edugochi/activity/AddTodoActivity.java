@@ -20,6 +20,7 @@ import androidx.appcompat.widget.Toolbar;
 
 import java.util.Calendar;
 
+import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.TodoDB.TodoDBHandler;
 
@@ -114,7 +115,7 @@ public class AddTodoActivity extends AppCompatActivity {
     private void AddClick() {
 
         if (title.getText() == null || TextUtils.isEmpty(title.getText().toString())) {
-            Toast.makeText(this, "Todo item cannot be empty!", Toast.LENGTH_LONG).show();
+            Toasty.error(this, "Todo item cannot be empty!", Toast.LENGTH_LONG).show();
             return;
         }
         final String todoTitle = title.getText().toString();
@@ -129,7 +130,7 @@ public class AddTodoActivity extends AppCompatActivity {
             mHandler.insert(todoTitle, todoDate, todoMemo);
         }
         title.setText(null);
-        Toast.makeText(this, "Item added", Toast.LENGTH_LONG).show();
+        Toasty.success(this, "Item added", Toast.LENGTH_LONG).show();
         onBackPressed();
         }
     }

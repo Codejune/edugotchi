@@ -74,7 +74,7 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
 
                         dialog.setIcon(R.drawable.ic_done_all_black_24dp);
                         dialog.setTitle(vo.title);
-                        dialog.setMessage(Date+"\n"+Memo);
+                        dialog.setMessage("기한 : "+Date+"\n메모 : "+Memo);
                         dialog.setNegativeButton("확인", null);
                         dialog.create();
                     dialog.show();

@@ -33,7 +33,7 @@
                 android:textStyle="bold"
                 android:visibility="gone" />
 
-            <ListView
+            <com.baoyz.swipemenulistview.SwipeMenuListView
                 android:id="@+id/todo_list"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
@@ -43,7 +43,9 @@
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"
                 android:scrollingCache="true"
-                android:smoothScrollbar="true" />
+                android:smoothScrollbar="true">
+        </com.baoyz.swipemenulistview.SwipeMenuListView>
+
 
         </LinearLayout>
 

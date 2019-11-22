@@ -8,11 +8,8 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
-
 import java.util.ArrayList;
 
-import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.TodoDB.TodoHolder;
 import kr.ac.ssu.edugochi.object.TodoObject;
 
@@ -61,6 +58,7 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
         holder.deleteBtn.setTag(vo);
         final String Date = dateView.getText().toString();
         final String Memo = memoView.getText().toString();
+        /*
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +73,7 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
 
             }
         });
+         */
         return convertView;
     }
 }

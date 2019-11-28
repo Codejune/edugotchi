@@ -32,6 +32,8 @@ public class MainFragment extends Fragment {
     private RealmResults<CharacterObject> characterTransaction;
     private ProgressBar expbar;
     private TextView exptext;
+    private TextView character_name;
+    private TextView character_lv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -44,6 +46,8 @@ public class MainFragment extends Fragment {
         Realm.init(getContext());
         realm = Realm.getDefaultInstance();
         view = inflater.inflate(R.layout.fragment_main, container, false);
+        character_name = view.findViewById(R.id.name);
+        character_lv = view.findViewById(R.id.lv);
         expbar = view.findViewById(R.id.exp_bar);
         exptext = view.findViewById(R.id.exp_text);
         return view;
@@ -87,16 +91,19 @@ public class MainFragment extends Fragment {
         realm.beginTransaction();
         CharacterObject characterObject = realm.createObject(CharacterObject.class);
         characterObject.setName("몰랑잉");
-        characterObject.setLv(0);
+        characterObject.setLv(1);
         characterObject.setExp(0);
         realm.commitTransaction();
     }
 
+    // 메인 프레그먼트 진입 시
     @Override
     public void onStart() {
         measureTransaction = getMeasureList();
         characterTransaction = getCharacterList();
 
+        character_name.setText(characterTransaction.first().getName());
+        character_lv.setText(String.format("LV %d.", characterTransaction.first().getLv()));
         measureTransaction.addChangeListener(new RealmChangeListener<RealmResults<MeasureTimeObject>>() {
             @Override
             public void onChange(RealmResults<MeasureTimeObject> measureTimeObjects) {

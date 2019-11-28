@@ -39,18 +39,26 @@
                     app:layout_constraintBottom_toTopOf="@id/name"/>
 
                 <TextView
-                    android:id="@+id/name"
+                    android:id="@+id/lv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:text="Lv 1. 몰랑이"
                     android:textSize="16dp"
                     android:textColor="@color/black"
                     app:layout_constraintBottom_toTopOf="@id/info"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toLeftOf="@id/character"
+                    app:layout_constraintRight_toLeftOf="@id/name"
                     app:layout_constraintTop_toBottomOf="@id/character" />
+
+                <TextView
+                    android:id="@+id/name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:textSize="16dp"
+                    android:textColor="@color/black"
+                    app:layout_constraintTop_toBottomOf="@id/character"
+                    app:layout_constraintRight_toRightOf="@id/character"
+                    app:layout_constraintLeft_toRightOf="@id/lv"
+                    app:layout_constraintBottom_toTopOf="@id/info" />
 
                 <LinearLayout
                     android:id="@+id/info"
@@ -62,7 +70,6 @@
                     android:layout_marginBottom="8dp"
                     android:orientation="horizontal"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name">
 

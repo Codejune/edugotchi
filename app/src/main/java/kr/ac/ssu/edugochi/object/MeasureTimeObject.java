@@ -3,7 +3,7 @@ package kr.ac.ssu.edugochi.object;
 import io.realm.RealmObject;
 
 public class MeasureTimeObject extends RealmObject {
-   private String date;
+    private String date;
     private long timeout;
     private long exp;
 

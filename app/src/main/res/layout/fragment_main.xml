@@ -75,6 +75,7 @@
                         android:textSize="16dp"/>
 
                     <ProgressBar
+                        android:id="@+id/exp_bar"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
@@ -83,7 +84,6 @@
                         android:paddingLeft="8dp"
                         android:paddingTop="4dp"
                         android:paddingRight="8dp"
-                        android:progress="60"
                         android:progressDrawable="@drawable/progressbar_exp" />
                 </LinearLayout>
                 <TextView

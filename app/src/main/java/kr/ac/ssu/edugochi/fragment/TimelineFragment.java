@@ -1,6 +1,8 @@
 package kr.ac.ssu.edugochi.fragment;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.graphics.Color;
 import android.os.Bundle;
 
@@ -14,6 +16,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 
+import android.widget.EditText;
 import android.widget.GridView;
 import android.widget.ImageView;
 import android.widget.TabHost;
@@ -30,6 +33,7 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.ac.ssu.edugochi.activity.MainActivity;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.view.CustomGridView;
@@ -56,6 +60,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     ImageView pre_Button;
     ImageView fore_Button;
 
+    // 한마디 작성용 텍스트 뷰
+    TextView one_sentence;
+
     // 탭레이아웃 변수
     TabLayout tabLayout;
 
@@ -77,6 +84,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         pre_Button.setOnClickListener(this);
         fore_Button = myView.findViewById((R.id.fore_button));
         fore_Button.setOnClickListener(this);
+        one_sentence = myView.findViewById((R.id.one_sentence));
+        one_sentence.setOnClickListener(this);
         gridView = myView.findViewById((R.id.gridview));
         gridView.setOnItemClickListener(this);
 
@@ -85,23 +94,21 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
                 ViewGroup content;
-                if(tab.getText().equals("일간")) {
-                    content=getView().findViewById(R.id.content_day);
+                if (tab.getText().equals("일간")) {
+                    content = getView().findViewById(R.id.content_day);
                     content.setVisibility(View.VISIBLE);
-                    content=getView().findViewById(R.id.content_week);
+                    content = getView().findViewById(R.id.content_week);
                     content.setVisibility(View.INVISIBLE);
-                    content=getView().findViewById(R.id.content_month);
+                    content = getView().findViewById(R.id.content_month);
                     content.setVisibility(View.INVISIBLE);
-                }
-                else if(tab.getText().equals("주간")) {
-                    content=getView().findViewById(R.id.content_week);
+                } else if (tab.getText().equals("주간")) {
+                    content = getView().findViewById(R.id.content_week);
                     content.setVisibility(View.VISIBLE);
-                    content=getView().findViewById(R.id.content_day);
+                    content = getView().findViewById(R.id.content_day);
                     content.setVisibility(View.INVISIBLE);
-                    content=getView().findViewById(R.id.content_month);
+                    content = getView().findViewById(R.id.content_month);
                     content.setVisibility(View.INVISIBLE);
-                }
-                else {
+                } else {
                     content = getView().findViewById(R.id.content_month);
                     content.setVisibility(View.VISIBLE);
                     content = getView().findViewById(R.id.content_day);
@@ -110,10 +117,14 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                     content.setVisibility(View.INVISIBLE);
                 }
             }
+
             @Override
-            public void onTabUnselected(TabLayout.Tab tab) {}
+            public void onTabUnselected(TabLayout.Tab tab) {
+            }
+
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+            }
         });
         return myView;
     }
@@ -154,7 +165,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
         // 오늘 날짜로 tab내용 세팅
         Calendar today = Calendar.getInstance();
-        setTabData(today,dayNum-1);
+        setTabData(today, dayNum - 1);
     }
 
     // 해당 월에 표시할 일 수 구함
@@ -265,8 +276,33 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         } else if (v == fore_Button) {
             month++;
             makeCalendar();
+        } else if (v == one_sentence) {
+            AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
+            ad.setTitle("오늘의 한마디");
+
+            final EditText et = new EditText(getActivity());
+            ad.setView(et);
+            et.setText(one_sentence.getText().toString());
+
+            ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    one_sentence.setText(et.getText().toString());
+                    dialog.dismiss();
+                }
+            });
+
+// 취소 버튼 설정
+            ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialog, int which) {
+                    dialog.dismiss();
+                }
+            });
+            ad.show();
         }
     }
+
 
     // 날짜 클릭시 호출되는 onItemClick 메소드
     @Override
@@ -308,7 +344,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    public void setTabData(Calendar mCal, int position){
+    public void setTabData(Calendar mCal, int position) {
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureTimeObject> allMTOs = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
@@ -321,28 +357,28 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         Calendar week_day, pre_day, month_day;
         int rest = -1, pre_rest = -1, month_rest = -1;
 
-        if(allMTOs.size()>0) { // 데이타가 있을 때만 실행
-        mCal.add(Calendar.DATE, position - dayNum + 1); // 클릭 된 날짜로 세팅
+        if (allMTOs.size() > 0) { // 데이타가 있을 때만 실행
+            mCal.add(Calendar.DATE, position - dayNum + 1); // 클릭 된 날짜로 세팅
 
-        // 클릭된 날짜의 어제 날짜 세팅
-        pre_day = (Calendar) mCal.clone();
-        pre_day.add(Calendar.DATE, -1);
+            // 클릭된 날짜의 어제 날짜 세팅
+            pre_day = (Calendar) mCal.clone();
+            pre_day.add(Calendar.DATE, -1);
 
-        // 클릭된 날짜의 주에서 일요일로 세팅
-        week_day = (Calendar) mCal.clone();
-        week_day.add(Calendar.DATE, -(position % 7));
-        for (int i = 0; i < 7; i++) {
-            week[i] = (Calendar) week_day.clone();
-            week_day.add(Calendar.DATE, 1);
-        }
-        week_day.add(Calendar.DATE, -14); // 전 주 일요일 세팅
-        for (int i = 0; i < 7; i++) {
-            pre_week[i] = (Calendar) week_day.clone();
-            week_day.add(Calendar.DATE, 1);
-        }
+            // 클릭된 날짜의 주에서 일요일로 세팅
+            week_day = (Calendar) mCal.clone();
+            week_day.add(Calendar.DATE, -(position % 7));
+            for (int i = 0; i < 7; i++) {
+                week[i] = (Calendar) week_day.clone();
+                week_day.add(Calendar.DATE, 1);
+            }
+            week_day.add(Calendar.DATE, -14); // 전 주 일요일 세팅
+            for (int i = 0; i < 7; i++) {
+                pre_week[i] = (Calendar) week_day.clone();
+                week_day.add(Calendar.DATE, 1);
+            }
 
-        month_day = (Calendar) mCal.clone();
-        month_day.add(Calendar.MONTH, -1);
+            month_day = (Calendar) mCal.clone();
+            month_day.add(Calendar.MONTH, -1);
 
 
             /** 탭호스트 레이아웃의 데이터 세팅 **/

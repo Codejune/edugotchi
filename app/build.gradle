@@ -1,5 +1,6 @@
 apply plugin: 'com.android.application'
 apply plugin: 'realm-android'
+apply plugin: 'com.android.application'
 
 android {
     compileSdkVersion 29
@@ -32,4 +33,7 @@ dependencies {
     androidTestImplementation 'androidx.test:runner:1.2.0'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0'
     implementation 'com.afollestad.material-dialogs:bottomsheets:3.1.1'
+    implementation 'com.google.firebase:firebase-analytics:17.2.1'
+    implementation 'com.github.GrenderG:Toasty:1.4.2'
 }
+apply plugin: 'com.google.gms.google-services'

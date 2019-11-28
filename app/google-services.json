@@ -1,0 +1,40 @@
+{
+  "project_info": {
+    "project_number": "823110383626",
+    "firebase_url": "https://edugotchi.firebaseio.com",
+    "project_id": "edugotchi",
+    "storage_bucket": "edugotchi.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:823110383626:android:7250449384367e51be47f3",
+        "android_client_info": {
+          "package_name": "kr.ac.ssu.edugochi"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "823110383626-e7n9g4ivouprjuotdra5rsnk536n873h.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB86A7y-qr1EBhrcMbl1MWRFVDJPCOE62A"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "823110383626-e7n9g4ivouprjuotdra5rsnk536n873h.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

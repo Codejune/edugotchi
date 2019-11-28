@@ -50,7 +50,6 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
         final TextView dateView = holder.dateView;
         TextView memoView = holder.memoView;
         ImageView deleteBtn = holder.deleteBtn;
-        View view = convertView;
 
         final TodoObject vo = data.get(position);
 
@@ -58,23 +57,18 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
         dateView.setText(vo.date);
         memoView.setText(vo.memo);
 
-
-
         holder.deleteBtn.setOnClickListener(mOnItemDeleteListener);
         holder.deleteBtn.setTag(vo);
-
-
-
         final String Date = dateView.getText().toString();
         final String Memo = memoView.getText().toString();
-        view.setOnClickListener(new View.OnClickListener() {
+        convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
 
                         dialog.setIcon(R.drawable.ic_done_all_black_24dp);
                         dialog.setTitle(vo.title);
-                        dialog.setMessage(Date+"\n"+Memo);
+                        dialog.setMessage("\n기한 : "+Date+"\n\n메모 : "+Memo);
                         dialog.setNegativeButton("확인", null);
                         dialog.create();
                     dialog.show();

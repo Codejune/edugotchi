@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="Level"
                 android:textSize="12sp"
@@ -144,7 +144,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:paddingRight="5sp"
+                android:paddingRight="11dp"
                 android:text="휴식"
                 android:textSize="12sp"
                 android:textStyle="bold" />
@@ -207,7 +207,7 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:paddingRight="5sp"
+                android:paddingRight="8sp"
                 android:text="0회"
                 android:textSize="11sp" />
 

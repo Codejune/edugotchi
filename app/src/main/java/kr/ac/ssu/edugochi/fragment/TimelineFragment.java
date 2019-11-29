@@ -136,6 +136,12 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         makeCalendar(); // 달력 생성 함수
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        month = 0;
+    }
+
     // 달력의 년,월,일을 배치해주는 makeCalendar 메소드
     private void makeCalendar() {
         Log.d("Superoid", "makeCalendar");
@@ -283,6 +289,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             final EditText et = new EditText(getActivity());
             ad.setView(et);
             et.setText(one_sentence.getText().toString());
+            one_sentence.setSelected( true );
 
             ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                 @Override

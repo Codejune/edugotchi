@@ -3,7 +3,6 @@ package kr.ac.ssu.edugochi.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 
 
@@ -14,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TabHost;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -33,7 +32,6 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
-import kr.ac.ssu.edugochi.activity.MainActivity;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.view.CustomGridView;
@@ -49,6 +47,10 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private ArrayList<String> dayList;
     private CustomGridView gridView;
     private Calendar mCal;
+
+    private ArrayAdapter adapter;
+    private ListView listview;
+    String[] list = {"list1","list2","list3"};
 
     // 연,월,일을 따로 저장
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
@@ -132,8 +134,10 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("Superoid", "onViewCreated");
         makeCalendar(); // 달력 생성 함수
+        adapter = new ArrayAdapter(getActivity(),R.layout.rank_list_item,list);
+        listview = view.findViewById(R.id.rank_listview);
+        listview.setAdapter(adapter);
     }
 
     @Override

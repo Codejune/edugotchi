@@ -6,15 +6,14 @@ import io.realm.Realm;
 import io.realm.RealmConfiguration;
 
 public class RealmUtils {
-    public static Realm getExpTable(Context context) {
-        Realm.init(context);
-        return Realm.getInstance(getDatabaseConfiguration());
+    public static Realm getRealm(Context context, String filename) {
+        return Realm.getInstance(getDatabaseConfiguration(filename));
     }
 
-    private static RealmConfiguration getDatabaseConfiguration() {
+    private static RealmConfiguration getDatabaseConfiguration(String filename) {
         return new RealmConfiguration.Builder()
-                .assetFile("EXPTABLE.realm")
-                .readOnly()
+                .assetFile(filename)
+                .name(filename)
                 .build();
     }
 }

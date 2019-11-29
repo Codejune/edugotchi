@@ -28,7 +28,7 @@ public class MainActivity extends AppCompatActivity {
     final Fragment mainFragment = new MainFragment();
     final Fragment timelineFragment = new TimelineFragment();
     final Fragment todoFragment = new TodoFragment();
-    final Fragment settingFragment = new SettingFragment();
+    final SettingFragment settingFragment = new SettingFragment();
     FragmentManager fragmentManager;
     FragmentTransaction fragmentTransaction;
     CustomNavigationLinearView customNavigationLinearView;

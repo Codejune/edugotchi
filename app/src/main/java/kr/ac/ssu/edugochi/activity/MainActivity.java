@@ -12,6 +12,7 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import kr.ac.ssu.edugochi.Edugochi;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.SettingFragment;
@@ -126,5 +127,12 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTransaction.commit();
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+        super.onBackPressed();
     }
 }

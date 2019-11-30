@@ -1,5 +1,6 @@
 package kr.ac.ssu.edugochi.fragment;
 
+import android.content.DialogInterface;
 import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.util.Log;
@@ -76,20 +77,28 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
         ListPreference WN = (ListPreference)findPreference("WhiteNoise");
         Log.d(TAG, String.valueOf(WN));
+
         Preference reset = findPreference("Reset");
         reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                 AlertDialog dialog = new AlertDialog.Builder(getActivity())
                         .setTitle("초기화 하시겠습니까?")
-                        .setPositiveButton("예", null)
-                         /*
-                         @Override
-                         public void onClick(DialogInterface dialogInterface, int i) {
-                             removeItem(vo);
-                             listItems();
-                         }
-                          */
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /*
+                                SharedPreferences test = getSharedPreferences("test", MODE_PRIVATE);
+
+                                SharedPreferences.Editor editor = test.edit();
+
+                                editor.clear();
+
+                                editor.commit();
+
+                                 */
+                            }
+                        })
 
                         .setNegativeButton("아니오", null)
                         .create();

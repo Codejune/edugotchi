@@ -3,6 +3,7 @@ package kr.ac.ssu.edugochi.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 
@@ -24,6 +25,8 @@ import android.widget.TextView;
 
 import com.google.android.material.tabs.TabLayout;
 
+import org.w3c.dom.Text;
+
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -44,6 +47,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     private int month = 0;  // 달력 표시 달 수정용 변수
     private int dayNum; // 매 달 공백 생성용 변수
+    private int pre_position=-1;
+    private TextView pre_date;
+    private int tColor;
 
     // 달력 관련 클래스 변수
     private TextView tvDate;
@@ -51,6 +57,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private ArrayList<String> dayList;
     private CustomGridView gridView;
     private Calendar mCal;
+    private Calendar today;
     // 과목 랭크 클래스 변수
     private RankListAdapter listadapter;
     private ArrayList<RankListItem> rankList;
@@ -141,7 +148,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         makeCalendar(); // 달력 생성 함수
         makeRankTable();
         // 오늘 날짜로 tab내용 세팅
-        Calendar today = Calendar.getInstance();
+        today = Calendar.getInstance();
         setTabData(today, dayNum - 1);
     }
 
@@ -193,6 +200,12 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 holder.tvItemGridView.setClickable(true);
 
             holder.tvItemGridView.setText("" + getItem(position));
+
+            Integer iToday=today.get(Calendar.DAY_OF_MONTH);
+            String sToday=String.valueOf(iToday);
+            if(sToday.equals(getItem(position))){
+                holder.tvItemGridView.setTypeface(Typeface.DEFAULT_BOLD);
+            }
 
             // 토요일과 일요일에 색깔 지정
             if ((position + 1) % 7 == 1)
@@ -276,6 +289,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 날짜 클릭시 호출되는 onItemClick 메소드
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+        TextView tx = (TextView)v;
+        if(pre_position>=0)
+            pre_date.setTextColor(tColor);
+        tColor = tx.getCurrentTextColor();
+        tx.setTextColor(getResources().getColor(R.color.white));
+        pre_position=position;
+        pre_date=tx;
         setTabData(mCal, position);
     }
 

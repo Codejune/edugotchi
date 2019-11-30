@@ -51,6 +51,7 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
         TextView memoView = holder.memoView;
         ImageView deleteBtn = holder.deleteBtn;
 
+
         final TodoObject vo = data.get(position);
 
         titleView.setText(vo.title);

@@ -6,12 +6,12 @@
 
     <SwitchPreferenceCompat
         app:key="darkMode"
-        app:icon="@drawable/ic_playlist_add_check_black_24dp"
+        app:icon="@drawable/ic_daynight"
         app:title="다크모드"
         app:defaultValue="false"/>
     <ListPreference
         app:key="selectCharacter"
-        app:icon="@drawable/ic_playlist_add_check_black_24dp"
+        app:icon="@drawable/ic_face_black_24dp"
         app:dialogTitle="캐릭터 선택"
         app:entries="@array/Ch_entries"
         app:entryValues="@array/Ch_values"
@@ -19,7 +19,7 @@
         app:title="캐릭터 설정" />
     <ListPreference
         app:key="white_noise"
-        app:icon="@drawable/ic_playlist_add_check_black_24dp"
+        app:icon="@drawable/ic_music_note_black_24dp"
         app:dialogTitle="백색소음"
         app:entries="@array/Wn_entries"
         app:entryValues="@array/Wn_values"
@@ -29,7 +29,7 @@
     <Preference
         app:key="Reset"
         app:dialogMessage="초기화 하시겠습니까?"
-        app:icon="@drawable/ic_playlist_add_check_black_24dp"
+        app:icon="@drawable/ic_reset"
         app:title="설정 초기화"/>
 
 </androidx.preference.PreferenceScreen>

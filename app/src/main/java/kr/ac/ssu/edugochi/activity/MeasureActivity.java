@@ -1,13 +1,22 @@
 package kr.ac.ssu.edugochi.activity;
 
+
 import android.annotation.SuppressLint;
 import android.media.MediaPlayer;
+
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+
+import android.annotation.SuppressLint;
+import android.content.DialogInterface;
+
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -37,6 +46,8 @@ public class MeasureActivity extends AppCompatActivity {
     private long base_time;
     private long out_time;
     MediaPlayer player;
+    private String subject;
+
     private Realm realm;
     private TextView timer;
     private RealmResults<MeasureTimeObject> measureList;
@@ -94,8 +105,6 @@ public class MeasureActivity extends AppCompatActivity {
 
             }
         });
-        // 측정 중 짧게 누르면 일시 정지
-        // 측정 중 길게 누르면 정지
         record_btn.setOnClickListener(new View.OnClickListener() {
             /*
                 init    : 정지
@@ -143,12 +152,31 @@ public class MeasureActivity extends AppCompatActivity {
                         break;
                     case pause:
                     case run: // 측정 상태
+
+
+                        AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
+                        ad.setTitle("과목명");
+                        final EditText et = new EditText(view.getContext());
+                        ad.setView(et);
+                        ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                subject=et.getText().toString();
+                                measureTransaction();   // 측정 데이터 DB 저장
+                                characterTransaction(); // 캐릭터 정보 갱신
+                                dialog.dismiss();
+                            }
+                        });
+                        ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                dialog.dismiss();
+                            }
+                        });
+                        ad.show();
+
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
-
-                        measureTransaction();   // 측정 데이터 DB 저장
-                        characterTransaction(); // 캐릭터 정보 갱신
                         Log.i(TAG,"measureList.size: " + measureList.size());
-
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
                         record_btn.setText("측정시작");
                         timer.setText(getTimeOut());
@@ -176,11 +204,13 @@ public class MeasureActivity extends AppCompatActivity {
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
+                //    subject   : 측정된 과목명
                 //    date      : 측정 완료된 년/월/일
                 //    timeout   : 측정된 시간량
                 //    exp       : 측정된 시간의 경험치
                 SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
                 MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
+                measureTimeObject.setSubject(subject);
                 measureTimeObject.setDate(today_date.format(Calendar.getInstance().getTime()));
                 measureTimeObject.setTimeout(out_time);
                 measureTimeObject.setExp(out_time / 60);

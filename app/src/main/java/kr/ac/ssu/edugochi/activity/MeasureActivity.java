@@ -3,7 +3,6 @@ package kr.ac.ssu.edugochi.activity;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.annotation.SuppressLint;
-import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,34 +18,38 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
+import io.realm.RealmResults;
+import kr.ac.ssu.edugochi.object.CharacterObject;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
 import kr.ac.ssu.edugochi.R;
 
 public class MeasureActivity extends AppCompatActivity {
 
+    private static final String TAG = MeasureActivity.class.getSimpleName();
     private final static int init = 0;
     private final static int run = 1;
     private final static int pause = 2;
     private long pause_time;
     private int timer_status = init; //현재의 상태를 저장할변수를 초기화함.
     private long base_time;
-    private long current_time;
     private long out_time;
-    Realm mRealm;
-    TextView timer;
-
+    private Realm realm;
+    private TextView timer;
+    private RealmResults<MeasureTimeObject> measureList;
+    private RealmResults<CharacterObject> characterList;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measure);
 
-        // 넘어온 Intent 캐치
-        Intent intent = getIntent();
-
-        // Realm DB 등록
         Realm.init(this);
-        mRealm = Realm.getDefaultInstance();
+        realm = Realm.getDefaultInstance();
+
+        measureList = getMeasureList();
+        Log.i(TAG, "measureList.size\t: " + measureList.size());
+        characterList = getCharacterList();
+        Log.i(TAG, "characterList.size\t: " + characterList.size());
 
         final MaterialButton record_btn = findViewById(R.id.record_btn);
         final MaterialButton stop_btn = findViewById(R.id.stop_btn);
@@ -102,22 +105,11 @@ public class MeasureActivity extends AppCompatActivity {
                     case pause:
                     case run: // 측정 상태
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
-                        // DB에 기록된 데이터 저장
-                        mRealm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
 
-                                //    date      : 측정 완료된 년/월/일
-                                //    timeout   : 측정된 시간량
-                                //    exp       : 측정된 시간의 경험치
+                        measureTransaction();   // 측정 데이터 DB 저장
+                        characterTransaction(); // 캐릭터 정보 갱신
+                        Log.i(TAG,"measureList.size: " + measureList.size());
 
-                                SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
-                                MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
-                                measureTimeObject.setDate(today_date.format(Calendar.getInstance().getTime()));
-                                measureTimeObject.setTimeout(out_time);
-                                measureTimeObject.setExp(out_time / 60);
-                            }
-                        });
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
                         record_btn.setText("측정시작");
                         timer.setText(getTimeOut());
@@ -130,32 +122,78 @@ public class MeasureActivity extends AppCompatActivity {
         });
     }
 
-    // 타이머 핸들
+    // 측정 데이터 리스트 반환
+    private RealmResults<MeasureTimeObject> getMeasureList() {
+        return realm.where(MeasureTimeObject.class).findAll();
+    }
+
+    // 캐릭터 데이터 리스트 반환
+    private RealmResults<CharacterObject> getCharacterList() {
+        return realm.where(CharacterObject.class).findAll();
+    }
+
+    // 측정 데이터 DB 저장
+    private void measureTransaction(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                //    date      : 측정 완료된 년/월/일
+                //    timeout   : 측정된 시간량
+                //    exp       : 측정된 시간의 경험치
+                SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
+                MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
+                measureTimeObject.setDate(today_date.format(Calendar.getInstance().getTime()));
+                measureTimeObject.setTimeout(out_time);
+                measureTimeObject.setExp(out_time / 60);
+                Log.i(TAG,"date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
+                Log.i(TAG,"timeout\t: " + out_time);
+                Log.i(TAG,"exp\t\t: " + out_time / 60);
+            }
+        });
+        measureList = getMeasureList();
+    }
+
+    // 캐릭터 정보 갱신
+    private void characterTransaction(){
+        realm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                long exp = characterList.first().getExp();
+                characterList.first().setExp(exp + out_time / 60);
+            }
+        });
+        characterList = getCharacterList();
+    }
+
+    // 측정 데이터 DB 삭제
+    private void deleteuserData(){
+        realm.beginTransaction();
+        measureList.remove(0);
+        realm.commitTransaction();
+    }
+
+    // 타이머 핸들러
     @SuppressLint("HandlerLeak")
-    Handler measureTimer = new Handler(){
-        public void handleMessage(Message msg){
+    Handler measureTimer = new Handler() {
+        public void handleMessage(Message msg) {
             timer.setText(getTimeOut());
             //sendEmptyMessage 는 비어있는 메세지를 Handler 에게 전송
             measureTimer.sendEmptyMessage(0);
         }
     };
 
-    //현재시간을 계속 구해서 출력하는 메소드
+    // 타이머 갱신
     @SuppressLint("DefaultLocale")
-    String getTimeOut(){
-        current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
+    private String getTimeOut() {
+        long current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
         return String.format("%02d : %02d : %02d", out_time / 1000 / 60 / 60, (out_time / 1000) / 60 % 60, (out_time / 1000) % 60 % 60);
     }
 
-    /*
     @Override
-    public void onBackPressed() {
-        mRealm = Realm.getDefaultInstance();
-        RealmResults<MeasureTimeObject> characterTransaction = mRealm.where(MeasureTimeObject.class).findAllSorted("exp");
-        characterTransaction.first().setExp(characterTransaction.first().getExp() + out_time / 60);
-        mRealm.commitTransaction();
+    protected void onDestroy() {
+        super.onDestroy();
+        //realm.close();
     }
-     */
 }
 

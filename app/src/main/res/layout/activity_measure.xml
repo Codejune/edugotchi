@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:text="00 : 00 : 00"
             android:textColor="@color/white"
-            android:textSize="36dp"
+            android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@id/record_btn"

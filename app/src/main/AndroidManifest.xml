@@ -5,6 +5,7 @@
     <uses-permission android:name="android.permission.INTERNET" />
 
     <application
+        android:name=".Edugochi"
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
         android:label="@string/app_name"
@@ -21,7 +22,6 @@
         <activity android:name=".activity.AddTodoActivity" />
         <activity android:name=".activity.MeasureActivity" />
         <activity android:name=".activity.MainActivity" />
-        <activity android:name=".TodoDB.ReadTodoActivity" />
     </application>
 
 </manifest>

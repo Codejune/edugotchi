@@ -36,9 +36,11 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        // 툴바 설정
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Fragment 할당
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         customNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
@@ -77,7 +79,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // 네비게이션 메뉴 생성
+    // 상단 메뉴 아이템 설정
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -96,8 +98,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // 각 Bottom Navigation Item 클릭 시 해당 Fragment 이동
     @Override
-        protected void onResume() {
+    protected void onResume() {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);

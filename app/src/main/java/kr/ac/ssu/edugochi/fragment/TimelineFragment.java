@@ -34,7 +34,7 @@ import java.util.Locale;
 import io.realm.Realm;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.activity.MainActivity;
-import kr.ac.ssu.edugochi.object.MeasureTimeObject;
+import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.view.CustomGridView;
 
@@ -230,7 +230,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             // 공부량에 따른 시각화 태그 부여
             Realm.init(getActivity());
             mRealm = Realm.getDefaultInstance();
-            RealmResults<MeasureTimeObject> allMTOs = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+            RealmResults<MeasureData> allMTOs = mRealm.where(MeasureData.class).findAll().sort("date");
 
             long total_time = 0;
             mCal.add(Calendar.DATE, position - dayNum + 1);
@@ -347,7 +347,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     public void setTabData(Calendar mCal, int position) {
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
-        RealmResults<MeasureTimeObject> allMTOs = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+        RealmResults<MeasureData> allMTOs = mRealm.where(MeasureData.class).findAll().sort("date");
 
         long total_time = 0, total_exp = 0, pre_total_time = 0;
         long total_week_time = 0, total_week_exp = 0, pre_week_total_time = 0;

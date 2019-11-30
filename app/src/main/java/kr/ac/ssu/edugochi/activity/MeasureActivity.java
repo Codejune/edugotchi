@@ -18,14 +18,18 @@ import java.util.Calendar;
 import java.util.Locale;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import kr.ac.ssu.edugochi.object.CharacterObject;
-import kr.ac.ssu.edugochi.object.MeasureTimeObject;
+import kr.ac.ssu.edugochi.object.Character;
+import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.realm.module.UserModule;
+import kr.ac.ssu.edugochi.realm.utils.Migration;
 
 public class MeasureActivity extends AppCompatActivity {
 
     private static final String TAG = MeasureActivity.class.getSimpleName();
+    private static String USERTABLE = "User.realm";
     private final static int init = 0;
     private final static int run = 1;
     private final static int pause = 2;
@@ -33,18 +37,27 @@ public class MeasureActivity extends AppCompatActivity {
     private int timer_status = init; //현재의 상태를 저장할변수를 초기화함.
     private long base_time;
     private long out_time;
-    private Realm realm;
+
     private TextView timer;
-    private RealmResults<MeasureTimeObject> measureList;
-    private RealmResults<CharacterObject> characterList;
+
+    private Realm userRealm;                // 기본 인스턴스
+    private RealmConfiguration UserModuleConfig;
+    private RealmResults<MeasureData> measureList;     // 측정 데이터 리스트
+    private RealmResults<Character> characterList;   // 캐릭터 정보 리스트(0)
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measure);
 
-        Realm.init(this);
-        realm = Realm.getDefaultInstance();
+        UserModuleConfig = new RealmConfiguration.Builder()
+                .modules(new UserModule())
+                .migration(new Migration())
+                .schemaVersion(0)
+                .name(USERTABLE)
+                .build();
+
+        userRealm = Realm.getInstance(UserModuleConfig);
 
         measureList = getMeasureList();
         Log.i(TAG, "measureList.size\t: " + measureList.size());
@@ -123,31 +136,31 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
     // 측정 데이터 리스트 반환
-    private RealmResults<MeasureTimeObject> getMeasureList() {
-        return realm.where(MeasureTimeObject.class).findAll();
+    private RealmResults<MeasureData> getMeasureList() {
+        return userRealm.where(MeasureData.class).findAll();
     }
 
     // 캐릭터 데이터 리스트 반환
-    private RealmResults<CharacterObject> getCharacterList() {
-        return realm.where(CharacterObject.class).findAll();
+    private RealmResults<Character> getCharacterList() {
+        return userRealm.where(Character.class).findAll();
     }
 
     // 측정 데이터 DB 저장
     private void measureTransaction(){
-        realm.executeTransaction(new Realm.Transaction() {
+        userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 //    date      : 측정 완료된 년/월/일
                 //    timeout   : 측정된 시간량
                 //    exp       : 측정된 시간의 경험치
                 SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
-                MeasureTimeObject measureTimeObject = realm.createObject(MeasureTimeObject.class);
-                measureTimeObject.setDate(today_date.format(Calendar.getInstance().getTime()));
-                measureTimeObject.setTimeout(out_time);
-                measureTimeObject.setExp(out_time / 60);
+                MeasureData MeasureData = realm.createObject(MeasureData.class);
+                MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
+                MeasureData.setTimeout(out_time);
+                MeasureData.setExp(out_time / 1000);
                 Log.i(TAG,"date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG,"timeout\t: " + out_time);
-                Log.i(TAG,"exp\t\t: " + out_time / 60);
+                Log.i(TAG,"exp\t\t: " + out_time / 1000);
             }
         });
         measureList = getMeasureList();
@@ -155,22 +168,17 @@ public class MeasureActivity extends AppCompatActivity {
 
     // 캐릭터 정보 갱신
     private void characterTransaction(){
-        realm.executeTransaction(new Realm.Transaction() {
+        userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 long exp = characterList.first().getExp();
-                characterList.first().setExp(exp + out_time / 60);
+                characterList.first().setExp(exp + out_time / 1000);
             }
         });
         characterList = getCharacterList();
     }
 
-    // 측정 데이터 DB 삭제
-    private void deleteuserData(){
-        realm.beginTransaction();
-        measureList.remove(0);
-        realm.commitTransaction();
-    }
+
 
     // 타이머 핸들러
     @SuppressLint("HandlerLeak")
@@ -193,7 +201,7 @@ public class MeasureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        //realm.close();
+        userRealm.close();
     }
 }
 

@@ -6,6 +6,7 @@
         <item name="colorPrimary">@color/colorPrimary</item>
         <item name="colorPrimaryDark">@color/background</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
+        <item name="colorOnBackground">@color/background</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
     <style name="ToolbarTitleText">

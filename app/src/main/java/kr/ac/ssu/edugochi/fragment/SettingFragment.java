@@ -74,11 +74,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
-/*
-        Log.d(TAG, String.valueOf(WN));
-        //String currValue = WN.getValue();
-        //eduPreManger.setString(getActivity(),"WhiteNoise", currValue);
-*/
+
         ListPreference Wn = (ListPreference) findPreference("white_noise");
         Wn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -100,34 +96,16 @@ public class SettingFragment extends PreferenceFragmentCompat {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                /*
-                                SharedPreferences test = getSharedPreferences("test", MODE_PRIVATE);
-
-                                SharedPreferences.Editor editor = test.edit();
-
-                                editor.clear();
-
-                                editor.commit();
-
-                                 */
-
 
                             }
                         })
-
                         .setNegativeButton("아니오", null)
                         .create();
                 dialog.show();
                 return false;
             }
         });
-        
-
     }
-
-
-
-
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preference, rootKey);

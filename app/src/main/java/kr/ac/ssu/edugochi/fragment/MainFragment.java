@@ -2,11 +2,6 @@ package kr.ac.ssu.edugochi.fragment;
 
 import android.content.Intent;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -14,6 +9,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
@@ -111,21 +110,28 @@ public class MainFragment extends Fragment {
         }
 
         ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
-        if (ch_check.equals("basic_ch")) {
-            Glide.with(this).load(R.drawable.character).into(character_img);
-        } else if (ch_check.equals("water_ch")) {
-            Glide.with(this).load(R.drawable.water1).into(character_img);
-        } else if (ch_check.equals("fire_ch")) {
-            Glide.with(this).load(R.drawable.fire1).into(character_img);
-        } else if (ch_check.equals("grass_ch")) {
-            Glide.with(this).load(R.drawable.grass1).into(character_img);
-        } else if (ch_check.equals("fish_ch")) {
-            Glide.with(this).load(R.drawable.fish).into(character_img);
-        } else Glide.with(this).load(R.drawable.fish).into(character_img);
+        switch (ch_check) {
+            case "basic_ch":
+                Glide.with(this).load(R.drawable.character).into(character_img);
+                break;
+            case "water_ch":
+                Glide.with(this).load(R.drawable.water1).into(character_img);
+                break;
+            case "fire_ch":
+                Glide.with(this).load(R.drawable.fire1).into(character_img);
+                break;
+            case "grass_ch":
+                Glide.with(this).load(R.drawable.grass1).into(character_img);
+                break;
+            case "fish_ch":
+                Glide.with(this).load(R.drawable.fish).into(character_img);
+                break;
+            default:
+                Glide.with(this).load(R.drawable.character).into(character_img);
+                break;
+        }
 
 
-        // Gif 이미지를 ImageView에 할당
-        Glide.with(this).load(R.drawable.character).into(character_img);
 
         // 측정 버튼 리스너
         record_btn.setOnClickListener(new View.OnClickListener() {

@@ -15,7 +15,7 @@
         app:dialogTitle="캐릭터 선택"
         app:entries="@array/Ch_entries"
         app:entryValues="@array/Ch_values"
-        app:defaultValue="water_ch"
+        app:defaultValue="basic_ch"
         app:title="캐릭터 설정" />
     <ListPreference
         app:key="white_noise"

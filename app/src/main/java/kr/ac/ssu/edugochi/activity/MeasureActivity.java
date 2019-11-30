@@ -2,14 +2,8 @@ package kr.ac.ssu.edugochi.activity;
 
 
 import android.annotation.SuppressLint;
-import android.media.MediaPlayer;
-
-import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.app.AppCompatActivity;
-
-import android.annotation.SuppressLint;
 import android.content.DialogInterface;
-
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -19,6 +13,7 @@ import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
@@ -30,10 +25,10 @@ import java.util.Locale;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
-import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
 
@@ -88,6 +83,8 @@ public class MeasureActivity extends AppCompatActivity {
             player = MediaPlayer.create(this, R.raw.rain);
         } else if (WN_Check.equals("fire")) {
             player = MediaPlayer.create(this, R.raw.fire);
+        }else{
+            player = MediaPlayer.create(this, R.raw.rain);
         }
 
         WN_btn.setOnClickListener(new View.OnClickListener() {

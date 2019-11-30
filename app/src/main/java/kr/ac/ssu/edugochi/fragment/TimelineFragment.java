@@ -5,22 +5,18 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
-
-
-import androidx.fragment.app.Fragment;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
-
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
 
 import com.google.android.material.tabs.TabLayout;
 
@@ -33,11 +29,10 @@ import java.util.Locale;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import kr.ac.ssu.edugochi.object.Character;
-import kr.ac.ssu.edugochi.object.MeasureData;
+import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
 import kr.ac.ssu.edugochi.adapter.RankListItem;
-import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
 import kr.ac.ssu.edugochi.view.CustomGridView;
@@ -155,7 +150,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         //Realm 초기 설정
         RealmInit();
         measureList = getMeasureList();
-        Log.d(TAG, "measureList.size: " + measureList.get(0).getSubject());
         makeCalendar(); // 달력 생성 함수
         makeRankTable();
         // 오늘 날짜로 tab내용 세팅

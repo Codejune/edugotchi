@@ -1,17 +1,25 @@
 package kr.ac.ssu.edugochi.fragment;
 
+import android.content.DialogInterface;
 import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
-
-import android.view.LayoutInflater;
+import android.util.Log;
 import android.view.View;
-import android.view.ViewGroup;
 
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatDelegate;
+import androidx.preference.ListPreference;
+import androidx.preference.Preference;
+import androidx.preference.PreferenceFragmentCompat;
+import androidx.preference.SwitchPreferenceCompat;
+
+import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.eduPreManger;
 
 
-public class SettingFragment extends Fragment {
+public class SettingFragment extends PreferenceFragmentCompat {
+    private static final String TAG = SettingFragment.class.getSimpleName();
+
 
     public SettingFragment() {
         // Required empty public constructor
@@ -20,12 +28,108 @@ public class SettingFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
     }
 
+
     @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        // Inflate the layout for this fragment
-        return inflater.inflate(R.layout.fragment_setting, container, false);
+    public void onViewCreated(View view, Bundle savedInstanceState) {
+        super.onViewCreated(view, savedInstanceState);
+
+        final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
+
+        darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
+        {
+            @Override
+            public boolean onPreferenceChange(Preference preference,
+                                              Object newValue) {
+                Log.d(TAG, String.valueOf(newValue));
+                boolean switched = (boolean) newValue;
+                Log.d(TAG, String.valueOf(switched));
+                if (switched) {
+                    Toasty.success(getActivity(), "darkmode on", Toasty.LENGTH_SHORT).show();
+                    eduPreManger.setBoolean(getActivity(),"darkMode", switched);
+                    AppCompatDelegate.setDefaultNightMode(
+                            AppCompatDelegate.MODE_NIGHT_YES);
+                    return true;
+                }
+                else {
+                  Toasty.error(getActivity(), "darkmode off", Toasty.LENGTH_SHORT).show();
+                    eduPreManger.setBoolean(getActivity(),"darkMode", switched);
+                    AppCompatDelegate.setDefaultNightMode(
+                            AppCompatDelegate.MODE_NIGHT_NO);
+                  return true;
+                }
+            }
+
+        });
+
+        ListPreference character = (ListPreference) findPreference("selectCharacter");
+        Log.d(TAG, String.valueOf(character));
+        character.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
+                String selected= (String) newValue;
+                eduPreManger.setString(getActivity(),"selectCharacter", selected);
+                return true;
+            }
+        });
+/*
+        Log.d(TAG, String.valueOf(WN));
+        //String currValue = WN.getValue();
+        //eduPreManger.setString(getActivity(),"WhiteNoise", currValue);
+*/
+        ListPreference Wn = (ListPreference) findPreference("white_noise");
+        Wn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
+            @Override
+            public boolean onPreferenceChange(Preference preference, Object newValue){
+                Log.d(TAG, String.valueOf(newValue));
+                String selected= (String) newValue;
+                eduPreManger.setString(getActivity(),"white_noise", selected);
+                return true;
+            }
+        });
+
+
+        Preference reset = findPreference("Reset");
+        reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("초기화 하시겠습니까?")
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                /*
+                                SharedPreferences test = getSharedPreferences("test", MODE_PRIVATE);
+
+                                SharedPreferences.Editor editor = test.edit();
+
+                                editor.clear();
+
+                                editor.commit();
+
+                                 */
+
+
+                            }
+                        })
+
+                        .setNegativeButton("아니오", null)
+                        .create();
+                dialog.show();
+                return false;
+            }
+        });
+        
+
+    }
+
+
+
+
+    @Override
+    public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
+        setPreferencesFromResource(R.xml.preference, rootKey);
     }
 }

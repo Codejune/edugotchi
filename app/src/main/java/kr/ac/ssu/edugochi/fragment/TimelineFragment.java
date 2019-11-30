@@ -3,7 +3,6 @@ package kr.ac.ssu.edugochi.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
-import android.graphics.Color;
 import android.os.Bundle;
 
 
@@ -14,12 +13,12 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
+import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import android.widget.EditText;
-import android.widget.GridView;
 import android.widget.ImageView;
-import android.widget.TabHost;
+import android.widget.ListView;
 import android.widget.TextView;
 
 
@@ -27,7 +26,9 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
@@ -35,13 +36,15 @@ import io.realm.Realm;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.activity.MainActivity;
 import kr.ac.ssu.edugochi.object.MeasureData;
+import kr.ac.ssu.edugochi.adapter.RankListAdapter;
+import kr.ac.ssu.edugochi.adapter.RankListItem;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.view.CustomGridView;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
 
-    int month = 0;  // 달력 표시 달 수정용 변수
-    int dayNum; // 매 달 공백 생성용 변수
+    private int month = 0;  // 달력 표시 달 수정용 변수
+    private int dayNum; // 매 달 공백 생성용 변수
 
     // 달력 관련 클래스 변수
     private TextView tvDate;
@@ -49,6 +52,10 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private ArrayList<String> dayList;
     private CustomGridView gridView;
     private Calendar mCal;
+    // 과목 랭크 클래스 변수
+    private RankListAdapter listadapter;
+    private ArrayList<RankListItem> rankList;
+    private ListView listview;
 
     // 연,월,일을 따로 저장
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
@@ -57,14 +64,14 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     SimpleDateFormat curTotalFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
 
     // 달을 변경하는 버튼 이미지
-    ImageView pre_Button;
-    ImageView fore_Button;
+    private ImageView pre_Button;
+    private ImageView fore_Button;
 
     // 한마디 작성용 텍스트 뷰
-    TextView one_sentence;
+    private TextView one_sentence;
 
     // 탭레이아웃 변수
-    TabLayout tabLayout;
+    private TabLayout tabLayout;
 
     // Realm DB 등록
     Realm mRealm;
@@ -132,50 +139,17 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        Log.d("Superoid", "onViewCreated");
         makeCalendar(); // 달력 생성 함수
-    }
-
-    // 달력의 년,월,일을 배치해주는 makeCalendar 메소드
-    private void makeCalendar() {
-        Log.d("Superoid", "makeCalendar");
-        tvDate = getView().findViewById(R.id.tv_date);
-        gridView = getView().findViewById(R.id.gridview);
-
-        // 해당 월에 대한 정보를 세팅해준다.
-        mCal = Calendar.getInstance();
-        mCal.add(Calendar.MONTH, month);
-
-        //현재 연도와 월을 텍스트뷰에 뿌려줌
-        tvDate.setText(curYearFormat.format(mCal.getTime()) + "년 " + curMonthFormat.format(mCal.getTime()) + "월");
-
-        dayList = new ArrayList<>(); // 날짜를 넣어줄 콜렉터
-
-        //이번달 1일 무슨요일인지 판단 mCal.set(Year,Month,Day)
-        mCal.set(Integer.parseInt(curYearFormat.format(mCal.getTime())), Integer.parseInt(curMonthFormat.format(mCal.getTime())) - 1, 1);
-        dayNum = mCal.get(Calendar.DAY_OF_WEEK);
-        //1일 - 요일 매칭 시키기 위해 공백 add
-        for (int i = 1; i < dayNum; i++) {
-            dayList.add("");
-        }
-        setCalendarDate(mCal.get(Calendar.MONTH) + 1);
-
-        gridAdapter = new GridAdapter(getActivity(), dayList);
-        gridView.setAdapter(gridAdapter);
 
         // 오늘 날짜로 tab내용 세팅
         Calendar today = Calendar.getInstance();
         setTabData(today, dayNum - 1);
     }
 
-    // 해당 월에 표시할 일 수 구함
-    private void setCalendarDate(int month) {
-        Log.d("Superoid", "setCalendarDate");
-        mCal.set(Calendar.MONTH, month - 1);
-
-        for (int i = 0; i < mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
-            dayList.add("" + (i + 1));
-        }
+    @Override
+    public void onPause() {
+        super.onPause();
+        month = 0;
     }
 
     // 그리드뷰 어댑터
@@ -235,16 +209,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             long total_time = 0;
             mCal.add(Calendar.DATE, position - dayNum + 1);
             // DB의 모든 데이터 검사 하는 for문
-            for (int i = 0; !allMTOs.get(i + 1).equals(allMTOs.last()); i++) {
-
+            for (int i = 0; i<allMTOs.size(); i++) {
                 // 날짜 값이 일치할 경우
                 if (allMTOs.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
                     total_time += allMTOs.get(i).getTimeout();
                 }
-            }
-            // 마지막 값 검사하는 if문
-            if (allMTOs.last().getDate().equals(curTotalFormat.format(mCal.getTime()))) {
-                total_time += allMTOs.last().getTimeout();
             }
 
             if (total_time >= (6 * 60 * 60 * 1000))
@@ -283,6 +252,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             final EditText et = new EditText(getActivity());
             ad.setView(et);
             et.setText(one_sentence.getText().toString());
+            one_sentence.setSelected( true );
 
             ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                 @Override
@@ -308,6 +278,73 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
         setTabData(mCal, position);
+    }
+
+    // 달력의 년,월,일을 배치해주는 makeCalendar 메소드
+    private void makeCalendar() {
+        tvDate = getView().findViewById(R.id.tv_date);
+        gridView = getView().findViewById(R.id.gridview);
+
+        // 해당 월에 대한 정보를 세팅해준다.
+        mCal = Calendar.getInstance();
+        mCal.add(Calendar.MONTH, month);
+
+        //현재 연도와 월을 텍스트뷰에 뿌려줌
+        tvDate.setText(curYearFormat.format(mCal.getTime()) + "년 " + curMonthFormat.format(mCal.getTime()) + "월");
+
+        dayList = new ArrayList<>(); // 날짜를 넣어줄 콜렉터
+
+        //이번달 1일 무슨요일인지 판단 mCal.set(Year,Month,Day)
+        mCal.set(Integer.parseInt(curYearFormat.format(mCal.getTime())), Integer.parseInt(curMonthFormat.format(mCal.getTime())) - 1, 1);
+        dayNum = mCal.get(Calendar.DAY_OF_WEEK);
+        //1일 - 요일 매칭 시키기 위해 공백 add
+        for (int i = 1; i < dayNum; i++) {
+            dayList.add("");
+        }
+        setCalendarDate(mCal.get(Calendar.MONTH) + 1);
+
+        gridAdapter = new GridAdapter(getActivity(), dayList);
+        gridView.setAdapter(gridAdapter);
+    }
+
+   /* private void makeRankTable(){
+        Realm.init(getActivity());
+        mRealm = Realm.getDefaultInstance();
+        RealmResults<MeasureTimeObject> allMTOs = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
+        int count =0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
+        RankListItem[] items= new RankListItem[count];
+
+        for(int i=0;i<count;i++){
+            //items[i].setSubject(캐릭터과목배열);
+        }
+
+        for (int i = 0; i < allMTOs.size(); i++)
+            for(int j=0;j<count;j++){
+                if(allMTOs.get(i).getSubject().equals(items[j].getSubject())){
+                    items[j].plusTime(allMTOs.get(i).getTimeout());
+                    items[j].plusExp(allMTOs.get(i).getExp());
+                }
+            }
+
+        Arrays.sort(items);
+
+        for(int i=0;i<count;i++) {
+            rankList.add(items[i]);
+        }
+
+        listview=getView().findViewById(R.id.rank_listview);
+        listadapter= new RankListAdapter(getActivity(), R.layout.rank_list_item,rankList);
+        listview.setAdapter(listadapter);
+    }*/
+
+    // 해당 월에 표시할 일 수 구함
+    private void setCalendarDate(int month) {
+        Log.d("Superoid", "setCalendarDate");
+        mCal.set(Calendar.MONTH, month - 1);
+
+        for (int i = 0; i < mCal.getActualMaximum(Calendar.DAY_OF_MONTH); i++) {
+            dayList.add("" + (i + 1));
+        }
     }
 
     // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수
@@ -344,7 +381,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     }
 
-    public void setTabData(Calendar mCal, int position) {
+    private void setTabData(Calendar mCal, int position) {
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureData> allMTOs = mRealm.where(MeasureData.class).findAll().sort("date");

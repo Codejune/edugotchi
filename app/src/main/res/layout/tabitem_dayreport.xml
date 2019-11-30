@@ -94,7 +94,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
+                android:layout_marginLeft="14dp"
                 android:gravity="center"
                 android:text="Level"
                 android:textSize="12sp"
@@ -144,9 +144,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:paddingRight="11dp"
+                android:paddingRight="18dp"
                 android:text="휴식"
-                android:textSize="12sp"
+                android:textSize="11.5sp"
                 android:textStyle="bold" />
 
         </TableRow>
@@ -157,7 +157,7 @@
                 android:id="@+id/level"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="14dp"
                 android:gravity="center"
                 android:text="1"
                 android:textSize="11sp" />
@@ -207,11 +207,11 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:paddingRight="8sp"
+                android:paddingRight="18dp"
                 android:text="0회"
                 android:textSize="11sp" />
 
         </TableRow>
-
     </TableLayout>
+
 </LinearLayout>

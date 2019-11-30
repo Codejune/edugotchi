@@ -4,8 +4,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_view_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content"
-    android:background="@color/background">
+    android:layout_height="wrap_content">
 
     <ImageView
         android:id="@+id/imageView"
@@ -24,7 +23,6 @@
         android:layout_marginTop="8dp"
         android:layout_marginLeft="32dp"
         android:text="홍길동"
-        android:textColor="@color/black"
         android:textSize="20dp"
         android:textStyle="bold"
         app:layout_constraintTop_toTopOf="@id/imageView"
@@ -42,7 +40,6 @@
         app:layout_constraintLeft_toRightOf="@id/imageView" />
 
     <com.google.android.material.navigation.NavigationView
-        android:backgroundTint="@color/background"
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

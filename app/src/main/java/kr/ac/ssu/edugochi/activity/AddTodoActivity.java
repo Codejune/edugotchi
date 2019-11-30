@@ -115,22 +115,22 @@ public class AddTodoActivity extends AppCompatActivity {
     private void AddClick() {
 
         if (title.getText() == null || TextUtils.isEmpty(title.getText().toString())) {
-            Toasty.error(this, "Todo item cannot be empty!", Toast.LENGTH_LONG).show();
+            Toasty.error(this, "Todo item cannot be empty!", Toast.LENGTH_SHORT).show();
             return;
         }
         final String todoTitle = title.getText().toString();
-        final String todoDate = mTxtDate.getText().toString();
+        String todoDate = mTxtDate.getText().toString();
         final String todoMemo = memo.getText().toString();
         if( mHandler == null ) {
             mHandler = TodoDBHandler.open(this);
         }
-        if(mTxtDate.getText() == "0000년 00월 00일"){
-            mHandler.insert(todoTitle, emptyTxt, todoMemo);
-        }else {
-            mHandler.insert(todoTitle, todoDate, todoMemo);
+        if(todoDate.equals("기한 설정")) {
+            todoDate = null;
         }
+        mHandler.insert(todoTitle, todoDate, todoMemo);
+
         title.setText(null);
-        Toasty.success(this, "Item added", Toast.LENGTH_LONG).show();
+        Toasty.success(this, "Item added", Toast.LENGTH_SHORT).show();
         onBackPressed();
         }
     }

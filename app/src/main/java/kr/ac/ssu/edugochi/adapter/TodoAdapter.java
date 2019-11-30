@@ -61,6 +61,7 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         holder.deleteBtn.setTag(vo);
         final String Date = dateView.getText().toString();
         final String Memo = memoView.getText().toString();
+
         convertView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -75,6 +76,7 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
 
             }
         });
+
         return convertView;
     }
 }

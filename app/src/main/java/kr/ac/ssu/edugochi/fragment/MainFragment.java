@@ -15,6 +15,8 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
@@ -26,6 +28,7 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.ExpTable;
 import kr.ac.ssu.edugochi.object.MeasureData;
@@ -100,20 +103,31 @@ public class MainFragment extends Fragment {
         characterList = getCharacterList();
         expList = getExpList();
 
-        try {
             currentLv = (int) characterList.first().getLv();
+        try {
         } catch (Exception e) {
             // 캐릭터 데이터베이스 생성
             initCharacterData();
-            // 캐릭터 정보 동기화
             currentLv = (int) characterList.first().getLv();
+            // 캐릭터 정보 동기화
             SyncCharacterInfo();
         }
-
-
-        /*
-        // 측정 데이터 변화 동기화
-        measureList.addChangeListener(new RealmChangeListener<RealmResults<MeasureData>>() {
+        String ch_check;
+        ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
+        if(ch_check.equals("basic_ch")) {
+            Glide.with(this).load(R.drawable.character).into(character);
+        }else if(ch_check.equals("water_ch")){
+            Glide.with(this).load(R.drawable.water1).into(character);
+        }else if(ch_check.equals("fire_ch")){
+            Glide.with(this).load(R.drawable.fire1).into(character);
+        }else if(ch_check.equals("grass_ch")){
+            Glide.with(this).load(R.drawable.grass1).into(character);
+        }else if(ch_check.equals("fish_ch")){
+            Glide.with(this).load(R.drawable.fish).into(character);
+        }
+        else{
+            Glide.with(this).load(R.drawable.fish).into(character);
+        }
             @Override
             public void onChange(RealmResults<MeasureData> MeasureDatas) {
                 Log.d(TAG, "접근!");
@@ -226,6 +240,7 @@ public class MainFragment extends Fragment {
             }
         });
     }
+  //  private selectCharacter()
 
 
     @Override

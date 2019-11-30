@@ -55,6 +55,7 @@ public class TodoFragment extends Fragment {
         TodoList = view.findViewById(R.id.todo_list);
         listItems();
     }
+
     private View.OnClickListener mOnItemDeleteListener = new View.OnClickListener() {
         @Override
         public void onClick(View v) {
@@ -87,15 +88,15 @@ public class TodoFragment extends Fragment {
     private void removeItem(TodoItem vo) {
         long rowsAffected = handler.removeItem(vo.id);
         if (rowsAffected == -1) {
-        Toasty.error(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_LONG).show();
+            Toasty.error(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_SHORT).show();
         } else {
-        Toasty.success(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_LONG).show();
-        ((ArrayAdapter) TodoList.getAdapter()).remove(vo);            // remove the item to the list
-        ((ArrayAdapter) TodoList.getAdapter()).notifyDataSetChanged();
-        listItems();// update the UI.
-        if (TodoList.getAdapter().getCount() == 0) {
-            listItems();
-        }
+            Toasty.success(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_SHORT).show();
+            ((ArrayAdapter) TodoList.getAdapter()).remove(vo);            // remove the item to the list
+            ((ArrayAdapter) TodoList.getAdapter()).notifyDataSetChanged();
+            listItems();// update the UI.
+            if (TodoList.getAdapter().getCount() == 0) {
+                listItems();
+            }
         }
     }
 
@@ -117,6 +118,7 @@ public class TodoFragment extends Fragment {
             Log.d(this.getClass().getSimpleName(), "리스트갱신되는중");
             TodoAdapter adapter = new TodoAdapter(getActivity(), R.layout.item_todo, data, mOnItemDeleteListener);
             TodoList.setAdapter(adapter);
+
         }
 
     }
@@ -136,6 +138,7 @@ public class TodoFragment extends Fragment {
         }
         return true;
     }
+
 }
 
 

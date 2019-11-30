@@ -10,10 +10,5 @@
         android:id="@+id/tv_item_gridview"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:textSize="13sp"
-        android:textColor="@color/dark"/>
-
-
-
-
+        android:textSize="13sp" />
 </LinearLayout>

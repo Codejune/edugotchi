@@ -4,7 +4,6 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     android:scrollbarStyle="insideOverlay">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -51,7 +50,6 @@
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
                         android:gravity="center"
-                        android:textColor="@color/black"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
@@ -187,7 +185,7 @@
         <TextView
             android:id="@+id/one_sentence"
             android:layout_width="250dp"
-            android:layout_height="wrap_content"
+            android:layout_height="24dp"
             android:layout_marginTop="30dp"
             android:paddingRight="5dp"
             android:paddingLeft="5dp"
@@ -196,10 +194,20 @@
             android:text="오늘의 각오"
             android:textSize="15sp"
             android:singleLine="true"
-            android:ellipsize="end"
+            android:ellipsize="marquee"
+            android:marqueeRepeatLimit="marquee_forever"
             app:layout_constraintTop_toBottomOf="@+id/calendar_view"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"></TextView>
+
+        <ListView
+            android:id="@+id/rank_listview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="30dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/one_sentence"></ListView>
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
@@ -211,7 +219,7 @@
             android:background="@drawable/tab_layout_background"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/one_sentence"
+            app:layout_constraintTop_toBottomOf="@id/rank_listview"
             app:tabBackground="@drawable/tab_layout_selector"
             app:tabIndicatorHeight="0dp"
             app:tabRippleColor="@null"
@@ -257,6 +265,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
+
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

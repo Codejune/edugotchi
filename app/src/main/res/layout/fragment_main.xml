@@ -43,7 +43,6 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:textColor="@color/black"
                     app:layout_constraintBottom_toTopOf="@id/info"
                     app:layout_constraintLeft_toLeftOf="@id/character"
                     app:layout_constraintRight_toLeftOf="@id/name"
@@ -115,7 +114,6 @@
             android:layout_marginTop="20dp"
             android:textSize="16dp"
             android:textStyle="bold"
-            android:textColor="@color/black"
             android:text="측정 목록"/>
         <TextView
             android:layout_width="wrap_content"

@@ -8,6 +8,7 @@ public class MeasureData extends RealmObject {
     private String date;
     private long timeout;
     private long exp;
+    private String subject;
 
     public String getDate() { return date; }
 
@@ -21,5 +22,8 @@ public class MeasureData extends RealmObject {
 
     public void setExp(long exp) { this.exp = exp; }
 
+    public String getSubject() { return subject; }
+
+    public void setSubject(String subject) { this.subject = subject; }
 
 }

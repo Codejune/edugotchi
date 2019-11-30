@@ -92,18 +92,18 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginLeft="14dp"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
                 android:text="Level"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="12dp"
-                android:layout_marginLeft="12.5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="12.5dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary" />
 
             <TextView
@@ -111,15 +111,15 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="획득 경험치"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="12dp"
-                android:layout_marginLeft="12.5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="12.5dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary" />
 
             <TextView
@@ -127,24 +127,24 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="평균 공부시간"
-                android:textSize="12sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="12dp"
-                android:layout_marginLeft="12.5dp"
+                android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
-                android:layout_marginRight="12.5dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary" />
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:paddingRight="15dp"
+                android:layout_marginRight="10dp"
                 android:text="휴식"
-                android:textSize="11.5sp"
+                android:textSize="11sp"
                 android:textStyle="bold" />
 
         </TableRow>
@@ -155,17 +155,16 @@
                 android:id="@+id/month_level"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginLeft="5dp"
+                android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="999"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="12dp"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="12.5dp"
-                android:layout_marginRight="12.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary" />
 
             <TextView
@@ -173,15 +172,14 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:text="999"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="12dp"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="12.5dp"
-                android:layout_marginRight="12.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary" />
 
             <TextView
@@ -190,14 +188,14 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:text="00 : 00 : 00"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
             <View
                 android:layout_width="1dp"
                 android:layout_height="12dp"
                 android:layout_centerInParent="true"
-                android:layout_marginLeft="12.5dp"
-                android:layout_marginRight="12.5dp"
+                android:layout_marginLeft="10dp"
+                android:layout_marginRight="10dp"
                 android:background="@color/colorPrimary" />
 
             <TextView
@@ -205,9 +203,9 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:paddingRight="15dp"
+                android:layout_marginRight="10dp"
                 android:text="0회"
-                android:textSize="11sp" />
+                android:textSize="10sp" />
 
         </TableRow>
     </TableLayout>

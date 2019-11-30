@@ -3,6 +3,7 @@ package kr.ac.ssu.edugochi.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.graphics.Typeface;
 import android.os.Bundle;
 
 
@@ -13,7 +14,6 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.BaseAdapter;
 
 import android.widget.EditText;
@@ -26,25 +26,30 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Comparator;
 import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
-import kr.ac.ssu.edugochi.activity.MainActivity;
+import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
 import kr.ac.ssu.edugochi.adapter.RankListItem;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.realm.module.UserModule;
+import kr.ac.ssu.edugochi.realm.utils.Migration;
 import kr.ac.ssu.edugochi.view.CustomGridView;
 
 public class TimelineFragment extends Fragment implements View.OnClickListener, AdapterView.OnItemClickListener {
-
+    private static final String TAG = TimelineFragment.class.getSimpleName();
+    private static String USERTABLE = "User.realm";
     private int month = 0;  // 달력 표시 달 수정용 변수
     private int dayNum; // 매 달 공백 생성용 변수
+    private int pre_position = -1;
+    private TextView pre_date;
+    private int tColor;
 
     // 달력 관련 클래스 변수
     private TextView tvDate;
@@ -52,6 +57,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private ArrayList<String> dayList;
     private CustomGridView gridView;
     private Calendar mCal;
+    private Calendar today;
     // 과목 랭크 클래스 변수
     private RankListAdapter listadapter;
     private ArrayList<RankListItem> rankList;
@@ -73,12 +79,19 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 탭레이아웃 변수
     private TabLayout tabLayout;
 
-    // Realm DB 등록
-    Realm mRealm;
+    private Realm userRealm;                // 기본 인스턴스
+    private RealmConfiguration UserModuleConfig;
+    private RealmResults<MeasureData> measureList;     // 측정 데이터 리스트
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        UserModuleConfig = new RealmConfiguration.Builder()
+                .modules(new UserModule())
+                .migration(new Migration())
+                .schemaVersion(0)
+                .name(USERTABLE)
+                .build();
     }
 
     @Override
@@ -139,11 +152,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        //Realm 초기 설정
+        RealmInit();
+        measureList = getMeasureList();
+        Log.d(TAG, "measureList.size: " + measureList.get(0).getSubject());
         makeCalendar(); // 달력 생성 함수
-
+        makeRankTable();
         // 오늘 날짜로 tab내용 세팅
-        Calendar today = Calendar.getInstance();
+        today = Calendar.getInstance();
         setTabData(today, dayNum - 1);
+    }
+
+    // 각 Realm 객체 획득
+    private void RealmInit() {
+        userRealm = Realm.getInstance(UserModuleConfig);
     }
 
     @Override
@@ -195,24 +217,25 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
             holder.tvItemGridView.setText("" + getItem(position));
 
+            Integer iToday = today.get(Calendar.DAY_OF_MONTH);
+            String sToday = String.valueOf(iToday);
+            if (sToday.equals(getItem(position))) {
+                holder.tvItemGridView.setTypeface(Typeface.DEFAULT_BOLD);
+            }
+
             // 토요일과 일요일에 색깔 지정
             if ((position + 1) % 7 == 1)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.red_inactive));
             else if ((position + 1) % 7 == 0)
                 holder.tvItemGridView.setTextColor(getResources().getColor(R.color.blue_inactive));
 
-            // 공부량에 따른 시각화 태그 부여
-            Realm.init(getActivity());
-            mRealm = Realm.getDefaultInstance();
-            RealmResults<MeasureData> allMTOs = mRealm.where(MeasureData.class).findAll().sort("date");
-
             long total_time = 0;
             mCal.add(Calendar.DATE, position - dayNum + 1);
             // DB의 모든 데이터 검사 하는 for문
-            for (int i = 0; i<allMTOs.size(); i++) {
+            for (int i = 0; i < measureList.size(); i++) {
                 // 날짜 값이 일치할 경우
-                if (allMTOs.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
-                    total_time += allMTOs.get(i).getTimeout();
+                if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
+                    total_time += measureList.get(i).getTimeout();
                 }
             }
 
@@ -252,7 +275,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             final EditText et = new EditText(getActivity());
             ad.setView(et);
             et.setText(one_sentence.getText().toString());
-            one_sentence.setSelected( true );
+            one_sentence.setSelected(true);
 
             ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                 @Override
@@ -277,6 +300,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 날짜 클릭시 호출되는 onItemClick 메소드
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
+        TextView tx = (TextView) v;
+        if (pre_position >= 0)
+            pre_date.setTextColor(tColor);
+        tColor = tx.getCurrentTextColor();
+        tx.setTextColor(getResources().getColor(R.color.white));
+        pre_position = position;
+        pre_date = tx;
         setTabData(mCal, position);
     }
 
@@ -307,35 +337,43 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         gridView.setAdapter(gridAdapter);
     }
 
-   /* private void makeRankTable(){
-        Realm.init(getActivity());
-        mRealm = Realm.getDefaultInstance();
-        RealmResults<MeasureTimeObject> allMTOs = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
-        int count =0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
-        RankListItem[] items= new RankListItem[count];
+    private void makeRankTable() {
+        rankList = new ArrayList<>();
+        int count = 0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
+        RankListItem[] items = new RankListItem[1];
+        items[0] = new RankListItem();
+        items[0].setSubject(measureList.first().getSubject());
 
-        for(int i=0;i<count;i++){
-            //items[i].setSubject(캐릭터과목배열);
-        }
-
-        for (int i = 0; i < allMTOs.size(); i++)
-            for(int j=0;j<count;j++){
-                if(allMTOs.get(i).getSubject().equals(items[j].getSubject())){
-                    items[j].plusTime(allMTOs.get(i).getTimeout());
-                    items[j].plusExp(allMTOs.get(i).getExp());
+        for (int i = 0; i < measureList.size(); i++)
+            for (int j = 0; j < 1; j++) {
+                if (measureList.get(i).getSubject().equals(items[j].getSubject())) {
+                    items[j].plusTime(measureList.get(i).getTimeout());
+                    items[j].plusExp(measureList.get(i).getExp());
                 }
             }
 
-        Arrays.sort(items);
+        //Arrays.sort(items);
 
-        for(int i=0;i<count;i++) {
+        for (int i = 0; i < 1; i++) {
             rankList.add(items[i]);
         }
+        rankList.add(items[0]);
+        rankList.add(items[0]);
+        rankList.add(items[0]);
 
-        listview=getView().findViewById(R.id.rank_listview);
-        listadapter= new RankListAdapter(getActivity(), R.layout.rank_list_item,rankList);
+        listview = getView().findViewById(R.id.rank_listview);
+        int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item) + 1) * rankList.size();
+        ViewGroup.LayoutParams lp = listview.getLayoutParams();
+        lp.height = height;
+        listview.setLayoutParams(lp);
+        listadapter = new RankListAdapter(getActivity(), R.layout.rank_list_item, rankList);
         listview.setAdapter(listadapter);
-    }*/
+    }
+
+    // 측정 데이터 리스트 반환
+    private RealmResults<MeasureData> getMeasureList() {
+        return userRealm.where(MeasureData.class).findAllAsync();
+    }
 
     // 해당 월에 표시할 일 수 구함
     private void setCalendarDate(int month) {
@@ -383,8 +421,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     private void setTabData(Calendar mCal, int position) {
         Realm.init(getActivity());
-        mRealm = Realm.getDefaultInstance();
-        RealmResults<MeasureData> allMTOs = mRealm.where(MeasureData.class).findAll().sort("date");
+        RealmResults<MeasureData> measureList = userRealm.where(MeasureData.class).findAll().sort("date");
 
         long total_time = 0, total_exp = 0, pre_total_time = 0;
         long total_week_time = 0, total_week_exp = 0, pre_week_total_time = 0;
@@ -394,7 +431,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         Calendar week_day, pre_day, month_day;
         int rest = -1, pre_rest = -1, month_rest = -1;
 
-        if (allMTOs.size() > 0) { // 데이타가 있을 때만 실행
+        if (measureList.size() > 0) { // 데이타가 있을 때만 실행
             mCal.add(Calendar.DATE, position - dayNum + 1); // 클릭 된 날짜로 세팅
 
             // 클릭된 날짜의 어제 날짜 세팅
@@ -419,30 +456,30 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
 
             /** 탭호스트 레이아웃의 데이터 세팅 **/
-            for (int i = 0; i < allMTOs.size(); i++) {
-                if (allMTOs.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) { // 날짜 값이 일치할 경우
-                    total_time += allMTOs.get(i).getTimeout();
-                    total_exp += allMTOs.get(i).getExp();
+            for (int i = 0; i < measureList.size(); i++) {
+                if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) { // 날짜 값이 일치할 경우
+                    total_time += measureList.get(i).getTimeout();
+                    total_exp += measureList.get(i).getExp();
                     rest++;
-                } else if (allMTOs.get(i).getDate().equals(curTotalFormat.format(pre_day.getTime()))) // 어제 날짜 값이 일치할 경우
-                    pre_total_time += allMTOs.get(i).getTimeout();
+                } else if (measureList.get(i).getDate().equals(curTotalFormat.format(pre_day.getTime()))) // 어제 날짜 값이 일치할 경우
+                    pre_total_time += measureList.get(i).getTimeout();
 
                 // 주간 단위 비교
                 for (int j = 0; j < 7; j++) {
-                    if (allMTOs.get(i).getDate().equals(curTotalFormat.format(week[j].getTime()))) {
-                        total_week_time += allMTOs.get(i).getTimeout();
-                        total_week_exp += allMTOs.get(i).getExp();
+                    if (measureList.get(i).getDate().equals(curTotalFormat.format(week[j].getTime()))) {
+                        total_week_time += measureList.get(i).getTimeout();
+                        total_week_exp += measureList.get(i).getExp();
                         pre_rest++;
-                    } else if (allMTOs.get(i).getDate().equals(curTotalFormat.format(pre_week[j].getTime())))
-                        pre_week_total_time += allMTOs.get(i).getTimeout();
+                    } else if (measureList.get(i).getDate().equals(curTotalFormat.format(pre_week[j].getTime())))
+                        pre_week_total_time += measureList.get(i).getTimeout();
                 }
                 // 월간 단위 비교
-                if (allMTOs.get(i).getDate().substring(5, 7).equals(curMonthFormat.format(mCal.getTime()))) {
-                    total_month_time += allMTOs.get(i).getTimeout();
-                    total_month_exp += allMTOs.get(i).getExp();
+                if (measureList.get(i).getDate().substring(5, 7).equals(curMonthFormat.format(mCal.getTime()))) {
+                    total_month_time += measureList.get(i).getTimeout();
+                    total_month_exp += measureList.get(i).getExp();
                     month_rest++;
-                } else if (allMTOs.get(i).getDate().substring(5, 7).equals(curMonthFormat.format(month_day.getTime())))
-                    pre_month_total_time += allMTOs.get(i).getTimeout();
+                } else if (measureList.get(i).getDate().substring(5, 7).equals(curMonthFormat.format(month_day.getTime())))
+                    pre_month_total_time += measureList.get(i).getTimeout();
             }
 
 

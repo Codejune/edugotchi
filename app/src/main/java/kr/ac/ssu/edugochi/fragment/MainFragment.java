@@ -110,25 +110,38 @@ public class MainFragment extends Fragment {
         }
 
         ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
-        switch (ch_check) {
-            case "basic_ch":
-                Glide.with(this).load(R.drawable.character).into(character_img);
-                break;
-            case "water_ch":
-                Glide.with(this).load(R.drawable.water1).into(character_img);
-                break;
-            case "fire_ch":
-                Glide.with(this).load(R.drawable.fire1).into(character_img);
-                break;
-            case "grass_ch":
-                Glide.with(this).load(R.drawable.grass1).into(character_img);
-                break;
-            case "fish_ch":
-                Glide.with(this).load(R.drawable.fish).into(character_img);
-                break;
-            default:
-                Glide.with(this).load(R.drawable.character).into(character_img);
-                break;
+        if (ch_check.equals("basic_ch")) {
+            Glide.with(this).load(R.drawable.character).into(character_img);
+        } else if(ch_check.equals("water_ch") && currentLv <=2){
+            Glide.with(this).load(R.drawable.water1).into(character_img);
+        } else if (ch_check.equals("water_ch") && currentLv<= 4) {
+            Glide.with(this).load(R.drawable.water2).into(character_img);
+        } else if (ch_check.equals("water_ch") && currentLv<= 7) {
+            Glide.with(this).load(R.drawable.water3).into(character_img);
+        }  else if (ch_check.equals("water_ch") && 8<=currentLv) {
+            Glide.with(this).load(R.drawable.water4).into(character_img);
+        } else if(ch_check.equals("fire_ch") && currentLv <=2){
+            Glide.with(this).load(R.drawable.fire1).into(character_img);
+        } else if (ch_check.equals("fire_ch") && currentLv<= 4) {
+            Glide.with(this).load(R.drawable.fire2).into(character_img);
+        } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
+            Glide.with(this).load(R.drawable.fire3).into(character_img);
+        }  else if (ch_check.equals("fire_ch") && 8<=currentLv) {
+            Glide.with(this).load(R.drawable.fire4).into(character_img);
+        } else if(ch_check.equals("grass_ch") && currentLv <=2){
+            Glide.with(this).load(R.drawable.grass1).into(character_img);
+        } else if (ch_check.equals("grass_ch") && currentLv<= 4) {
+            Glide.with(this).load(R.drawable.grass2).into(character_img);
+        } else if (ch_check.equals("grass_ch") && currentLv<= 7) {
+            Glide.with(this).load(R.drawable.grass3).into(character_img);
+        }  else if (ch_check.equals("grass_ch") && 8<=currentLv) {
+            Glide.with(this).load(R.drawable.grass4).into(character_img);
+        }  else if(ch_check.equals("fish_ch") && currentLv <8){
+            Glide.with(this).load(R.drawable.fish).into(character_img);
+        } else if (ch_check.equals("fish_ch") && currentLv>=9) {
+            Glide.with(this).load(R.drawable.dragon).into(character_img);
+        } else {
+            Glide.with(this).load(R.drawable.character).into(character_img);
         }
 
 

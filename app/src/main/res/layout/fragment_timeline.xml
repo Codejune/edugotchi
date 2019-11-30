@@ -189,39 +189,38 @@
             android:layout_width="250dp"
             android:layout_height="24dp"
             android:layout_marginTop="30dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:gravity="center"
             android:background="@drawable/edge_round"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
             android:text="오늘의 각오"
             android:textSize="15sp"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            app:layout_constraintTop_toBottomOf="@+id/calendar_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"></TextView>
-
-        <ListView
-            android:id="@+id/rank_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/one_sentence"></ListView>
+            app:layout_constraintTop_toBottomOf="@+id/calendar_view"></TextView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/summary_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/one_sentence">
 
         <com.google.android.material.tabs.TabLayout
             android:id="@+id/tabs"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
+            android:layout_height="32dp"
             android:layout_marginLeft="32dp"
-            android:layout_marginTop="30dp"
             android:layout_marginRight="32dp"
+            android:layout_marginTop="16dp"
             android:background="@drawable/tab_layout_background"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rank_listview"
             app:tabBackground="@drawable/tab_layout_selector"
             app:tabIndicatorHeight="0dp"
             app:tabRippleColor="@null"
@@ -252,6 +251,8 @@
             layout="@layout/tabitem_dayreport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
 
         <include
@@ -259,6 +260,8 @@
             layout="@layout/tabitem_weekreport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
 
         <include
@@ -266,9 +269,37 @@
             layout="@layout/tabitem_monthreport"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="16dp"
             app:layout_constraintTop_toBottomOf="@id/tabs" />
+        </androidx.cardview.widget.CardView>
 
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="32dp"
+            android:layout_marginBottom="200dp"
+            android:background="@drawable/edge_round"
+            android:orientation="vertical"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/summary_view">
 
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="20dp"
+                android:gravity="center"
+                android:text="과목 랭킹"
+                android:textStyle="bold"
+                android:textSize="15sp" />
+
+            <ListView
+                android:id="@+id/rank_listview"
+                android:layout_width="match_parent"
+                android:layout_height="50dp"
+                android:divider="@color/soongsilPrimary"></ListView>
+        </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

@@ -139,7 +139,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         makeCalendar(); // 달력 생성 함수
-
+        makeRankTable();
         // 오늘 날짜로 tab내용 세팅
         Calendar today = Calendar.getInstance();
         setTabData(today, dayNum - 1);
@@ -208,7 +208,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             long total_time = 0;
             mCal.add(Calendar.DATE, position - dayNum + 1);
             // DB의 모든 데이터 검사 하는 for문
-            for (int i = 0; i<allMTOs.size(); i++) {
+            for (int i = 0; i < allMTOs.size(); i++) {
                 // 날짜 값이 일치할 경우
                 if (allMTOs.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) {
                     total_time += allMTOs.get(i).getTimeout();
@@ -251,7 +251,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             final EditText et = new EditText(getActivity());
             ad.setView(et);
             et.setText(one_sentence.getText().toString());
-            one_sentence.setSelected( true );
+            one_sentence.setSelected(true);
 
             ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                 @Override
@@ -306,35 +306,43 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         gridView.setAdapter(gridAdapter);
     }
 
-   /* private void makeRankTable(){
+    private void makeRankTable() {
         Realm.init(getActivity());
         mRealm = Realm.getDefaultInstance();
         RealmResults<MeasureTimeObject> allMTOs = mRealm.where(MeasureTimeObject.class).findAllSorted("date");
-        int count =0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
-        RankListItem[] items= new RankListItem[count];
+        rankList = new ArrayList<>();
+        int count = 0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
+        RankListItem[] items = new RankListItem[1];
+        items[0] = new RankListItem();
 
-        for(int i=0;i<count;i++){
-            //items[i].setSubject(캐릭터과목배열);
-        }
+        items[0].setSubject(allMTOs.first().getSubject());
+
 
         for (int i = 0; i < allMTOs.size(); i++)
-            for(int j=0;j<count;j++){
-                if(allMTOs.get(i).getSubject().equals(items[j].getSubject())){
+            for (int j = 0; j < 1; j++) {
+                if (allMTOs.get(i).getSubject().equals(items[j].getSubject())) {
                     items[j].plusTime(allMTOs.get(i).getTimeout());
                     items[j].plusExp(allMTOs.get(i).getExp());
                 }
             }
 
-        Arrays.sort(items);
+        //Arrays.sort(items);
 
-        for(int i=0;i<count;i++) {
+        for (int i = 0; i < 1; i++) {
             rankList.add(items[i]);
         }
+        rankList.add(items[0]);
+        rankList.add(items[0]);
+        rankList.add(items[0]);
 
-        listview=getView().findViewById(R.id.rank_listview);
-        listadapter= new RankListAdapter(getActivity(), R.layout.rank_list_item,rankList);
+        listview = getView().findViewById(R.id.rank_listview);
+        int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item)+1)*rankList.size();
+        ViewGroup.LayoutParams lp = listview.getLayoutParams();
+        lp.height=height;
+        listview.setLayoutParams(lp);
+        listadapter = new RankListAdapter(getActivity(), R.layout.rank_list_item, rankList);
         listview.setAdapter(listadapter);
-    }*/
+    }
 
     // 해당 월에 표시할 일 수 구함
     private void setCalendarDate(int month) {

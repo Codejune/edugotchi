@@ -150,6 +150,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         //Realm 초기 설정
         RealmInit();
         measureList = getMeasureList();
+        measureList=userRealm.where(MeasureData.class).findAll().sort("date");
         makeCalendar(); // 달력 생성 함수
         makeRankTable();
         // 오늘 날짜로 tab내용 세팅
@@ -345,6 +346,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                     items[j].plusExp(measureList.get(i).getExp());
                 }
             }
+        Log.i(TAG, "makeRankTable: "+measureList.size());
 
         //Arrays.sort(items);
 
@@ -414,9 +416,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void setTabData(Calendar mCal, int position) {
-        Realm.init(getActivity());
-        RealmResults<MeasureData> measureList = userRealm.where(MeasureData.class).findAll().sort("date");
-
         long total_time = 0, total_exp = 0, pre_total_time = 0;
         long total_week_time = 0, total_week_exp = 0, pre_week_total_time = 0;
         long total_month_time = 0, total_month_exp = 0, pre_month_total_time = 0;

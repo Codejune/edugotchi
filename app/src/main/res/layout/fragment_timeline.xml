@@ -309,8 +309,8 @@
                     android:layout_width="250dp"
                     android:layout_height="50dp"
                     android:layout_gravity="center"
-                    android:background="@drawable/edge_round"
                     android:listSelector="@drawable/blank"
+                    android:background="@drawable/edge_round"
                     android:scrollbars="none"
                     android:divider="@color/colorPrimary"
                     android:dividerHeight="1.5dp"></ListView>

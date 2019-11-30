@@ -1,8 +1,7 @@
 package kr.ac.ssu.edugochi.activity;
 
-import androidx.appcompat.app.AppCompatActivity;
-
 import android.annotation.SuppressLint;
+import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
@@ -10,6 +9,8 @@ import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
+
+import androidx.appcompat.app.AppCompatActivity;
 
 import com.google.android.material.button.MaterialButton;
 
@@ -19,9 +20,10 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmResults;
+import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.CharacterObject;
 import kr.ac.ssu.edugochi.object.MeasureTimeObject;
-import kr.ac.ssu.edugochi.R;
 
 public class MeasureActivity extends AppCompatActivity {
 
@@ -31,8 +33,10 @@ public class MeasureActivity extends AppCompatActivity {
     private final static int pause = 2;
     private long pause_time;
     private int timer_status = init; //현재의 상태를 저장할변수를 초기화함.
+    private int WN_status = init;
     private long base_time;
     private long out_time;
+    MediaPlayer player;
     private Realm realm;
     private TextView timer;
     private RealmResults<MeasureTimeObject> measureList;
@@ -46,6 +50,8 @@ public class MeasureActivity extends AppCompatActivity {
         Realm.init(this);
         realm = Realm.getDefaultInstance();
 
+
+
         measureList = getMeasureList();
         Log.i(TAG, "measureList.size\t: " + measureList.size());
         characterList = getCharacterList();
@@ -53,8 +59,41 @@ public class MeasureActivity extends AppCompatActivity {
 
         final MaterialButton record_btn = findViewById(R.id.record_btn);
         final MaterialButton stop_btn = findViewById(R.id.stop_btn);
+        final MaterialButton WN_btn = findViewById(R.id.play_btn);
         timer = findViewById(R.id.timer);
 
+        String WN_Check = eduPreManger.getString(this, "white_noise");
+        Log.d(TAG, WN_Check);
+        if(WN_Check.equals("rain")){
+            player = MediaPlayer.create(this, R.raw.rain);
+        }
+        else if(WN_Check.equals("fire")){
+            player = MediaPlayer.create(this, R.raw.fire);
+        }
+
+        WN_btn.setOnClickListener(new View.OnClickListener(){
+
+
+            @Override
+            public void onClick(View v) {
+                switch (WN_status) {
+                    case init: // 정지 상태
+                        player.start();
+                        WN_btn.setText("백색소음정지");
+                        WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause_white_24dp));
+                        WN_status = run; //현재상태를 런상태로 변경
+                        break;
+                    case run: // 측정 상태
+                        //player.stop();
+                        player.pause();
+                        WN_btn.setText("백색소음재생");
+                        WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                        WN_status = init;
+                        break;
+                }
+
+            }
+        });
         // 측정 중 짧게 누르면 일시 정지
         // 측정 중 길게 누르면 정지
         record_btn.setOnClickListener(new View.OnClickListener() {
@@ -193,6 +232,10 @@ public class MeasureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
+        if(player != null) {
+            player.release();
+            player = null;
+        }
         //realm.close();
     }
 }

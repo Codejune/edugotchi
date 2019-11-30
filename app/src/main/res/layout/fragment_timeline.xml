@@ -187,86 +187,135 @@
             android:layout_width="250dp"
             android:layout_height="24dp"
             android:layout_marginTop="30dp"
-            android:paddingRight="5dp"
-            android:paddingLeft="5dp"
-            android:gravity="center"
             android:background="@drawable/edge_round"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
             android:text="오늘의 각오"
             android:textSize="15sp"
-            android:singleLine="true"
-            android:ellipsize="marquee"
-            android:marqueeRepeatLimit="marquee_forever"
-            app:layout_constraintTop_toBottomOf="@+id/calendar_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintRight_toRightOf="parent"></TextView>
-
-        <ListView
-            android:id="@+id/rank_listview"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="30dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/one_sentence"></ListView>
+            app:layout_constraintTop_toBottomOf="@+id/calendar_view"></TextView>
 
-        <com.google.android.material.tabs.TabLayout
-            android:id="@+id/tabs"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/summary_view"
             android:layout_width="match_parent"
-            android:layout_height="36dp"
-            android:layout_marginLeft="32dp"
+            android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_marginRight="32dp"
-            android:background="@drawable/tab_layout_background"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/rank_listview"
-            app:tabBackground="@drawable/tab_layout_selector"
-            app:tabIndicatorHeight="0dp"
-            app:tabRippleColor="@null"
-            app:tabSelectedTextColor="@color/white"
-            app:tabTextAppearance="@style/TabTextAppearance">
+            app:layout_constraintTop_toBottomOf="@id/one_sentence">
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_day"
-                android:layout_width="wrap_content"
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/tab_layout_background"
+                app:tabBackground="@drawable/tab_layout_selector"
+                app:tabIndicatorHeight="0dp"
+                app:tabRippleColor="@null"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextAppearance="@style/TabTextAppearance">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="일간" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주간" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="월간" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <include
+                android:id="@+id/content_day"
+                layout="@layout/tabitem_dayreport"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="일간" />
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tabs" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_week"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/content_week"
+                layout="@layout/tabitem_weekreport"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="주간" />
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tabs" />
 
-            <com.google.android.material.tabs.TabItem
-                android:id="@+id/tab_month"
-                android:layout_width="wrap_content"
+            <include
+                android:id="@+id/content_month"
+                layout="@layout/tabitem_monthreport"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="월간" />
-        </com.google.android.material.tabs.TabLayout>
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tabs" />
+        </androidx.cardview.widget.CardView>
 
-        <include
-            android:id="@+id/content_day"
-            layout="@layout/tabitem_dayreport"
+        <androidx.cardview.widget.CardView
+            android:id="@+id/rank_view"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tabs" />
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="150dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/summary_view">
 
-        <include
-            android:id="@+id/content_week"
-            layout="@layout/tabitem_weekreport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tabs" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="32dp"
+                android:layout_gravity="center"
+                android:orientation="vertical">
 
-        <include
-            android:id="@+id/content_month"
-            layout="@layout/tabitem_monthreport"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/tabs" />
+                <TextView
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_marginBottom="16dp"
+                    android:gravity="center"
+                    android:layout_gravity="center"
+                    android:text="과목 랭킹"
+                    android:background="@drawable/edge_round"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
 
-
+                <ListView
+                    android:id="@+id/rank_listview"
+                    android:layout_width="250dp"
+                    android:layout_height="50dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edge_round"
+                    android:listSelector="@drawable/blank"
+                    android:scrollbars="none"
+                    android:divider="@color/colorPrimary"
+                    android:dividerHeight="1.5dp"></ListView>
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

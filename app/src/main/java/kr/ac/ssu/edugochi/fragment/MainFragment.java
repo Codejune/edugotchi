@@ -15,15 +15,10 @@ import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
-import androidx.fragment.app.Fragment;
-
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
-import java.io.IOException;
-
 import io.realm.Realm;
-import io.realm.RealmChangeListener;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
@@ -61,6 +56,8 @@ public class MainFragment extends Fragment {
     private int nextLv;        // 다음 레벨
     private long nextExp;       // 다음 레벨 경험치
     private long nextInterval;  // 다음 레벨과의 경험치 차이
+
+    private String ch_check;
 
 
     @Override
@@ -103,8 +100,8 @@ public class MainFragment extends Fragment {
         characterList = getCharacterList();
         expList = getExpList();
 
-            currentLv = (int) characterList.first().getLv();
         try {
+            currentLv = (int) characterList.first().getLv();
         } catch (Exception e) {
             // 캐릭터 데이터베이스 생성
             initCharacterData();
@@ -112,31 +109,20 @@ public class MainFragment extends Fragment {
             // 캐릭터 정보 동기화
             SyncCharacterInfo();
         }
-        String ch_check;
-        ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
-        if(ch_check.equals("basic_ch")) {
-            Glide.with(this).load(R.drawable.character).into(character);
-        }else if(ch_check.equals("water_ch")){
-            Glide.with(this).load(R.drawable.water1).into(character);
-        }else if(ch_check.equals("fire_ch")){
-            Glide.with(this).load(R.drawable.fire1).into(character);
-        }else if(ch_check.equals("grass_ch")){
-            Glide.with(this).load(R.drawable.grass1).into(character);
-        }else if(ch_check.equals("fish_ch")){
-            Glide.with(this).load(R.drawable.fish).into(character);
-        }
-        else{
-            Glide.with(this).load(R.drawable.fish).into(character);
-        }
-            @Override
-            public void onChange(RealmResults<MeasureData> MeasureDatas) {
-                Log.d(TAG, "접근!");
 
-                // 캐릭터 정보 출력 동기화
-                SyncCharacterInfo();
-            }
-        });
-        */
+        ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
+        if (ch_check.equals("basic_ch")) {
+            Glide.with(this).load(R.drawable.character).into(character_img);
+        } else if (ch_check.equals("water_ch")) {
+            Glide.with(this).load(R.drawable.water1).into(character_img);
+        } else if (ch_check.equals("fire_ch")) {
+            Glide.with(this).load(R.drawable.fire1).into(character_img);
+        } else if (ch_check.equals("grass_ch")) {
+            Glide.with(this).load(R.drawable.grass1).into(character_img);
+        } else if (ch_check.equals("fish_ch")) {
+            Glide.with(this).load(R.drawable.fish).into(character_img);
+        } else Glide.with(this).load(R.drawable.fish).into(character_img);
+
 
         // Gif 이미지를 ImageView에 할당
         Glide.with(this).load(R.drawable.character).into(character_img);
@@ -240,7 +226,7 @@ public class MainFragment extends Fragment {
             }
         });
     }
-  //  private selectCharacter()
+    //  private selectCharacter()
 
 
     @Override

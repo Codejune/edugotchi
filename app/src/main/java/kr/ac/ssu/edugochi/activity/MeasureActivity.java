@@ -21,6 +21,7 @@ import java.util.Locale;
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmResults;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.R;
@@ -39,6 +40,7 @@ public class MeasureActivity extends AppCompatActivity {
     private int WN_status = init;
     private long base_time;
     private long out_time;
+
     MediaPlayer player;
     private TextView timer;
 
@@ -72,16 +74,13 @@ public class MeasureActivity extends AppCompatActivity {
 
         String WN_Check = eduPreManger.getString(this, "white_noise");
         Log.d(TAG, WN_Check);
-        if(WN_Check.equals("rain")){
+        if (WN_Check.equals("rain")) {
             player = MediaPlayer.create(this, R.raw.rain);
-        }
-        else if(WN_Check.equals("fire")){
+        } else if (WN_Check.equals("fire")) {
             player = MediaPlayer.create(this, R.raw.fire);
         }
 
-        WN_btn.setOnClickListener(new View.OnClickListener(){
-
-
+        WN_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 switch (WN_status) {
@@ -102,8 +101,7 @@ public class MeasureActivity extends AppCompatActivity {
 
             }
         });
-        // 측정 중 짧게 누르면 일시 정지
-        // 측정 중 길게 누르면 정지
+
         record_btn.setOnClickListener(new View.OnClickListener() {
             /*
                 init    : 정지
@@ -155,7 +153,7 @@ public class MeasureActivity extends AppCompatActivity {
 
                         measureTransaction();   // 측정 데이터 DB 저장
                         characterTransaction(); // 캐릭터 정보 갱신
-                        Log.i(TAG,"measureList.size: " + measureList.size());
+                        Log.i(TAG, "measureList.size: " + measureList.size());
 
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
                         record_btn.setText("측정시작");
@@ -180,7 +178,7 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
     // 측정 데이터 DB 저장
-    private void measureTransaction(){
+    private void measureTransaction() {
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -192,16 +190,16 @@ public class MeasureActivity extends AppCompatActivity {
                 MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
                 MeasureData.setTimeout(out_time);
                 MeasureData.setExp(out_time / 1000);
-                Log.i(TAG,"date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
-                Log.i(TAG,"timeout\t: " + out_time);
-                Log.i(TAG,"exp\t\t: " + out_time / 1000);
+                Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
+                Log.i(TAG, "timeout\t: " + out_time);
+                Log.i(TAG, "exp\t\t: " + out_time / 1000);
             }
         });
         measureList = getMeasureList();
     }
 
     // 캐릭터 정보 갱신
-    private void characterTransaction(){
+    private void characterTransaction() {
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -211,7 +209,6 @@ public class MeasureActivity extends AppCompatActivity {
         });
         characterList = getCharacterList();
     }
-
 
 
     // 타이머 핸들러
@@ -235,7 +232,7 @@ public class MeasureActivity extends AppCompatActivity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(player != null) {
+        if (player != null) {
             player.release();
             player = null;
         }

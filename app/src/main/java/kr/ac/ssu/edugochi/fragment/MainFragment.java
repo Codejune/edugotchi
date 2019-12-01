@@ -126,7 +126,7 @@ public class MainFragment extends Fragment {
             Glide.with(this).load(R.drawable.fire2).into(character_img);
         } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
             Glide.with(this).load(R.drawable.fire3).into(character_img);
-        }  else if (ch_check.equals("fire_ch") && 8<=currentLv) {
+        }  else if (ch_check.equals("fire_ch") && 7<=currentLv) {
             Glide.with(this).load(R.drawable.fire4).into(character_img);
         } else if(ch_check.equals("grass_ch") && currentLv <=2){
             Glide.with(this).load(R.drawable.grass1).into(character_img);

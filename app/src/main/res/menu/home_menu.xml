@@ -5,18 +5,21 @@
     <item
         android:id="@+id/app_bar_home"
         android:icon="@drawable/ic_home_black_24dp"
+        app:iconTint="@color/itemColor"
         android:title="@string/home"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/app_bar_timeline"
         android:icon="@drawable/ic_schedule_black_24dp"
+        app:iconTint="@color/itemColor"
         android:title="@string/timeline"
         app:showAsAction="ifRoom"/>
 
     <item
         android:id="@+id/app_bar_todo"
         android:icon="@drawable/ic_playlist_add_check_black_24dp"
+        app:iconTint="@color/itemColor"
         android:title="@string/todo"
         app:showAsAction="ifRoom"/>
 

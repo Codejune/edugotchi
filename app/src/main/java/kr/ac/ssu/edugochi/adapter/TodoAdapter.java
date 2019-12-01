@@ -19,9 +19,9 @@ import kr.ac.ssu.edugochi.object.TodoItem;
 public class TodoAdapter extends ArrayAdapter<TodoItem> {
 
     private View.OnClickListener mOnItemDeleteListener;
-    Context context;
-    int resId;
-    ArrayList<TodoItem> data;
+    private Context context;
+    private int resId;
+    private ArrayList<TodoItem> data;
 
     public TodoAdapter(Context context, int resId, ArrayList<TodoItem> data, View.OnClickListener onItemDeleteListener) {
         super(context, resId);
@@ -50,6 +50,7 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         final TextView dateView = holder.dateView;
         TextView memoView = holder.memoView;
         ImageView deleteBtn = holder.deleteBtn;
+
 
         final TodoItem vo = data.get(position);
 

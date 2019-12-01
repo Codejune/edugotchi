@@ -35,9 +35,9 @@ public class SettingFragment extends PreferenceFragmentCompat {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
         final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
 
+        //다크모드 온오
         darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
         {
             @Override
@@ -63,7 +63,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
             }
 
         });
-
+        //캐릭터 선택
         ListPreference character = (ListPreference) findPreference("selectCharacter");
         Log.d(TAG, String.valueOf(character));
         character.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
@@ -74,7 +74,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 return true;
             }
         });
-
+        //백색소음 선택
         ListPreference Wn = (ListPreference) findPreference("white_noise");
         Wn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
@@ -86,7 +86,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
             }
         });
 
-
+        //초기화
         Preference reset = findPreference("Reset");
         reset.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override

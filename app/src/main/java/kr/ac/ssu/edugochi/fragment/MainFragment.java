@@ -108,44 +108,7 @@ public class MainFragment extends Fragment {
             // 캐릭터 정보 동기화
             SyncCharacterInfo();
         }
-
-        ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
-        if (ch_check.equals("basic_ch")) {
-            Glide.with(this).load(R.drawable.character).into(character_img);
-        } else if(ch_check.equals("water_ch") && currentLv <=2){
-            Glide.with(this).load(R.drawable.water1).into(character_img);
-        } else if (ch_check.equals("water_ch") && currentLv<= 4) {
-            Glide.with(this).load(R.drawable.water2).into(character_img);
-        } else if (ch_check.equals("water_ch") && currentLv<= 7) {
-            Glide.with(this).load(R.drawable.water3).into(character_img);
-        }  else if (ch_check.equals("water_ch") && 8<=currentLv) {
-            Glide.with(this).load(R.drawable.water4).into(character_img);
-        } else if(ch_check.equals("fire_ch") && currentLv <=2){
-            Glide.with(this).load(R.drawable.fire1).into(character_img);
-        } else if (ch_check.equals("fire_ch") && currentLv<= 4) {
-            Glide.with(this).load(R.drawable.fire2).into(character_img);
-        } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
-            Glide.with(this).load(R.drawable.fire3).into(character_img);
-        }  else if (ch_check.equals("fire_ch") && 8<=currentLv) {
-            Glide.with(this).load(R.drawable.fire4).into(character_img);
-        } else if(ch_check.equals("grass_ch") && currentLv <=2){
-            Glide.with(this).load(R.drawable.grass1).into(character_img);
-        } else if (ch_check.equals("grass_ch") && currentLv<= 4) {
-            Glide.with(this).load(R.drawable.grass2).into(character_img);
-        } else if (ch_check.equals("grass_ch") && currentLv<= 7) {
-            Glide.with(this).load(R.drawable.grass3).into(character_img);
-        }  else if (ch_check.equals("grass_ch") && 8<=currentLv) {
-            Glide.with(this).load(R.drawable.grass4).into(character_img);
-        }  else if(ch_check.equals("fish_ch") && currentLv <8){
-            Glide.with(this).load(R.drawable.fish).into(character_img);
-        } else if (ch_check.equals("fish_ch") && currentLv>=9) {
-            Glide.with(this).load(R.drawable.dragon).into(character_img);
-        } else {
-            Glide.with(this).load(R.drawable.character).into(character_img);
-        }
-
-
-
+        UpdateCharacter();
         // 측정 버튼 리스너
         record_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -248,11 +211,61 @@ public class MainFragment extends Fragment {
     //  private selectCharacter()
 
 
+    private void UpdateCharacter(){
+        ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
+        //기본 몰랑이
+        if (ch_check.equals("basic_ch")) {
+            Glide.with(this).load(R.drawable.character).into(character_img);
+        }
+        //꼬부기~ 메가 거북왕
+        else if(ch_check.equals("water_ch") && currentLv <=2){
+            Glide.with(this).load(R.drawable.water1).into(character_img);
+        } else if (ch_check.equals("water_ch") && currentLv<= 4) {
+            Glide.with(this).load(R.drawable.water2).into(character_img);
+        } else if (ch_check.equals("water_ch") && currentLv<= 7) {
+            Glide.with(this).load(R.drawable.water3).into(character_img);
+        }  else if (ch_check.equals("water_ch") && 8<=currentLv) {
+            Glide.with(this).load(R.drawable.water4).into(character_img);
+        }
+        //파이리~ 메가 리자몽
+        else if(ch_check.equals("fire_ch") && currentLv <=2){
+            Glide.with(this).load(R.drawable.fire1).into(character_img);
+        } else if (ch_check.equals("fire_ch") && currentLv<= 4) {
+            Glide.with(this).load(R.drawable.fire2).into(character_img);
+        } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
+            Glide.with(this).load(R.drawable.fire3).into(character_img);
+        }  else if (ch_check.equals("fire_ch") && 7<=currentLv) {
+            Glide.with(this).load(R.drawable.fire4).into(character_img);
+        }
+        //이상해씨 ~ 메가 이상해꽃
+        else if(ch_check.equals("grass_ch") && currentLv <=2){
+            Glide.with(this).load(R.drawable.grass1).into(character_img);
+        } else if (ch_check.equals("grass_ch") && currentLv<= 4) {
+            Glide.with(this).load(R.drawable.grass2).into(character_img);
+        } else if (ch_check.equals("grass_ch") && currentLv<= 7) {
+            Glide.with(this).load(R.drawable.grass3).into(character_img);
+        }  else if (ch_check.equals("grass_ch") && 8<=currentLv) {
+            Glide.with(this).load(R.drawable.grass4).into(character_img);
+        }
+        //잉어킹 ~ 갸라도스
+        else if(ch_check.equals("fish_ch") && currentLv <8){
+            Glide.with(this).load(R.drawable.fish).into(character_img);
+        } else if (ch_check.equals("fish_ch") && currentLv>=9) {
+            Glide.with(this).load(R.drawable.dragon).into(character_img);
+        }
+        //디폴트 초기설정으로 캐릭터 미설정시 몰랑이 출력
+        else {
+            Glide.with(this).load(R.drawable.character).into(character_img);
+        }
+    }
+
+
     @Override
     public void onResume() {
         Log.d(TAG, "접근");
         super.onResume();
         // 측정 데이터 변화 동기화
         SyncCharacterInfo();
+        UpdateCharacter();
     }
 }

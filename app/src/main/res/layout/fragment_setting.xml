@@ -4,9 +4,11 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/navigation_view_layout"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:background="@color/background">
 
-    <ImageView
+
+<ImageView
         android:id="@+id/imageView"
         android:layout_width="60dp"
         android:layout_height="60dp"
@@ -40,6 +42,7 @@
         app:layout_constraintLeft_toRightOf="@id/imageView" />
 
     <com.google.android.material.navigation.NavigationView
+        android:backgroundTint="@color/background"
         android:id="@+id/navigation_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"

@@ -52,6 +52,7 @@ public class TodoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
 
+        AddBtn = view.findViewById(R.id.action_add_task);
         TodoList = view.findViewById(R.id.todo_list);
         listItems();
     }

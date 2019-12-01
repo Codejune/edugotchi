@@ -60,4 +60,5 @@
     <color name="gold">#f1be02</color>
     <color name="silver">#d6d6d8</color>
     <color name="bronze">#a06216</color>
+    <color name="edge_background">#262833</color>
 </resources>

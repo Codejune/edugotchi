@@ -6,6 +6,6 @@
     <corners android:radius="20dp" />
 
     <!-- TabLayout background color -->
-    <solid android:color="@color/bg_light" />
+    <solid android:color="@color/edge_background" />
 
 </shape>

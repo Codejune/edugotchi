@@ -334,33 +334,33 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         int count = 0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
         RankListItem[] items = new RankListItem[1];
         items[0] = new RankListItem();
-        items[0].setSubject(measureList.first().getSubject());
-
-        for (int i = 0; i < measureList.size(); i++)
-            for (int j = 0; j < 1; j++) {
-                if (measureList.get(i).getSubject().equals(items[j].getSubject())) {
-                    items[j].plusTime(measureList.get(i).getTimeout());
-                    items[j].plusExp(measureList.get(i).getExp());
+        if (measureList.size() > 0) { // 데이타가 있을 때만 실행
+            items[0].setSubject(measureList.first().getSubject());
+            for (int i = 0; i < measureList.size(); i++)
+                for (int j = 0; j < 1; j++) {
+                    if (measureList.get(i).getSubject().equals(items[j].getSubject())) {
+                        items[j].plusTime(measureList.get(i).getTimeout());
+                        items[j].plusExp(measureList.get(i).getExp());
+                    }
                 }
+
+            //Arrays.sort(items);
+
+            for (int i = 0; i < 1; i++) {
+                rankList.add(items[i]);
             }
-        Log.i(TAG, "makeRankTable: " + measureList.size());
+            rankList.add(items[0]);
+            rankList.add(items[0]);
+            rankList.add(items[0]);
 
-        //Arrays.sort(items);
-
-        for (int i = 0; i < 1; i++) {
-            rankList.add(items[i]);
+            listview = getView().findViewById(R.id.rank_listview);
+            int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item) + 1) * rankList.size();
+            ViewGroup.LayoutParams lp = listview.getLayoutParams();
+            lp.height = height;
+            listview.setLayoutParams(lp);
+            listadapter = new RankListAdapter(getActivity(), R.layout.rank_list_item, rankList);
+            listview.setAdapter(listadapter);
         }
-        rankList.add(items[0]);
-        rankList.add(items[0]);
-        rankList.add(items[0]);
-
-        listview = getView().findViewById(R.id.rank_listview);
-        int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item) + 1) * rankList.size();
-        ViewGroup.LayoutParams lp = listview.getLayoutParams();
-        lp.height = height;
-        listview.setLayoutParams(lp);
-        listadapter = new RankListAdapter(getActivity(), R.layout.rank_list_item, rankList);
-        listview.setAdapter(listadapter);
     }
 
     // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수
@@ -404,7 +404,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             return "yellow";
         else if (time > 0)
             return "red";
-        return null;
+        return "red";
     }
 
     private void setTabData(Calendar mCal, int position) {
@@ -473,6 +473,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             /** 일간 탭호스트 레이아웃 세팅 **/
             circle = getView().findViewById(R.id.day_circle);
             selectcolor = colorSelect(total_time, 0);
+            Log.i(TAG, "color"+selectcolor);
             switch (selectcolor) {
                 case "green":
                     circle.setImageResource(R.drawable.green_wide_circle);

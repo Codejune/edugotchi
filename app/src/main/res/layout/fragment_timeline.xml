@@ -15,7 +15,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="300dp"
+            android:layout_height="320sp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -32,8 +32,8 @@
 
                 <ImageButton
                     android:id="@+id/pre_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="16sp"
+                    android:layout_height="16sp"
                     android:adjustViewBounds="true"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="10dp"
@@ -46,10 +46,10 @@
                     android:id="@+id/tv_date"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="12dp"
                     android:textColor="@color/itemColor"
                     android:gravity="center"
-                    android:textSize="20sp"
+                    android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -57,8 +57,8 @@
 
                 <ImageButton
                     android:id="@+id/fore_button"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
+                    android:layout_width="16sp"
+                    android:layout_height="16sp"
                     android:layout_marginTop="16dp"
                     android:layout_marginLeft="10dp"
                     android:adjustViewBounds="true"

@@ -153,6 +153,7 @@ public class MainFragment extends Fragment {
             public void execute(Realm realm) {
                 Character Character = userRealm.createObject(Character.class);
                 RealmList<String> subject = new RealmList<>();
+                subject.add("시발련아");
                 Character.setName("몰랑잉");
                 Character.setLv(1);
                 Character.setExp(0);

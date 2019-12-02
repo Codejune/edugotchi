@@ -5,7 +5,9 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:key="root">
     <Preference
-        android:layout="@layout/fragment_setting"/>
+        app:key="login"
+        android:layout="@layout/fragment_setting" />
+
     <SwitchPreferenceCompat
         app:key="darkMode"
         app:icon="@drawable/ic_brightness"

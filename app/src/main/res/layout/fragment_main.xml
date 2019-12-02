@@ -227,6 +227,7 @@
                     android:layout_marginLeft="16dp"
                     app:layout_constraintTop_toBottomOf="@id/add_title"
                     app:layout_constraintLeft_toRightOf="@id/subject_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
                     android:text="새로운 과목을 추가해보세요."
                     android:textSize="10sp" />
 

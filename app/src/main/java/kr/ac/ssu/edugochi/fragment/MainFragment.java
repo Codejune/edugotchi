@@ -322,6 +322,18 @@ public class MainFragment extends Fragment {
         if (ch_check.equals("basic_ch")) {
             Glide.with(this).load(R.drawable.character).into(ch);
         }
+        //모찌
+        else if (ch_check.equals("mozzi_ch") && currentLv <= 2) {
+            Glide.with(this).load(R.drawable.mozzi1).into(ch);
+        } else if (ch_check.equals("mozzi_ch") && currentLv <= 4) {
+            Glide.with(this).load(R.drawable.mozzi2).into(ch);
+        } else if (ch_check.equals("mozzi_ch") && currentLv <= 7) {
+            Glide.with(this).load(R.drawable.mozzi3).into(ch);
+        } else if (ch_check.equals("mozzi_ch") && 8 <= currentLv) {
+            Glide.with(this).load(R.drawable.mozzi4).into(ch);
+        } else if (ch_check.equals("mozzi_ch") && 10 <= currentLv) {
+            Glide.with(this).load(R.drawable.mozzi5).into(ch);
+        }
         //꼬부기~ 메가 거북왕
         else if (ch_check.equals("water_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.water1).into(ch);

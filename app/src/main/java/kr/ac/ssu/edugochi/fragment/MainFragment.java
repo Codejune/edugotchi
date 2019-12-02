@@ -1,17 +1,15 @@
 package kr.ac.ssu.edugochi.fragment;
 
-import android.app.AlertDialog;
+import androidx.appcompat.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
-import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 import android.widget.ImageView;
-import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -154,11 +152,11 @@ public class MainFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
-                ad.setTitle("과목명");
+                ad.setTitle("과목 추가");
                 final EditText et = new EditText(view.getContext());
                 ad.setView(et);
-                ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
-                    @Override
+                ad.setPositiveButton("저장",
+                        new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         userRealm.executeTransaction(new Realm.Transaction() {
                             @Override

@@ -4,9 +4,10 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="60dp"
+    android:background="@color/background"
     android:fillViewport="true"
-    android:orientation="vertical"
-    android:background="@color/background">
+    android:orientation="vertical">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -37,13 +38,13 @@
                 android:layout_width="match_parent"
                 android:layout_height="0dp"
                 android:layout_marginBottom="32dp"
-                android:divider="#ffffff"
                 android:layout_weight="1"
+                android:divider="#ffffff"
                 android:scrollbarSize="3dp"
                 android:scrollbarStyle="outsideOverlay"
                 android:scrollbars="vertical"
                 android:scrollingCache="true"
-                android:smoothScrollbar="true"/>
+                android:smoothScrollbar="true" />
         </LinearLayout>
     </LinearLayout>
 

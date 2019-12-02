@@ -169,7 +169,7 @@ public class MeasureActivity extends AppCompatActivity {
                         timer_status = init;
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         record_btn.setText("측정시작");
-                        if(subject == null)
+                        if (subject == null)
                             SelectSubject();
                         else NoSelectSubject();
                         /*
@@ -244,7 +244,7 @@ public class MeasureActivity extends AppCompatActivity {
                         SelectedItems.add(which);
                     }
                 });
-        builder.setPositiveButton("Ok",
+        builder.setPositiveButton("확인",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
                         if (!SelectedItems.isEmpty()) {
@@ -254,7 +254,7 @@ public class MeasureActivity extends AppCompatActivity {
                         }
                     }
                 });
-        builder.setNegativeButton("Cancel",
+        builder.setNegativeButton("취소",
                 new DialogInterface.OnClickListener() {
                     public void onClick(DialogInterface dialog, int which) {
 

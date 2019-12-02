@@ -24,6 +24,7 @@ import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.eduPreManger;
@@ -231,7 +232,18 @@ public class MeasureActivity extends AppCompatActivity {
             @Override
             public void execute(Realm realm) {
                 long exp = characterList.first().getExp();
+                boolean checkSubject = true;
+                RealmList<String> subjects = characterList.first().getSubject();
                 characterList.first().setExp(exp + out_time / 1000);
+                for(int i = 0; i < subjects.size(); i++) {
+                    if(subjects.get(i) == subject) {
+                        subjects.add(subject);
+                        checkSubject = false;
+                        break;
+                    }
+                }
+                if(checkSubject)
+                    characterList.first().setSubject(subjects);
             }
         });
         characterList = getCharacterList();

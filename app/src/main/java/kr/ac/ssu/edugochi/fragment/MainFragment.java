@@ -19,6 +19,7 @@ import com.google.android.material.button.MaterialButton;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
@@ -151,9 +152,11 @@ public class MainFragment extends Fragment {
             @Override
             public void execute(Realm realm) {
                 Character Character = userRealm.createObject(Character.class);
+                RealmList<String> subject = new RealmList<>();
                 Character.setName("몰랑잉");
                 Character.setLv(1);
                 Character.setExp(0);
+                Character.setSubject(subject);
             }
         });
     }

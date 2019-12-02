@@ -80,9 +80,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private Realm userRealm;
     private RealmConfiguration UserModuleConfig;
     private RealmResults<MeasureData> measureList;
+
     private void RealmInit() {
         userRealm = Realm.getInstance(UserModuleConfig);
     }
+
     private RealmResults<MeasureData> getMeasureList() {   // 측정 데이터 리스트 반환
         return userRealm.where(MeasureData.class).findAllAsync();
     }
@@ -158,7 +160,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         //Realm 초기 설정
         RealmInit();
         measureList = getMeasureList();
-        measureList=userRealm.where(MeasureData.class).findAll().sort("date");
+        measureList = userRealm.where(MeasureData.class).findAll().sort("date");
 
         makeCalendar(); // 달력 생성 함수
         setTabData(today, dayNum - 1); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
@@ -341,7 +343,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                     items[j].plusExp(measureList.get(i).getExp());
                 }
             }
-        Log.i(TAG, "makeRankTable: "+measureList.size());
+        Log.i(TAG, "makeRankTable: " + measureList.size());
 
         //Arrays.sort(items);
 
@@ -395,6 +397,16 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     }
 
+    private String colorSelect(long time, int check) {
+        if (((time >= (6 * 60 * 60 * 1000))&&(check==0))||((time >= (30 * 60 * 60 * 1000))&&(check==1))||((time >= (132 * 60 * 60 * 1000))&&(check==2)))
+            return "green";
+        else if  (((time >= (3 * 60 * 60 * 1000))&&(check==0))||((time >= (15 * 60 * 60 * 1000))&&(check==1))||((time >= (66 * 60 * 60 * 1000))&&(check==2)))
+            return "yellow";
+        else if (time > 0)
+            return "red";
+        return null;
+    }
+
     private void setTabData(Calendar mCal, int position) {
         long total_time = 0, total_exp = 0, pre_total_time = 0;
         long total_week_time = 0, total_week_exp = 0, pre_week_total_time = 0;
@@ -402,7 +414,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         Calendar[] week = new Calendar[7];
         Calendar[] pre_week = new Calendar[7];
         Calendar week_day, pre_day, month_day;
+        ImageView circle;
         int rest = -1, pre_rest = -1, month_rest = -1;
+        String selectcolor;
 
         if (measureList.size() > 0) { // 데이타가 있을 때만 실행
             mCal.add(Calendar.DATE, position - dayNum + 1); // 클릭 된 날짜로 세팅
@@ -457,6 +471,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
 
             /** 일간 탭호스트 레이아웃 세팅 **/
+            circle = getView().findViewById(R.id.day_circle);
+            selectcolor = colorSelect(total_time, 0);
+            switch (selectcolor) {
+                case "green":
+                    circle.setImageResource(R.drawable.green_wide_circle);
+                    break;
+                case "yellow":
+                    circle.setImageResource(R.drawable.yellow_wide_circle);
+                    break;
+                case "red":
+                    circle.setImageResource(R.drawable.red_wide_circle);
+                    break;
+            }
+
             TextView textview = getView().findViewById(R.id.total_time);
             textview.setText(makeTimeForm(total_time));
 
@@ -481,6 +509,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview.setText(rest + "회");
 
             /** 주간 탭호스트 레이아웃 세팅 **/
+            circle = getView().findViewById(R.id.week_circle);
+            selectcolor = colorSelect(total_time, 1);
+            switch (selectcolor) {
+                case "green":
+                    circle.setImageResource(R.drawable.green_wide_circle);
+                    break;
+                case "yellow":
+                    circle.setImageResource(R.drawable.yellow_wide_circle);
+                    break;
+                case "red":
+                    circle.setImageResource(R.drawable.red_wide_circle);
+                    break;
+            }
+
             textview = getView().findViewById(R.id.total_week_time);
             textview.setText(makeTimeForm(total_week_time));
 
@@ -505,6 +547,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview.setText(pre_rest + "회");
 
             /** 월간 탭호스트 레이아웃 세팅 **/
+            circle = getView().findViewById(R.id.month_circle);
+            selectcolor = colorSelect(total_time, 2);
+            switch (selectcolor) {
+                case "green":
+                    circle.setImageResource(R.drawable.green_wide_circle);
+                    break;
+                case "yellow":
+                    circle.setImageResource(R.drawable.yellow_wide_circle);
+                    break;
+                case "red":
+                    circle.setImageResource(R.drawable.red_wide_circle);
+                    break;
+            }
+
             textview = getView().findViewById(R.id.total_month_time);
             textview.setText(makeTimeForm(total_month_time));
 

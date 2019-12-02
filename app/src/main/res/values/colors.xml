@@ -57,8 +57,5 @@
     <color name="redPastel">#FFA9B0</color>
     <color name="yellowPastel">#FFDDA6</color>
     <color name="greenPastel">#B8F3B8</color>
-    <color name="gold">#f1be02</color>
-    <color name="silver">#d6d6d8</color>
-    <color name="bronze">#a06216</color>
     <color name="edge_background">#ffffff</color>
 </resources>

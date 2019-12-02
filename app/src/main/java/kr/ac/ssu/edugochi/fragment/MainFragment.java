@@ -18,13 +18,10 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.core.widget.NestedScrollView;
-import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
-
-import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -33,12 +30,10 @@ import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
 import kr.ac.ssu.edugochi.adapter.SubjectListAdapter;
-import kr.ac.ssu.edugochi.adapter.TodoAdapter;
 import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.ExpTable;
 import kr.ac.ssu.edugochi.object.MeasureData;
-import kr.ac.ssu.edugochi.object.TodoItem;
 import kr.ac.ssu.edugochi.realm.module.ExpModule;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
@@ -299,7 +294,6 @@ public class MainFragment extends Fragment {
             ImageView evo_img = view.findViewById(R.id.evo_character);
             UpdateCharacter(evo_img);
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                    .setTitle("진화!!")
                     .setView(view)
                     .setPositiveButton("확인", null)
                     .create();

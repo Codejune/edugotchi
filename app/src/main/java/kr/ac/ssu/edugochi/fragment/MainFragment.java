@@ -235,22 +235,21 @@ public class MainFragment extends Fragment {
             }
         }
         if (evo_check) {
-            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
             LayoutInflater inflater = getLayoutInflater();
-            View view = inflater.inflate(R.layout.evalution_dialog, null);
-            dialog.setTitle("진화!!")
-                    .setView(view);
+            View view = inflater.inflate(R.layout.evolution_dialog, null);
             ImageView evo_img = view.findViewById(R.id.evo_character);
             UpdateCharacter(evo_img);
-            dialog.setPositiveButton("예", null)
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle("진화!!")
+                    .setView(view)
+                    .setPositiveButton("확인", null)
                     .create();
             dialog.show();
-            evo_check = false;
         } else {
             AlertDialog dialog = new AlertDialog.Builder(getActivity())
                     .setTitle("레벨업!")
                     .setMessage("축하합니다 " + currentLv + " 레벨이 되었습니다!")
-                    .setPositiveButton("예", null)
+                    .setPositiveButton("확인", null)
                     .create();
             dialog.show();
 

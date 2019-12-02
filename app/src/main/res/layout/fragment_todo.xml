@@ -4,8 +4,6 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:paddingLeft="40dp"
-    android:paddingRight="40dp"
     android:fillViewport="true"
     android:orientation="vertical"
     android:background="@color/background">

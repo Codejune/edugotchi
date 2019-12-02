@@ -84,7 +84,7 @@ public class MeasureActivity extends AppCompatActivity {
             player = MediaPlayer.create(this, R.raw.rain);
         } else if (WN_Check.equals("fire")) {
             player = MediaPlayer.create(this, R.raw.fire);
-        }else{
+        } else {
             player = MediaPlayer.create(this, R.raw.rain);
         }
 
@@ -170,7 +170,7 @@ public class MeasureActivity extends AppCompatActivity {
                         ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialog, int which) {
-                                subject=et.getText().toString();
+                                subject = et.getText().toString();
                                 measureTransaction();   // 측정 데이터 DB 저장
                                 characterTransaction(); // 캐릭터 정보 갱신
                                 dialog.dismiss();
@@ -195,16 +195,17 @@ public class MeasureActivity extends AppCompatActivity {
 
     // 측정 데이터 리스트 반환
     private RealmResults<MeasureData> getMeasureList() {
-        return userRealm.where(MeasureData.class).findAll();
+        return userRealm.where(MeasureData.class).findAllAsync();
     }
 
     // 캐릭터 데이터 리스트 반환
     private RealmResults<Character> getCharacterList() {
-        return userRealm.where(Character.class).findAll();
+        return userRealm.where(Character.class).findAllAsync();
     }
 
     // 측정 데이터 DB 저장
     private void measureTransaction() {
+        Log.d(TAG, "측정 데이터 추가");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -228,22 +229,32 @@ public class MeasureActivity extends AppCompatActivity {
 
     // 캐릭터 정보 갱신
     private void characterTransaction() {
+        Log.d(TAG, "캐릭터 정보 갱신");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 long exp = characterList.first().getExp();
                 boolean checkSubject = true;
-                RealmList<String> subjects = characterList.first().getSubject();
+                RealmList<String> subjects = new RealmList<>();
+                subjects.addAll(characterList.first().getSubject());
+
                 characterList.first().setExp(exp + out_time / 1000);
-                for(int i = 0; i < subjects.size(); i++) {
-                    if(subjects.get(i) == subject) {
-                        subjects.add(subject);
+
+                Log.d(TAG, "subjects.size: " + subjects.size());
+                for (int i = 0; i < subjects.size(); i++) {
+                    Log.d(TAG, "subjects[" + i + "]: " + subjects.get(i));
+                    if (subjects.get(i).equals(subject)) {
                         checkSubject = false;
+                        Log.d(TAG, subject + " is already exists");
                         break;
                     }
                 }
-                if(checkSubject)
+                if (checkSubject) {
+                    subjects.add(subject);
+                    Log.d(TAG, "subjects.size: " + subjects.size());
+                    Log.d(TAG, "subjects.first: " + subjects.get(0));
                     characterList.first().setSubject(subjects);
+                }
             }
         });
         characterList = getCharacterList();

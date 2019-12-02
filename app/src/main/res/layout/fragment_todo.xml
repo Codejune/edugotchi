@@ -35,8 +35,9 @@
             <ListView
                 android:id="@+id/todo_list"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
+                android:layout_height="0dp"
                 android:layout_marginBottom="32dp"
+                android:divider="#ffffff"
                 android:layout_weight="1"
                 android:scrollbarSize="3dp"
                 android:scrollbarStyle="outsideOverlay"
@@ -44,10 +45,7 @@
                 android:scrollingCache="true"
                 android:smoothScrollbar="true">
         </ListView>
-
-
         </LinearLayout>
-
     </LinearLayout>
 
 </LinearLayout>

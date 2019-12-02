@@ -53,7 +53,7 @@ public class TodoFragment extends Fragment {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-
+        tv = view.findViewById(R.id.empty_view);
         AddBtn = view.findViewById(R.id.action_add_task);
         TodoList = view.findViewById(R.id.todo_list);
         tv = view.findViewById(R.id.empty_view);
@@ -117,7 +117,6 @@ public class TodoFragment extends Fragment {
 
         if (data == null || data.size() == 0) {
             Log.d(TAG, "아이템 없다");
-            tv = getView().findViewById(R.id.empty_view);
             Log.d(TAG, "setEmptyView!");
             TodoList.setVisibility(View.GONE);
             tv.setVisibility(View.VISIBLE);

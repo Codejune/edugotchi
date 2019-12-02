@@ -6,13 +6,12 @@
 
     <SwitchPreferenceCompat
         app:key="darkMode"
-        app:icon="@drawable/ic_daynight"
-        app:iconTint="@color/itemColor"
+        app:icon="@drawable/ic_brightness"
         app:title="다크모드"
         app:defaultValue="false"/>
     <ListPreference
         app:key="selectCharacter"
-        app:icon="@drawable/ic_face_black_24dp"
+        app:icon="@drawable/ic_insert_emoticon"
         app:iconTint="@color/itemColor"
         app:dialogTitle="캐릭터 선택"
         app:entries="@array/Ch_entries"

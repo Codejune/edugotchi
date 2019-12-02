@@ -36,29 +36,31 @@
                     android:gravity="center"
                     android:orientation="horizontal">
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/pre_button"
                         android:layout_width="wrap_content"
-                        android:layout_height="15sp"
-                        android:layout_marginRight="10dp"
+                        android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/left_arrow" />
+                        android:background="@drawable/ic_arrow_back"
+                        android:backgroundTint="@color/itemColor"/>
 
                     <TextView
                         android:id="@+id/tv_date"
                         android:layout_width="wrap_content"
                         android:layout_height="40dp"
+                        android:layout_marginRight="10dp"
+                        android:layout_marginLeft="10dp"
                         android:gravity="center"
                         android:textSize="15sp"
                         android:textStyle="bold" />
 
-                    <ImageView
+                    <ImageButton
                         android:id="@+id/fore_button"
                         android:layout_width="wrap_content"
-                        android:layout_height="15sp"
-                        android:layout_marginLeft="10dp"
+                        android:layout_height="wrap_content"
                         android:adjustViewBounds="true"
-                        android:src="@drawable/right_arrow" />
+                        android:background="@drawable/ic_arrow_forward"
+                        android:backgroundTint="@color/itemColor"/>
 
 
                 </LinearLayout>

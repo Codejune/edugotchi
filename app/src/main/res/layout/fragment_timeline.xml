@@ -371,7 +371,7 @@
                     android:divider="@color/colorPrimary"
                     android:dividerHeight="1.5dp"
                     android:listSelector="@drawable/blank"
-                    android:scrollbars="none"></ListView>
+                    android:scrollbars="none"/>
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

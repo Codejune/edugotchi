@@ -1,0 +1,31 @@
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_margin="8dp"
+    android:layout_width="match_parent"
+    android:layout_height="48dp">
+    <com.google.android.material.button.MaterialButton
+        android:id="@+id/measure_subject"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:icon="@drawable/ic_play_arrow"
+        app:tint="@color/white"
+        app:cornerRadius="20dp"
+        style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+        android:text="측정"
+        app:backgroundTint="@color/active_green"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"/>
+    <TextView
+        android:id="@+id/subject_string"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="16dp"
+        app:layout_constraintLeft_toRightOf="@id/measure_subject"
+        app:layout_constraintTop_toTopOf="@id/measure_subject"
+        app:layout_constraintBottom_toBottomOf="@id/measure_subject"
+        android:textSize="16sp"
+        android:textColor="@color/black"
+        android:text="과목" />
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,21 +1,29 @@
 package kr.ac.ssu.edugochi.fragment;
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.EditText;
 import android.widget.ImageView;
+import android.widget.ListView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
+
+import java.util.ArrayList;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
@@ -23,10 +31,13 @@ import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
+import kr.ac.ssu.edugochi.adapter.SubjectListAdapter;
+import kr.ac.ssu.edugochi.adapter.TodoAdapter;
 import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.ExpTable;
 import kr.ac.ssu.edugochi.object.MeasureData;
+import kr.ac.ssu.edugochi.object.TodoItem;
 import kr.ac.ssu.edugochi.realm.module.ExpModule;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
@@ -43,13 +54,17 @@ public class MainFragment extends Fragment {
     private RealmResults<MeasureData> measureList;     // 측정 데이터 리스트
     private RealmResults<Character> characterList;   // 캐릭터 정보 리스트(0)
     private RealmResults<ExpTable> expList;        // 경험치 테이블
+    private SubjectListAdapter listAdapter;
 
-    ImageView character_img;            // 캐릭터 이미지
+    private ImageView character_img;            // 캐릭터 이미지
     private ProgressBar expbar;         // 경험치 막대
     private TextView exptext;           // 경험치 텍스트
     private TextView character_name;    // 캐릭터 이름
     private TextView character_lv;      // 캐릭터 레벨
-    MaterialButton record_btn;          // 측정하기 버튼
+    private MaterialButton record_btn;          // 측정하기 버튼
+    private MaterialButton addsubject_btn;          // 측정하기 버튼
+    private ListView subject_listview;
+    private NestedScrollView scrollView;
 
     private int currentLv;     // 현재 레벨
     private long currentExp;    // 현재 경험치
@@ -92,6 +107,9 @@ public class MainFragment extends Fragment {
         expbar = view.findViewById(R.id.exp_bar);
         exptext = view.findViewById(R.id.exp_text);
         record_btn = view.findViewById(R.id.record);
+        subject_listview = view.findViewById(R.id.subject_list);
+        addsubject_btn = view.findViewById(R.id.subject_add);
+        scrollView = view.findViewById(R.id.nestedScrollView);
 
         //Realm 초기 설정
         RealmInit();
@@ -110,6 +128,8 @@ public class MainFragment extends Fragment {
             SyncCharacterInfo();
         }
         UpdateCharacter();
+
+
         // 측정 버튼 리스너
         record_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -119,6 +139,47 @@ public class MainFragment extends Fragment {
             }
         });
 
+        subject_listview.setOnTouchListener(new View.OnTouchListener() {
+            @Override
+            public boolean onTouch(View v, MotionEvent event) {
+
+                scrollView.requestDisallowInterceptTouchEvent(true);
+                return false;
+            }
+        });
+
+        addsubject_btn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
+                ad.setTitle("과목명");
+                final EditText et = new EditText(view.getContext());
+                ad.setView(et);
+                ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        userRealm.executeTransaction(new Realm.Transaction() {
+                            @Override
+                            public void execute(Realm realm) {
+                                final RealmList<String> subjects = new RealmList<>();
+                                subjects.addAll(characterList.first().getSubject());
+                                subjects.add(et.getText().toString());
+                                characterList.first().setSubject(subjects);
+                            }
+                        });
+                        dialog.dismiss();
+                    }
+                });
+                ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        dialog.dismiss();
+                    }
+                });
+                ad.show();
+            }
+        });
+        SyncSubject();
     }
 
     // 각 Realm 객체 획득
@@ -215,46 +276,46 @@ public class MainFragment extends Fragment {
     //  private selectCharacter()
 
 
-    private void UpdateCharacter(){
+    private void UpdateCharacter() {
         ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
         //기본 몰랑이
         if (ch_check.equals("basic_ch")) {
             Glide.with(this).load(R.drawable.character).into(character_img);
         }
         //꼬부기~ 메가 거북왕
-        else if(ch_check.equals("water_ch") && currentLv <=2){
+        else if (ch_check.equals("water_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.water1).into(character_img);
-        } else if (ch_check.equals("water_ch") && currentLv<= 4) {
+        } else if (ch_check.equals("water_ch") && currentLv <= 4) {
             Glide.with(this).load(R.drawable.water2).into(character_img);
-        } else if (ch_check.equals("water_ch") && currentLv<= 7) {
+        } else if (ch_check.equals("water_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.water3).into(character_img);
-        }  else if (ch_check.equals("water_ch") && 8<=currentLv) {
+        } else if (ch_check.equals("water_ch") && 8 <= currentLv) {
             Glide.with(this).load(R.drawable.water4).into(character_img);
         }
         //파이리~ 메가 리자몽
-        else if(ch_check.equals("fire_ch") && currentLv <=2){
+        else if (ch_check.equals("fire_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.fire1).into(character_img);
-        } else if (ch_check.equals("fire_ch") && currentLv<= 4) {
+        } else if (ch_check.equals("fire_ch") && currentLv <= 4) {
             Glide.with(this).load(R.drawable.fire2).into(character_img);
-        } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
+        } else if (ch_check.equals("fire_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.fire3).into(character_img);
-        }  else if (ch_check.equals("fire_ch") && 7<=currentLv) {
+        } else if (ch_check.equals("fire_ch") && 7 <= currentLv) {
             Glide.with(this).load(R.drawable.fire4).into(character_img);
         }
         //이상해씨 ~ 메가 이상해꽃
-        else if(ch_check.equals("grass_ch") && currentLv <=2){
+        else if (ch_check.equals("grass_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.grass1).into(character_img);
-        } else if (ch_check.equals("grass_ch") && currentLv<= 4) {
+        } else if (ch_check.equals("grass_ch") && currentLv <= 4) {
             Glide.with(this).load(R.drawable.grass2).into(character_img);
-        } else if (ch_check.equals("grass_ch") && currentLv<= 7) {
+        } else if (ch_check.equals("grass_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.grass3).into(character_img);
-        }  else if (ch_check.equals("grass_ch") && 8<=currentLv) {
+        } else if (ch_check.equals("grass_ch") && 8 <= currentLv) {
             Glide.with(this).load(R.drawable.grass4).into(character_img);
         }
         //잉어킹 ~ 갸라도스
-        else if(ch_check.equals("fish_ch") && currentLv <8){
+        else if (ch_check.equals("fish_ch") && currentLv < 8) {
             Glide.with(this).load(R.drawable.fish).into(character_img);
-        } else if (ch_check.equals("fish_ch") && currentLv>=9) {
+        } else if (ch_check.equals("fish_ch") && currentLv >= 9) {
             Glide.with(this).load(R.drawable.dragon).into(character_img);
         }
         //디폴트 초기설정으로 캐릭터 미설정시 몰랑이 출력
@@ -264,12 +325,31 @@ public class MainFragment extends Fragment {
     }
 
 
+    private void SyncSubject() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
+
+        if (characterList.first().getSubject().size() == 0) {
+            Log.d(TAG, "아이템 없다");
+            Log.d(TAG, "setEmptyView!");
+            subject_listview.setVisibility(View.GONE);
+        } else {
+            listAdapter = new SubjectListAdapter(getContext());
+            for (int i = 0; i < characterList.first().getSubject().size(); i++) {
+                if (characterList.first().getSubject().get(i).equals("")) continue;
+                listAdapter.addItem(characterList.first().getSubject().get(i));
+            }
+            Log.d(this.getClass().getSimpleName(), "리스트갱신되는중");
+            subject_listview.setVisibility(View.VISIBLE);
+            subject_listview.setAdapter(listAdapter);
+        }
+    }
+
     @Override
     public void onResume() {
         Log.d(TAG, "접근");
         super.onResume();
         // 측정 데이터 변화 동기화
         SyncCharacterInfo();
+        SyncSubject();
         UpdateCharacter();
     }
 }

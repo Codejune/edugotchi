@@ -163,8 +163,8 @@ public class MainFragment extends Fragment {
         currentLv = (int) characterList.first().getLv();
         currentExp = characterList.first().getExp();
         nextLv = currentLv + 1;
-        nextExp = expList.get(currentLv - 1).getExp();
-        nextInterval = expList.get(currentLv - 1).getInterval();
+        nextExp = expList.get(currentLv).getExp();
+        nextInterval = expList.get(currentLv).getInterval();
         if (currentExp > nextInterval) UpdateLv();
 
 
@@ -194,9 +194,9 @@ public class MainFragment extends Fragment {
             nextLv++;
 
             currentExp -= nextInterval;
-            nextExp = expList.get(currentLv - 1).getExp();
-            nextInterval = expList.get(currentLv - 1).getInterval();
-            isSuit = currentExp < nextExp;
+            nextExp = expList.get(currentLv).getExp();
+            nextInterval = expList.get(currentLv).getInterval();
+            isSuit = currentExp < nextInterval;
         }
 
         // 캐릭터 레벨 변경

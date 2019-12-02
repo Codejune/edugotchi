@@ -34,6 +34,8 @@ public class TodoFragment extends Fragment {
     private TodoDBHandler handler;
     private ImageButton AddBtn;
     private ListView TodoList;
+    private TodoAdapter adapter;
+    private TextView tv;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -113,16 +115,22 @@ public class TodoFragment extends Fragment {
         ArrayList<TodoItem> data = getItems();
 
         if (data == null || data.size() == 0) {
-            TextView tv = getView().findViewById(R.id.empty_view);
-            TodoList.setEmptyView(tv);
+            Log.d(TAG, "아이템 없다");
+            tv = getView().findViewById(R.id.empty_view);
+            Log.d(TAG, "setEmptyView!");
+            TodoList.setVisibility(View.GONE);
+            tv.setVisibility(View.VISIBLE);
+            //TodoList.setEmptyView(tv);
         } else {
             Log.d(this.getClass().getSimpleName(), "리스트갱신되는중");
-            TodoAdapter adapter = new TodoAdapter(getActivity(), R.layout.item_todo, data, mOnItemDeleteListener);
+            TodoList.setVisibility(View.VISIBLE);
+            tv.setVisibility(View.GONE);
+            adapter = new TodoAdapter(getActivity(), R.layout.item_todo, data, mOnItemDeleteListener);
             TodoList.setAdapter(adapter);
 
         }
-
     }
+
     private ArrayList<TodoItem> getItems() { //arraylist에 데이터를 받아옴
         return handler.getItems();
     }

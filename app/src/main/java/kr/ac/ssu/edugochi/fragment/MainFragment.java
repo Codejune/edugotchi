@@ -12,6 +12,7 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -58,6 +59,7 @@ public class MainFragment extends Fragment {
     private long nextInterval;  // 다음 레벨과의 경험치 차이
 
     private String ch_check;
+    private String evo_ch_check;
 
 
     @Override
@@ -109,7 +111,7 @@ public class MainFragment extends Fragment {
             // 캐릭터 정보 동기화
             SyncCharacterInfo();
         }
-        UpdateCharacter();
+        UpdateCharacter(character_img);
         // 측정 버튼 리스너
         record_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -190,6 +192,9 @@ public class MainFragment extends Fragment {
     private void UpdateLv() {
         Log.d(TAG, "레벨 업데이트");
         boolean isSuit = currentExp < nextInterval;
+        int before = currentLv;
+
+
 
         // 레벨 조정
         while (!isSuit) {
@@ -203,6 +208,7 @@ public class MainFragment extends Fragment {
             isSuit = currentExp < nextInterval;
         }
 
+
         // 캐릭터 레벨 변경
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -211,55 +217,94 @@ public class MainFragment extends Fragment {
                 characterList.first().setExp(currentExp);
             }
         });
+        boolean evo_check = false;
+        for(int i = before; i<=currentLv; i++) {
+            evo_ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
+            if(evo_ch_check.equals("basic_ch")){
+                break;
+            }else if(evo_ch_check.equals("fish_ch")){
+                if((i!=before) && (i ==8)) {
+                    evo_check = true;
+                    break;
+                }
+            }else {
+                if ((i != before) && (i == 3 || i == 5 || i == 8)) {
+                    evo_check = true;
+                    break;
+                }
+            }
+        }
+        if (evo_check) {
+            AlertDialog.Builder dialog = new AlertDialog.Builder(getActivity());
+            LayoutInflater inflater = getLayoutInflater();
+            View view = inflater.inflate(R.layout.evalution_dialog, null);
+            dialog.setTitle("진화!!")
+                    .setView(view);
+            ImageView evo_img = view.findViewById(R.id.evo_character);
+            UpdateCharacter(evo_img);
+            dialog.setPositiveButton("예", null)
+                    .create();
+            dialog.show();
+            evo_check = false;
+        } else {
+            AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                    .setTitle("레벨업!")
+                    .setMessage("축하합니다 " + currentLv + " 레벨이 되었습니다!")
+                    .setPositiveButton("예", null)
+                    .create();
+            dialog.show();
+
+        }
+
     }
     //  private selectCharacter()
 
 
-    private void UpdateCharacter(){
+    private void UpdateCharacter(ImageView ch){
         ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
         //기본 몰랑이
         if (ch_check.equals("basic_ch")) {
-            Glide.with(this).load(R.drawable.character).into(character_img);
+            Glide.with(this).load(R.drawable.character).into(ch);
         }
         //꼬부기~ 메가 거북왕
         else if(ch_check.equals("water_ch") && currentLv <=2){
-            Glide.with(this).load(R.drawable.water1).into(character_img);
+            Glide.with(this).load(R.drawable.water1).into(ch);
         } else if (ch_check.equals("water_ch") && currentLv<= 4) {
-            Glide.with(this).load(R.drawable.water2).into(character_img);
+            Glide.with(this).load(R.drawable.water2).into(ch);
         } else if (ch_check.equals("water_ch") && currentLv<= 7) {
-            Glide.with(this).load(R.drawable.water3).into(character_img);
+            Glide.with(this).load(R.drawable.water3).into(ch);
         }  else if (ch_check.equals("water_ch") && 8<=currentLv) {
-            Glide.with(this).load(R.drawable.water4).into(character_img);
+            Glide.with(this).load(R.drawable.water4).into(ch);
         }
         //파이리~ 메가 리자몽
         else if(ch_check.equals("fire_ch") && currentLv <=2){
-            Glide.with(this).load(R.drawable.fire1).into(character_img);
+            Glide.with(this).load(R.drawable.fire1).into(ch);
         } else if (ch_check.equals("fire_ch") && currentLv<= 4) {
-            Glide.with(this).load(R.drawable.fire2).into(character_img);
+            Glide.with(this).load(R.drawable.fire2).into(ch);
         } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
-            Glide.with(this).load(R.drawable.fire3).into(character_img);
-        }  else if (ch_check.equals("fire_ch") && 7<=currentLv) {
-            Glide.with(this).load(R.drawable.fire4).into(character_img);
+            Glide.with(this).load(R.drawable.fire3).into(ch);
+        }  else if (ch_check.equals("fire_ch") && 8<=currentLv) {
+            Glide.with(this).load(R.drawable.fire4).into(ch);
         }
         //이상해씨 ~ 메가 이상해꽃
         else if(ch_check.equals("grass_ch") && currentLv <=2){
-            Glide.with(this).load(R.drawable.grass1).into(character_img);
+            Glide.with(this).load(R.drawable.grass1).into(ch);
         } else if (ch_check.equals("grass_ch") && currentLv<= 4) {
-            Glide.with(this).load(R.drawable.grass2).into(character_img);
+            Glide.with(this).load(R.drawable.grass2).into(ch);
         } else if (ch_check.equals("grass_ch") && currentLv<= 7) {
-            Glide.with(this).load(R.drawable.grass3).into(character_img);
+            Glide.with(this).load(R.drawable.grass3).into(ch);
         }  else if (ch_check.equals("grass_ch") && 8<=currentLv) {
-            Glide.with(this).load(R.drawable.grass4).into(character_img);
+            Glide.with(this).load(R.drawable.grass4).into(ch);
         }
         //잉어킹 ~ 갸라도스
-        else if(ch_check.equals("fish_ch") && currentLv <8){
-            Glide.with(this).load(R.drawable.fish).into(character_img);
-        } else if (ch_check.equals("fish_ch") && currentLv>=9) {
-            Glide.with(this).load(R.drawable.dragon).into(character_img);
+        else if(ch_check.equals("fish_ch") && currentLv <=7){
+            Glide.with(this).load(R.drawable.fish).into(ch);
+        } else if (ch_check.equals("fish_ch") && currentLv>=8) {
+            Glide.with(this).load(R.drawable.dragon).into(ch);
         }
         //디폴트 초기설정으로 캐릭터 미설정시 몰랑이 출력
         else {
-            Glide.with(this).load(R.drawable.character).into(character_img);
+            Glide.with(this).load(R.drawable.character).into(ch);
         }
     }
 
@@ -270,6 +315,6 @@ public class MainFragment extends Fragment {
         super.onResume();
         // 측정 데이터 변화 동기화
         SyncCharacterInfo();
-        UpdateCharacter();
+        UpdateCharacter(character_img);
     }
 }

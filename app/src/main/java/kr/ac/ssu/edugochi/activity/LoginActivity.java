@@ -20,6 +20,7 @@ import kr.ac.ssu.edugochi.R;
 
 
 public class LoginActivity extends AppCompatActivity {
+    private static final String TAG = LoginActivity.class.getSimpleName();
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
@@ -36,10 +37,11 @@ public class LoginActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
+        setContentView(R.layout.activity_login);
+
 
         // 파이어베이스 인증 객체 선언
-        firebaseAuth = getInstance();
+        firebaseAuth = FirebaseAuth.getInstance();
 
         editTextEmail = findViewById(R.id.et_eamil);
         editTextPassword = findViewById(R.id.et_password);

@@ -42,17 +42,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
         user.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                AlertDialog dialog = new AlertDialog.Builder(getActivity())
-                        .setTitle("로그인")
-                       .setPositiveButton("예", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-
-                            }
-                        })
-                        .setNegativeButton("아니오", null)
-                        .create();
-                dialog.show();
+                                Intent intent = new Intent(
+                                        getActivity(),
+                                        LoginActivity.class);
+                                startActivity(intent);
                 return false;
             }
         });
@@ -117,10 +110,6 @@ public class SettingFragment extends PreferenceFragmentCompat {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
-                                Intent intent = new Intent(
-                                        getActivity(),
-                                        LoginActivity.class);
-                                startActivity(intent);
 
                             }
                         })

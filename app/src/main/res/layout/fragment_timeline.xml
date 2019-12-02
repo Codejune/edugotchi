@@ -69,7 +69,7 @@
 
                 <TextView
                     android:id="@+id/sun"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -82,7 +82,7 @@
 
                 <TextView
                     android:id="@+id/mon"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -94,7 +94,7 @@
 
                 <TextView
                     android:id="@+id/tue"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -106,7 +106,7 @@
 
                 <TextView
                     android:id="@+id/wed"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -118,7 +118,7 @@
 
                 <TextView
                     android:id="@+id/thu"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -130,7 +130,7 @@
 
                 <TextView
                     android:id="@+id/fri"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -142,7 +142,7 @@
 
                 <TextView
                     android:id="@+id/sat"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="16dp"
                     android:gravity="center"
@@ -155,10 +155,10 @@
 
                 <kr.ac.ssu.edugochi.view.CustomGridView
                     android:id="@+id/gridview"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10sp"
                     android:layout_marginBottom="16dp"
+                    android:layout_marginLeft="6.5sp"
                     android:isScrollContainer="false"
                     android:listSelector="@drawable/list_selector"
                     android:numColumns="7"
@@ -170,10 +170,12 @@
 
                 <androidx.constraintlayout.widget.ConstraintLayout
                     android:id="@+id/color_row"
-                    android:layout_width="match_parent"
+                    android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="10dp"
                     android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/gridview">
 
                     <TextView
@@ -183,6 +185,7 @@
                         android:text="●"
                         android:textColor="@color/greenPastel"
                         android:textSize="8sp"
+                        android:layout_marginRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toLeftOf="@id/green_text" />
@@ -194,6 +197,7 @@
                         android:layout_height="wrap_content"
                         android:text="6시간 이상"
                         android:textSize="8sp"
+                        android:layout_marginRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/green"
                         app:layout_constraintRight_toLeftOf="@id/yellow" />
@@ -205,6 +209,7 @@
                         android:text="●"
                         android:textColor="@color/yellowPastel"
                         android:textSize="8sp"
+                        android:layout_marginRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/green_text"
                         app:layout_constraintRight_toLeftOf="@id/yellow_text" />
@@ -215,6 +220,7 @@
                         android:layout_height="wrap_content"
                         android:text="3 ~ 6시간"
                         android:textSize="8sp"
+                        android:layout_marginRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/yellow"
                         app:layout_constraintRight_toLeftOf="@id/red" />
@@ -226,6 +232,7 @@
                         android:text="●"
                         android:textColor="@color/redPastel"
                         android:textSize="8sp"
+                        android:layout_marginRight="8dp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/yellow_text"
                         app:layout_constraintRight_toLeftOf="@id/red_text" />

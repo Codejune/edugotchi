@@ -367,9 +367,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                         items[j]=tmp;
                     }
 
-            for (int i = 0; i < count; i++) {
+            for (int i = 0; i < count; i++)
                 rankList.add(items[i]);
-            }
 
             listview = getView().findViewById(R.id.rank_listview);
             int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item) + 3) * rankList.size();

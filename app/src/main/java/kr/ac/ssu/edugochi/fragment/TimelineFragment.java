@@ -23,16 +23,19 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
+import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
 import kr.ac.ssu.edugochi.adapter.RankListItem;
+import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
@@ -80,13 +83,18 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private Realm userRealm;
     private RealmConfiguration UserModuleConfig;
     private RealmResults<MeasureData> measureList;
+    private RealmResults<Character> characterList;
 
     private void RealmInit() {
         userRealm = Realm.getInstance(UserModuleConfig);
     }
 
-    private RealmResults<MeasureData> getMeasureList() {   // 측정 데이터 리스트 반환
+    private RealmResults<MeasureData> getMeasureList() {
         return userRealm.where(MeasureData.class).findAllAsync();
+    }
+
+    private RealmResults<Character> getCharacter() {
+        return userRealm.where(Character.class).findAllAsync();
     }
 
     @Override
@@ -161,7 +169,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         RealmInit();
         measureList = getMeasureList();
         measureList = userRealm.where(MeasureData.class).findAll().sort("date");
-
+        characterList = getCharacter();
+        characterList = userRealm.where(Character.class).findAll().sort("name");
         makeCalendar(); // 달력 생성 함수
         setTabData(today, dayNum - 1); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
         makeRankTable(); // 랭크테이블 생성 함수
@@ -331,30 +340,39 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     private void makeRankTable() {
         rankList = new ArrayList<>();
-        int count = 0; // 캐릭터 db의 리스트값으로 다음에 병준이가 하면 하겠음 ㅎㅎ
-        RankListItem[] items = new RankListItem[1];
-        items[0] = new RankListItem();
+        RealmList<String> subjects = new RealmList<>();
+        subjects.addAll(characterList.first().getSubject());
+        int count = subjects.size();
+        RankListItem[] items = new RankListItem[count];
+
+        for (int i = 0; i < count; i++)
+            items[i] = new RankListItem();
+        for (int i = 0; i < count; i++)
+            items[i].setSubject(subjects.get(i));
+
         if (measureList.size() > 0) { // 데이타가 있을 때만 실행
-            items[0].setSubject(measureList.first().getSubject());
             for (int i = 0; i < measureList.size(); i++)
-                for (int j = 0; j < 1; j++) {
+                for (int j = 0; j < count; j++) {
                     if (measureList.get(i).getSubject().equals(items[j].getSubject())) {
                         items[j].plusTime(measureList.get(i).getTimeout());
                         items[j].plusExp(measureList.get(i).getExp());
                     }
                 }
 
-            //Arrays.sort(items);
+            for(int i=0;i<count;i++)
+                for(int j=i;j<count;j++)
+                    if(items[i].getTime()<items[j].getTime()){
+                        RankListItem tmp = items[i];
+                        items[i]=items[j];
+                        items[j]=tmp;
+                    }
 
-            for (int i = 0; i < 1; i++) {
+            for (int i = 0; i < count; i++) {
                 rankList.add(items[i]);
             }
-            rankList.add(items[0]);
-            rankList.add(items[0]);
-            rankList.add(items[0]);
 
             listview = getView().findViewById(R.id.rank_listview);
-            int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item) + 1) * rankList.size();
+            int height = (getResources().getDimensionPixelSize(R.dimen.rank_list_item) + 3) * rankList.size();
             ViewGroup.LayoutParams lp = listview.getLayoutParams();
             lp.height = height;
             listview.setLayoutParams(lp);
@@ -398,9 +416,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     private String colorSelect(long time, int check) {
-        if (((time >= (6 * 60 * 60 * 1000))&&(check==0))||((time >= (30 * 60 * 60 * 1000))&&(check==1))||((time >= (132 * 60 * 60 * 1000))&&(check==2)))
+        if (((time >= (6 * 60 * 60 * 1000)) && (check == 0)) || ((time >= (30 * 60 * 60 * 1000)) && (check == 1)) || ((time >= (132 * 60 * 60 * 1000)) && (check == 2)))
             return "green";
-        else if  (((time >= (3 * 60 * 60 * 1000))&&(check==0))||((time >= (15 * 60 * 60 * 1000))&&(check==1))||((time >= (66 * 60 * 60 * 1000))&&(check==2)))
+        else if (((time >= (3 * 60 * 60 * 1000)) && (check == 0)) || ((time >= (15 * 60 * 60 * 1000)) && (check == 1)) || ((time >= (66 * 60 * 60 * 1000)) && (check == 2)))
             return "yellow";
         else if (time > 0)
             return "red";
@@ -473,7 +491,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             /** 일간 탭호스트 레이아웃 세팅 **/
             circle = getView().findViewById(R.id.day_circle);
             selectcolor = colorSelect(total_time, 0);
-            Log.i(TAG, "color"+selectcolor);
+            Log.i(TAG, "color" + selectcolor);
             switch (selectcolor) {
                 case "green":
                     circle.setImageResource(R.drawable.green_wide_circle);

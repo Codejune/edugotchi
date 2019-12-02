@@ -94,14 +94,14 @@ public class MeasureActivity extends AppCompatActivity {
                     case init: // 정지 상태
                         player.start();
                         WN_btn.setText("백색소음정지");
-                        WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause_white_24dp));
+                        WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
                         WN_status = run; //현재상태를 런상태로 변경
                         break;
                     case run: // 측정 상태
                         //player.stop();
                         player.pause();
                         WN_btn.setText("백색소음재생");
-                        WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                        WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         WN_status = init;
                         break;
                 }
@@ -123,14 +123,14 @@ public class MeasureActivity extends AppCompatActivity {
                         //핸들러에 빈 메세지를 보내서 호출
                         measureTimer.sendEmptyMessage(0);
                         record_btn.setText("일시정지");
-                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause_white_24dp));
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
                         timer_status = run; //현재상태를 런상태로 변경
                         break;
                     case run: // 측정 상태
                         pause_time = SystemClock.elapsedRealtime();
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
                         record_btn.setText("다시시작");
-                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         timer_status = pause;
                         break;
                     case pause:
@@ -139,7 +139,7 @@ public class MeasureActivity extends AppCompatActivity {
                         base_time += (now - pause_time);
                         measureTimer.sendEmptyMessage(0);
                         record_btn.setText("일시정지");
-                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         timer_status = run;
                         break;
                 }
@@ -160,7 +160,7 @@ public class MeasureActivity extends AppCompatActivity {
                         measureTimer.removeMessages(0); //핸들러 메세지 제거
                         timer.setText(getTimeOut());
                         timer_status = init;
-                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow_white_24dp));
+                        record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         record_btn.setText("측정시작");
                         AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
                         ad.setTitle("과목명");

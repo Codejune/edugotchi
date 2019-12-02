@@ -12,6 +12,7 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -65,8 +66,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     SimpleDateFormat curTotalFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
 
     // 달을 변경하는 버튼 이미지
-    private ImageView pre_Button;
-    private ImageView fore_Button;
+    private ImageButton pre_Button;
+    private ImageButton fore_Button;
 
     // 한마디 작성용 텍스트 뷰
     private TextView one_sentence;

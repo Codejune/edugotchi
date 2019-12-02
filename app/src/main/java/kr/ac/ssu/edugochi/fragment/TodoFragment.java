@@ -56,6 +56,7 @@ public class TodoFragment extends Fragment {
 
         AddBtn = view.findViewById(R.id.action_add_task);
         TodoList = view.findViewById(R.id.todo_list);
+        tv = view.findViewById(R.id.empty_view);
         listItems();
     }
 

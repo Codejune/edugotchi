@@ -65,7 +65,7 @@
             android:layout_height="wrap_content"
             app:bt_colorActive="@color/active"
             app:bt_colorInactive="@color/inactive"
-            app:bt_icon="@drawable/ic_calender"
+            app:bt_icon="@drawable/ic_date_range"
             app:bt_shape="@drawable/transition_background_drawable"
             app:bt_title="Timeline" />
 

@@ -41,6 +41,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
+                    android:textColor="@color/itemColor"
                     app:layout_constraintBottom_toTopOf="@id/info"
                     app:layout_constraintLeft_toLeftOf="@id/character"
                     app:layout_constraintRight_toLeftOf="@id/name"
@@ -51,7 +52,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:textSize="16dp"
-                    android:textColor="@color/black"
+                    android:textColor="@color/itemColor"
                     app:layout_constraintTop_toBottomOf="@id/character"
                     app:layout_constraintRight_toRightOf="@id/character"
                     app:layout_constraintLeft_toRightOf="@id/lv"
@@ -75,6 +76,7 @@
                         android:layout_height="match_parent"
                         android:layout_weight="1"
                         android:gravity="center"
+                        android:textColor="@color/itemColor"
                         android:text="Exp"
                         android:textSize="16dp"/>
 
@@ -100,7 +102,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:text="50000 / 100000"
-                    android:textSize="12dp" />
+                    android:textSize="12dp"
+                    android:textColor="@color/itemColor"/>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -113,11 +116,11 @@
             app:layout_constraintRight_toLeftOf="parent"
             app:layout_constraintLeft_toRightOf="parent"
             style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            app:icon="@drawable/ic_play_arrow_white_24dp"
-            app:iconTint="@color/itemColor"
+            app:icon="@drawable/ic_play_arrow"
+            app:iconTint="@color/white"
             app:cornerRadius="20dp"
             android:textSize="12dp"
             android:text="측정하기"
-            android:textColor="@color/itemColor"/>
+            android:textColor="@color/white"/>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

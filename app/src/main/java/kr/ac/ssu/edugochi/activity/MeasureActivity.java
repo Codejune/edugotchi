@@ -3,6 +3,7 @@ package kr.ac.ssu.edugochi.activity;
 
 import android.annotation.SuppressLint;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
@@ -19,7 +20,10 @@ import androidx.appcompat.app.AppCompatActivity;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.List;
 import java.util.Locale;
 
 import io.realm.Realm;
@@ -46,7 +50,7 @@ public class MeasureActivity extends AppCompatActivity {
     private long base_time;
     private long out_time;
 
-    MediaPlayer player;
+    private MediaPlayer player;
     private String subject;
     private TextView timer;
 
@@ -59,6 +63,9 @@ public class MeasureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measure);
+
+        Intent intent = getIntent();
+        subject = intent.getStringExtra("subject");
 
         UserModuleConfig = new RealmConfiguration.Builder()
                 .modules(new UserModule())
@@ -163,6 +170,10 @@ public class MeasureActivity extends AppCompatActivity {
                         timer_status = init;
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         record_btn.setText("측정시작");
+                        if(subject == null)
+                            SelectSubject();
+                        else NoSelectSubject();
+                        /*
                         AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
                         ad.setTitle("과목명");
                         final EditText et = new EditText(view.getContext());
@@ -185,6 +196,9 @@ public class MeasureActivity extends AppCompatActivity {
                         ad.show();
 
                         Log.i(TAG, "measureList.size: " + measureList.size());
+                        */
+
+
                         break;
                     default:
                         break;
@@ -203,8 +217,55 @@ public class MeasureActivity extends AppCompatActivity {
         return userRealm.where(Character.class).findAllAsync();
     }
 
+    private void NoSelectSubject() {
+        measureTransaction(subject);   // 측정 데이터 DB 저장
+        characterTransaction(subject); // 캐릭터 정보 갱신
+    }
+
+    // 과목 미지정 측정시 과목 선택
+    private void SelectSubject() {
+        final RealmList<String> subjects = new RealmList<>();
+        subjects.addAll(characterList.first().getSubject());
+        subjects.remove("");
+
+        final CharSequence[] items = subjects.toArray(new String[subjects.size()]);
+        Arrays.sort(items);
+
+        final List SelectedItems = new ArrayList();
+        int defaultItem = 0;
+        SelectedItems.add(defaultItem);
+
+        AlertDialog.Builder builder = new AlertDialog.Builder(this);
+        builder.setTitle("과목 선택");
+        builder.setSingleChoiceItems(items, defaultItem,
+                new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        SelectedItems.clear();
+                        SelectedItems.add(which);
+                    }
+                });
+        builder.setPositiveButton("Ok",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+                        if (!SelectedItems.isEmpty()) {
+                            int index = (int) SelectedItems.get(0);
+                            measureTransaction(subjects.get(index));
+                            characterTransaction(subjects.get(index));
+                        }
+                    }
+                });
+        builder.setNegativeButton("Cancel",
+                new DialogInterface.OnClickListener() {
+                    public void onClick(DialogInterface dialog, int which) {
+
+                    }
+                });
+        builder.show();
+    }
+
     // 측정 데이터 DB 저장
-    private void measureTransaction() {
+    private void measureTransaction(final String selected) {
         Log.d(TAG, "측정 데이터 추가");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -218,7 +279,7 @@ public class MeasureActivity extends AppCompatActivity {
                 MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
                 MeasureData.setTimeout(out_time);
                 MeasureData.setExp(out_time / 1000);
-                MeasureData.setSubject(subject);
+                MeasureData.setSubject(selected);
                 Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG, "timeout\t: " + out_time);
                 Log.i(TAG, "exp\t\t: " + out_time / 1000);
@@ -228,7 +289,7 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
     // 캐릭터 정보 갱신
-    private void characterTransaction() {
+    private void characterTransaction(final String selected) {
         Log.d(TAG, "캐릭터 정보 갱신");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
@@ -243,14 +304,14 @@ public class MeasureActivity extends AppCompatActivity {
                 Log.d(TAG, "subjects.size: " + subjects.size());
                 for (int i = 0; i < subjects.size(); i++) {
                     Log.d(TAG, "subjects[" + i + "]: " + subjects.get(i));
-                    if (subjects.get(i).equals(subject)) {
+                    if (subjects.get(i).equals(selected)) {
                         checkSubject = false;
                         Log.d(TAG, subject + " is already exists");
                         break;
                     }
                 }
                 if (checkSubject) {
-                    subjects.add(subject);
+                    subjects.add(selected);
                     Log.d(TAG, "subjects.size: " + subjects.size());
                     Log.d(TAG, "subjects.first: " + subjects.get(0));
                     characterList.first().setSubject(subjects);

@@ -11,7 +11,6 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.widget.EditText;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -282,7 +281,7 @@ public class MeasureActivity extends AppCompatActivity {
                 MeasureData.setSubject(selected);
                 Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG, "timeout\t: " + out_time);
-                Log.i(TAG, "exp\t\t: " + out_time / 100);
+                Log.i(TAG, "exp\t\t: " + out_time / 1000);
             }
         });
         measureList = getMeasureList();
@@ -299,7 +298,7 @@ public class MeasureActivity extends AppCompatActivity {
                 RealmList<String> subjects = new RealmList<>();
                 subjects.addAll(characterList.first().getSubject());
 
-                characterList.first().setExp(exp + out_time / 100);
+                characterList.first().setExp(exp + out_time / 1000);
 
                 Log.d(TAG, "subjects.size: " + subjects.size());
                 for (int i = 0; i < subjects.size(); i++) {
@@ -337,7 +336,7 @@ public class MeasureActivity extends AppCompatActivity {
     private String getTimeOut() {
         long current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
-        return String.format("%02d : %02d : %02d", out_time / 100 / 60 / 60, (out_time / 100) / 60 % 60, (out_time / 100) % 60 % 60);
+        return String.format("%02d : %02d : %02d", out_time / 1000 / 60 / 60, (out_time / 1000) / 60 % 60, (out_time / 1000) % 60 % 60);
     }
 
     @Override

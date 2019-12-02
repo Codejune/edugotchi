@@ -6,8 +6,7 @@
 
     <SwitchPreferenceCompat
         app:key="darkMode"
-        app:icon="@drawable/ic_daynight"
-        app:iconTint="@color/itemColor"
+        app:icon="@drawable/ic_brightness"
         app:title="다크모드"
         app:defaultValue="false"/>
     <ListPreference

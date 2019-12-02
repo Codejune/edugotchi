@@ -23,6 +23,10 @@ import androidx.fragment.app.Fragment;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
+import java.util.Locale;
+
 import io.realm.Realm;
 import io.realm.RealmConfiguration;
 import io.realm.RealmList;
@@ -37,6 +41,7 @@ import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.ExpModule;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
+import kr.ac.ssu.edugochi.view.CustomListView;
 
 public class MainFragment extends Fragment {
     private static final String TAG = MainFragment.class.getSimpleName();
@@ -59,7 +64,7 @@ public class MainFragment extends Fragment {
     private TextView character_lv;      // 캐릭터 레벨
     private MaterialButton record_btn;          // 측정하기 버튼
     private MaterialButton addsubject_btn;          // 측정하기 버튼
-    private ListView subject_listview;
+    private CustomListView subject_listview;
     private NestedScrollView scrollView;
 
     private int currentLv;     // 현재 레벨
@@ -134,6 +139,7 @@ public class MainFragment extends Fragment {
             }
         });
 
+        /*
         subject_listview.setOnTouchListener(new View.OnTouchListener() {
             @Override
             public boolean onTouch(View v, MotionEvent event) {
@@ -142,6 +148,7 @@ public class MainFragment extends Fragment {
                 return false;
             }
         });
+*/
 
         addsubject_btn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -163,6 +170,7 @@ public class MainFragment extends Fragment {
                             }
                         });
                         dialog.dismiss();
+                        SyncSubject();
                     }
                 });
                 ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
@@ -174,7 +182,6 @@ public class MainFragment extends Fragment {
                 ad.show();
             }
         });
-        SyncSubject();
     }
 
     // 각 Realm 객체 획득
@@ -209,7 +216,6 @@ public class MainFragment extends Fragment {
             public void execute(Realm realm) {
                 Character Character = userRealm.createObject(Character.class);
                 RealmList<String> subject = new RealmList<>();
-                subject.add("시발련아");
                 Character.setName("몰랑잉");
                 Character.setLv(1);
                 Character.setExp(0);
@@ -249,7 +255,6 @@ public class MainFragment extends Fragment {
         int before = currentLv;
 
 
-
         // 레벨 조정
         while (!isSuit) {
             Log.d(TAG, "레벨업 : " + currentLv + "->" + nextLv);
@@ -271,17 +276,18 @@ public class MainFragment extends Fragment {
                 characterList.first().setExp(currentExp);
             }
         });
+
         boolean evo_check = false;
-        for(int i = before; i<=currentLv; i++) {
+        for (int i = before; i <= currentLv; i++) {
             evo_ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
-            if(evo_ch_check.equals("basic_ch")){
+            if (evo_ch_check.equals("basic_ch")) {
                 break;
-            }else if(evo_ch_check.equals("fish_ch")){
-                if((i!=before) && (i ==8)) {
+            } else if (evo_ch_check.equals("fish_ch")) {
+                if ((i != before) && (i == 8)) {
                     evo_check = true;
                     break;
                 }
-            }else {
+            } else {
                 if ((i != before) && (i == 3 || i == 5 || i == 8)) {
                     evo_check = true;
                     break;
@@ -312,46 +318,46 @@ public class MainFragment extends Fragment {
     //  private selectCharacter()
 
 
-    private void UpdateCharacter(ImageView ch){
+    private void UpdateCharacter(ImageView ch) {
         ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
         //기본 몰랑이
         if (ch_check.equals("basic_ch")) {
             Glide.with(this).load(R.drawable.character).into(ch);
         }
         //꼬부기~ 메가 거북왕
-        else if(ch_check.equals("water_ch") && currentLv <=2){
+        else if (ch_check.equals("water_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.water1).into(ch);
-        } else if (ch_check.equals("water_ch") && currentLv<= 4) {
+        } else if (ch_check.equals("water_ch") && currentLv <= 4) {
             Glide.with(this).load(R.drawable.water2).into(ch);
-        } else if (ch_check.equals("water_ch") && currentLv<= 7) {
+        } else if (ch_check.equals("water_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.water3).into(ch);
-        }  else if (ch_check.equals("water_ch") && 8<=currentLv) {
+        } else if (ch_check.equals("water_ch") && 8 <= currentLv) {
             Glide.with(this).load(R.drawable.water4).into(ch);
         }
         //파이리~ 메가 리자몽
-        else if(ch_check.equals("fire_ch") && currentLv <=2){
+        else if (ch_check.equals("fire_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.fire1).into(ch);
-        } else if (ch_check.equals("fire_ch") && currentLv<= 4) {
+        } else if (ch_check.equals("fire_ch") && currentLv <= 4) {
             Glide.with(this).load(R.drawable.fire2).into(ch);
-        } else if (ch_check.equals("fire_ch") && currentLv<= 7) {
+        } else if (ch_check.equals("fire_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.fire3).into(ch);
-        }  else if (ch_check.equals("fire_ch") && 8<=currentLv) {
+        } else if (ch_check.equals("fire_ch") && 8 <= currentLv) {
             Glide.with(this).load(R.drawable.fire4).into(ch);
         }
         //이상해씨 ~ 메가 이상해꽃
-        else if(ch_check.equals("grass_ch") && currentLv <=2){
+        else if (ch_check.equals("grass_ch") && currentLv <= 2) {
             Glide.with(this).load(R.drawable.grass1).into(ch);
-        } else if (ch_check.equals("grass_ch") && currentLv<= 4) {
+        } else if (ch_check.equals("grass_ch") && currentLv <= 4) {
             Glide.with(this).load(R.drawable.grass2).into(ch);
-        } else if (ch_check.equals("grass_ch") && currentLv<= 7) {
+        } else if (ch_check.equals("grass_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.grass3).into(ch);
-        }  else if (ch_check.equals("grass_ch") && 8<=currentLv) {
+        } else if (ch_check.equals("grass_ch") && 8 <= currentLv) {
             Glide.with(this).load(R.drawable.grass4).into(ch);
         }
         //잉어킹 ~ 갸라도스
-        else if(ch_check.equals("fish_ch") && currentLv <=7){
+        else if (ch_check.equals("fish_ch") && currentLv <= 7) {
             Glide.with(this).load(R.drawable.fish).into(ch);
-        } else if (ch_check.equals("fish_ch") && currentLv>=8) {
+        } else if (ch_check.equals("fish_ch") && currentLv >= 8) {
             Glide.with(this).load(R.drawable.dragon).into(ch);
         }
         //디폴트 초기설정으로 캐릭터 미설정시 몰랑이 출력
@@ -362,7 +368,6 @@ public class MainFragment extends Fragment {
 
 
     private void SyncSubject() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
-
         if (characterList.first().getSubject().size() == 0) {
             Log.d(TAG, "아이템 없다");
             Log.d(TAG, "setEmptyView!");
@@ -371,7 +376,8 @@ public class MainFragment extends Fragment {
             listAdapter = new SubjectListAdapter(getContext());
             for (int i = 0; i < characterList.first().getSubject().size(); i++) {
                 if (characterList.first().getSubject().get(i).equals("")) continue;
-                listAdapter.addItem(characterList.first().getSubject().get(i));
+                getSumofTime(characterList.first().getSubject().get(i));
+                listAdapter.addItem(characterList.first().getSubject().get(i), getSumofTime(characterList.first().getSubject().get(i)));
             }
             Log.d(this.getClass().getSimpleName(), "리스트갱신되는중");
             subject_listview.setVisibility(View.VISIBLE);
@@ -379,6 +385,16 @@ public class MainFragment extends Fragment {
         }
     }
 
+    // 오늘의 모든 과목별 시간 합 리턴
+    private long getSumofTime(String subject) {
+        SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
+        String date = today_date.format(Calendar.getInstance().getTime());
+        long sum_of_time = 0;
+        RealmResults<MeasureData> allData = userRealm.where(MeasureData.class).equalTo("subject", subject).equalTo("date", date).findAll();
+        for(int i = 0; i <allData.size(); i++)
+            sum_of_time += allData.get(i).getTimeout();
+        return sum_of_time;
+    }
     @Override
     public void onResume() {
         Log.d(TAG, "접근");

@@ -1,6 +1,7 @@
 package kr.ac.ssu.edugochi.fragment;
 
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -14,6 +15,7 @@ import androidx.preference.SwitchPreferenceCompat;
 
 import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.activity.LoginActivity;
 import kr.ac.ssu.edugochi.eduPreManger;
 
 
@@ -96,6 +98,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                Intent intent = new Intent(
+                                        getActivity(),
+                                        LoginActivity.class);
+                                startActivity(intent);
 
                             }
                         })

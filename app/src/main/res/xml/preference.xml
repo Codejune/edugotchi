@@ -1,9 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.preference.PreferenceScreen
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:key="root">
-
+    <Preference
+        android:layout="@layout/fragment_setting"/>
     <SwitchPreferenceCompat
         app:key="darkMode"
         app:icon="@drawable/ic_brightness"

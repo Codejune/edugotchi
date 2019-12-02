@@ -35,9 +35,28 @@ public class SettingFragment extends PreferenceFragmentCompat {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
-        final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
 
-        //다크모드 온오
+        Preference user = findPreference("login");
+        user.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+            @Override
+            public boolean onPreferenceClick(Preference preference) {
+                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("로그인")
+                       .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+
+                            }
+                        })
+                        .setNegativeButton("아니오", null)
+                        .create();
+                dialog.show();
+                return false;
+            }
+        });
+    
+        final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
+        //다크모드 온오프
         darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
         {
             @Override

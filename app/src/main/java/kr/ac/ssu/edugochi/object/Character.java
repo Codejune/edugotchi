@@ -9,6 +9,7 @@ public class Character extends RealmObject {
     private String name;
     private long lv;
     private long exp;
+    @Required
     private RealmList<String> subject;
 
     public String getName() { return name; }

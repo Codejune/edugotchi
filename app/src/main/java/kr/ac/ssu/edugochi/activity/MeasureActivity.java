@@ -276,8 +276,8 @@ public class MeasureActivity extends AppCompatActivity {
                 SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
                 MeasureData MeasureData = realm.createObject(MeasureData.class);
                 MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
-                MeasureData.setTimeout(out_time);
-                MeasureData.setExp(out_time / 100);
+                MeasureData.setTimeout(out_time*1000);
+                MeasureData.setExp(out_time / 1000);
                 MeasureData.setSubject(selected);
                 Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG, "timeout\t: " + out_time);

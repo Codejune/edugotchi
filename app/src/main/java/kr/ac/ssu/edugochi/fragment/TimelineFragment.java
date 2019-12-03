@@ -57,7 +57,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private CustomGridView gridView;
     private TextView tvItemGridView;
     private Calendar mCal;
-    private Calendar today = Calendar.getInstance();
+    private Calendar today;
 
     // 연,월,일을 따로 저장
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
@@ -171,9 +171,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         measureList = userRealm.where(MeasureData.class).findAll().sort("date");
         characterList = getCharacter();
         characterList = userRealm.where(Character.class).findAll().sort("name");
+        today = Calendar.getInstance();
         makeCalendar(); // 달력 생성 함수
         setTabData(today, dayNum - 1); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
         makeRankTable(); // 랭크테이블 생성 함수
+        Log.i(TAG, "onViewCreated: ");
     }
 
     @Override
@@ -359,12 +361,12 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                     }
                 }
 
-            for(int i=0;i<count;i++)
-                for(int j=i;j<count;j++)
-                    if(items[i].getTime()<items[j].getTime()){
+            for (int i = 0; i < count; i++)
+                for (int j = i; j < count; j++)
+                    if (items[i].getTime() < items[j].getTime()) {
                         RankListItem tmp = items[i];
-                        items[i]=items[j];
-                        items[j]=tmp;
+                        items[i] = items[j];
+                        items[j] = tmp;
                     }
 
             for (int i = 0; i < count; i++)

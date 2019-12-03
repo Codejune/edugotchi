@@ -354,7 +354,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         for (int i = 0; i < count; i++)
             items[i].setSubject(subjects.get(i));
 
-        if (measureList.size() > 0) { // 데이타가 있을 때만 실행
+        if (subjects.size() > 0) { // 데이타가 있을 때만 실행
             subject_rank_title.setText("과목 랭킹");
             for (int i = 0; i < measureList.size(); i++)
                 for (int j = 0; j < count; j++) {
@@ -567,7 +567,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview.setText("+" + total_week_exp);
 
             textview = getView().findViewById(R.id.avg_week_time);
-            textview.setText(makeTimeForm((total_week_time / 7)));
+            textview.setText(makeTimeForm(total_week_time / (pre_rest+1)));
 
             if (pre_rest < 0) pre_rest = 0;
             textview = getView().findViewById(R.id.rest_week_time);
@@ -605,7 +605,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview.setText("+" + total_month_exp);
 
             textview = getView().findViewById(R.id.avg_month_time);
-            textview.setText(makeTimeForm((total_week_time / mCal.getActualMaximum(Calendar.DAY_OF_MONTH))));
+            textview.setText(makeTimeForm(total_week_time / (month_rest+1)));
 
             if (month_rest < 0) month_rest = 0;
             textview = getView().findViewById(R.id.rest_month_time);

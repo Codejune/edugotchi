@@ -1,6 +1,7 @@
 package kr.ac.ssu.edugochi.fragment;
 
 import androidx.appcompat.app.AlertDialog;
+
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,7 +16,6 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.core.widget.NestedScrollView;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
@@ -108,7 +108,6 @@ public class MainFragment extends Fragment {
         record_btn = view.findViewById(R.id.record);
         subject_listview = view.findViewById(R.id.subject_list);
         addsubject_btn = view.findViewById(R.id.subject_add);
-        scrollView = view.findViewById(R.id.nestedScrollView);
 
         //Realm 초기 설정
         RealmInit();
@@ -136,17 +135,6 @@ public class MainFragment extends Fragment {
             }
         });
 
-        /*
-        subject_listview.setOnTouchListener(new View.OnTouchListener() {
-            @Override
-            public boolean onTouch(View v, MotionEvent event) {
-
-                scrollView.requestDisallowInterceptTouchEvent(true);
-                return false;
-            }
-        });
-**/
-
         addsubject_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -156,20 +144,20 @@ public class MainFragment extends Fragment {
                 ad.setView(et);
                 ad.setPositiveButton("저장",
                         new DialogInterface.OnClickListener() {
-                    public void onClick(DialogInterface dialog, int which) {
-                        userRealm.executeTransaction(new Realm.Transaction() {
-                            @Override
-                            public void execute(Realm realm) {
-                                final RealmList<String> subjects = new RealmList<>();
-                                subjects.addAll(characterList.first().getSubject());
-                                subjects.add(et.getText().toString());
-                                characterList.first().setSubject(subjects);
+                            public void onClick(DialogInterface dialog, int which) {
+                                userRealm.executeTransaction(new Realm.Transaction() {
+                                    @Override
+                                    public void execute(Realm realm) {
+                                        final RealmList<String> subjects = new RealmList<>();
+                                        subjects.addAll(characterList.first().getSubject());
+                                        subjects.add(et.getText().toString());
+                                        characterList.first().setSubject(subjects);
+                                    }
+                                });
+                                dialog.dismiss();
+                                SyncSubject();
                             }
                         });
-                        dialog.dismiss();
-                        SyncSubject();
-                    }
-                });
                 ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialog, int which) {
@@ -400,10 +388,11 @@ public class MainFragment extends Fragment {
         String date = today_date.format(Calendar.getInstance().getTime());
         long sum_of_time = 0;
         RealmResults<MeasureData> allData = userRealm.where(MeasureData.class).equalTo("subject", subject).equalTo("date", date).findAll();
-        for(int i = 0; i <allData.size(); i++)
+        for (int i = 0; i < allData.size(); i++)
             sum_of_time += allData.get(i).getTimeout();
         return sum_of_time;
     }
+
     @Override
     public void onResume() {
         Log.d(TAG, "접근");

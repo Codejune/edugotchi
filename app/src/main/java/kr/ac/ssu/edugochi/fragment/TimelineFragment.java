@@ -5,6 +5,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
+import android.provider.CalendarContract;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -58,6 +59,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private TextView tvItemGridView;
     private Calendar mCal;
     private Calendar today;
+    private int today_position;
 
     // 연,월,일을 따로 저장
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
@@ -172,10 +174,10 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         characterList = getCharacter();
         characterList = userRealm.where(Character.class).findAll().sort("name");
         today = Calendar.getInstance();
+        today_position=today.get(Calendar.DAY_OF_MONTH)-1;
         makeCalendar(); // 달력 생성 함수
-        setTabData(today, dayNum - 1); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
+        setTabData(mCal, today_position); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
         makeRankTable(); // 랭크테이블 생성 함수
-        Log.i(TAG, "onViewCreated: ");
     }
 
     @Override
@@ -223,9 +225,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             // 오늘 날짜는 bold체로 표시
             Integer iToday = today.get(Calendar.DAY_OF_MONTH);
             String sToday = String.valueOf(iToday);
-            if (sToday.equals(getItem(position))) {
+            if (sToday.equals(getItem(position)))
                 tvItemGridView.setTypeface(Typeface.DEFAULT_BOLD);
-            }
 
             // 토요일과 일요일에 색깔 지정
             if ((position + 1) % 7 == 1)
@@ -341,6 +342,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     private void makeRankTable() {
+        TextView subject_rank_title = getView().findViewById(R.id.subject_rank_title);
         rankList = new ArrayList<>();
         RealmList<String> subjects = new RealmList<>();
         subjects.addAll(characterList.first().getSubject());
@@ -353,6 +355,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             items[i].setSubject(subjects.get(i));
 
         if (measureList.size() > 0) { // 데이타가 있을 때만 실행
+            subject_rank_title.setText("과목 랭킹");
             for (int i = 0; i < measureList.size(); i++)
                 for (int j = 0; j < count; j++) {
                     if (measureList.get(i).getSubject().equals(items[j].getSubject())) {
@@ -377,9 +380,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             ViewGroup.LayoutParams lp = listview.getLayoutParams();
             lp.height = height;
             listview.setLayoutParams(lp);
+            if(rankList.size()==1||rankList.size()==2) // 과목 1개면 분리선 없애줌
+            listview.setDividerHeight(0);
             listadapter = new RankListAdapter(getActivity(), R.layout.rank_list_item, rankList);
             listview.setAdapter(listadapter);
-        }
+        }else
+            subject_rank_title.setText("과목이 없습니다");
+
     }
 
     // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수
@@ -492,7 +499,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             /** 일간 탭호스트 레이아웃 세팅 **/
             circle = getView().findViewById(R.id.day_circle);
             selectcolor = colorSelect(total_time, 0);
-            Log.i(TAG, "color" + selectcolor);
+
             switch (selectcolor) {
                 case "green":
                     circle.setImageResource(R.drawable.green_wide_circle);

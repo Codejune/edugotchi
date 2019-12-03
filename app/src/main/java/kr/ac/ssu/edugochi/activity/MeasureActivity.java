@@ -172,32 +172,6 @@ public class MeasureActivity extends AppCompatActivity {
                         if (subject == null)
                             SelectSubject();
                         else NoSelectSubject();
-                        /*
-                        AlertDialog.Builder ad = new AlertDialog.Builder(view.getContext());
-                        ad.setTitle("과목명");
-                        final EditText et = new EditText(view.getContext());
-                        ad.setView(et);
-                        ad.setPositiveButton("저장", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                subject = et.getText().toString();
-                                measureTransaction();   // 측정 데이터 DB 저장
-                                characterTransaction(); // 캐릭터 정보 갱신
-                                dialog.dismiss();
-                            }
-                        });
-                        ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialog, int which) {
-                                dialog.dismiss();
-                            }
-                        });
-                        ad.show();
-
-                        Log.i(TAG, "measureList.size: " + measureList.size());
-                        */
-
-
                         break;
                     default:
                         break;
@@ -276,8 +250,8 @@ public class MeasureActivity extends AppCompatActivity {
                 SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
                 MeasureData MeasureData = realm.createObject(MeasureData.class);
                 MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
-                MeasureData.setTimeout(out_time*1000);
-                MeasureData.setExp(out_time / 1000);
+                MeasureData.setTimeout(out_time*1000); // 원래 out_time
+                MeasureData.setExp(out_time); // 원래 out_time/1000 >> 테스트 위해 기준 변경
                 MeasureData.setSubject(selected);
                 Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG, "timeout\t: " + out_time);
@@ -336,7 +310,7 @@ public class MeasureActivity extends AppCompatActivity {
     private String getTimeOut() {
         long current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
         out_time = current_time - base_time;
-        return String.format("%02d : %02d : %02d", out_time / 100 / 60 / 60, (out_time / 100) / 60 % 60, (out_time / 100) % 60 % 60);
+        return String.format("%02d : %02d : %02d", out_time / 1 / 60 / 60, (out_time / 1) / 60 % 60, (out_time / 1) % 60 % 60); // 원래 1이아니라 1000 >>테스트 위해 변경
     }
 
     @Override

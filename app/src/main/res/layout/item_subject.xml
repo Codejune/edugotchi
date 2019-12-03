@@ -26,14 +26,23 @@
 
     <TextView
         android:id="@+id/subject_string"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
-        android:layout_marginLeft="16dp"
+        android:layout_marginStart="8dp"
+        android:layout_marginLeft="8dp"
+        android:layout_marginEnd="8dp"
+        android:layout_marginRight="8dp"
+        android:maxLines="2"
+        android:ellipsize="end"
         android:text="과목"
         android:textColor="@color/itemColor"
         android:textSize="16sp"
         app:layout_constraintBottom_toBottomOf="@id/measure_subject"
+        app:layout_constraintEnd_toStartOf="@+id/subject_timeout"
+        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintLeft_toRightOf="@id/measure_subject"
+        app:layout_constraintRight_toLeftOf="@id/subject_timeout"
+        app:layout_constraintStart_toEndOf="@+id/measure_subject"
         app:layout_constraintTop_toTopOf="@id/measure_subject" />
 
     <TextView
@@ -42,8 +51,11 @@
         android:layout_height="wrap_content"
         android:text="00 : 00 : 00"
         android:textColor="@color/itemColor"
-        android:textSize="16sp"
+        android:textSize="18sp"
+        android:gravity="center_horizontal"
         app:layout_constraintBottom_toBottomOf="@id/measure_subject"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="@id/measure_subject" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

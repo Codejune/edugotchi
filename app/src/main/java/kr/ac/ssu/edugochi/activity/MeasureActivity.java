@@ -255,7 +255,7 @@ public class MeasureActivity extends AppCompatActivity {
                 MeasureData.setSubject(selected);
                 Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG, "timeout\t: " + out_time);
-                Log.i(TAG, "exp\t\t: " + out_time / 100);
+                Log.i(TAG, "exp\t\t: " + out_time / 1000);
             }
         });
         measureList = getMeasureList();
@@ -272,7 +272,7 @@ public class MeasureActivity extends AppCompatActivity {
                 RealmList<String> subjects = new RealmList<>();
                 subjects.addAll(characterList.first().getSubject());
 
-                characterList.first().setExp(exp + out_time / 100);
+                characterList.first().setExp(exp + out_time / 1000);
 
                 Log.d(TAG, "subjects.size: " + subjects.size());
                 for (int i = 0; i < subjects.size(); i++) {

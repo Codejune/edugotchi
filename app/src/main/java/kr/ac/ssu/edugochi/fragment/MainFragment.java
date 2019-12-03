@@ -146,7 +146,7 @@ public class MainFragment extends Fragment {
                 return false;
             }
         });
-*/
+**/
 
         addsubject_btn.setOnClickListener(new View.OnClickListener() {
             @Override

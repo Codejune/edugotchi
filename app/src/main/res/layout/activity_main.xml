@@ -46,7 +46,7 @@
         android:layout_gravity="bottom"
         android:background="@color/background"
         android:orientation="horizontal"
-        android:padding="12dp">
+        android:padding="8dp">
 
 
         <kr.ac.ssu.edugochi.view.CustomToggleView

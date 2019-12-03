@@ -63,7 +63,6 @@ public class MainFragment extends Fragment {
     private MaterialButton record_btn;          // 측정하기 버튼
     private MaterialButton addsubject_btn;          // 측정하기 버튼
     private CustomListView subject_listview;
-    private NestedScrollView scrollView;
 
     private int currentLv;     // 현재 레벨
     private long currentExp;    // 현재 경험치

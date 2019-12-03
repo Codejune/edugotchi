@@ -52,6 +52,7 @@ public class MeasureActivity extends AppCompatActivity {
     private MediaPlayer player;
     private String subject;
     private TextView timer;
+    private TextView title;
 
     private Realm userRealm;                // 기본 인스턴스
     private RealmConfiguration UserModuleConfig;
@@ -83,6 +84,8 @@ public class MeasureActivity extends AppCompatActivity {
         final MaterialButton stop_btn = findViewById(R.id.stop_btn);
         final MaterialButton WN_btn = findViewById(R.id.play_btn);
         timer = findViewById(R.id.timer);
+        title = findViewById(R.id.measure_title);
+        if(subject != null) title.setText(subject);
 
         String WN_Check = eduPreManger.getString(this, "white_noise");
         Log.d(TAG, WN_Check);

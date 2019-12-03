@@ -19,4 +19,9 @@ public class SubjectListItem {
     public long getTimeout() {
         return timeout;
     }
+
+    public SubjectListItem(String subject, long timeout) {
+        this.subject = subject;
+        this.timeout = timeout;
+    }
 }

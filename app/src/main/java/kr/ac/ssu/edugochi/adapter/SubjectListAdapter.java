@@ -22,7 +22,6 @@ public class SubjectListAdapter extends BaseAdapter {
     private MaterialButton measure_subject;
     private TextView subject_title;
     private TextView subject_timeout;
-    String subject;
 
     public SubjectListAdapter (Context context) {
         this.context = context;
@@ -75,9 +74,7 @@ public class SubjectListAdapter extends BaseAdapter {
     /* 아이템 데이터 추가를 위한 함수. 자신이 원하는대로 작성 */
     public void addItem(String subject, long timeout) {
 
-        SubjectListItem item = new SubjectListItem();
-        item.setSubject(subject);
-        item.setTimeout(timeout);
+        SubjectListItem item = new SubjectListItem(subject, timeout);
         subjects.add(item);
 
     }

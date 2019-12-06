@@ -3,13 +3,12 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_height="wrap_content"
+    android:descendantFocusability="blocksDescendants">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp">
+        android:layout_height="match_parent">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/character_view"
@@ -28,41 +27,52 @@
 
                 <ImageView
                     android:id="@+id/character"
-                    android:layout_width="120dp"
+                    android:layout_width="match_parent"
                     android:layout_height="120dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:contentDescription="Character"
+                    app:layout_constraintBottom_toTopOf="@id/name"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toTopOf="parent"
-                    app:layout_constraintBottom_toTopOf="@id/name"/>
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/lv"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginRight="4dp"
+                    android:text="Lv 0."
+                    android:textColor="@color/itemColor"
+                    android:textSize="16dp"
+                    app:layout_constraintBottom_toTopOf="@id/info"
+                    app:layout_constraintLeft_toRightOf="@id/character"
+                    app:layout_constraintRight_toLeftOf="@id/name"
+                    app:layout_constraintTop_toBottomOf="@id/character" />
 
                 <TextView
                     android:id="@+id/name"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:gravity="center"
-                    android:text="Lv 1. 몰랑이"
+                    android:layout_marginLeft="4dp"
+                    android:text="캐릭터"
+                    android:textColor="@color/itemColor"
                     android:textSize="16dp"
-                    android:textColor="@color/black"
                     app:layout_constraintBottom_toTopOf="@id/info"
-                    app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintLeft_toRightOf="@id/lv"
+                    app:layout_constraintRight_toLeftOf="@id/character"
                     app:layout_constraintTop_toBottomOf="@id/character" />
 
                 <LinearLayout
                     android:id="@+id/info"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:paddingLeft="32dp"
-                    android:paddingRight="32dp"
                     android:layout_marginTop="8dp"
                     android:layout_marginBottom="8dp"
                     android:orientation="horizontal"
+                    android:paddingLeft="32dp"
+                    android:paddingRight="32dp"
                     app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/name">
 
@@ -72,9 +82,11 @@
                         android:layout_weight="1"
                         android:gravity="center"
                         android:text="Exp"
-                        android:textSize="16dp"/>
+                        android:textColor="@color/itemColor"
+                        android:textSize="16dp" />
 
                     <ProgressBar
+                        android:id="@+id/exp_bar"
                         style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="wrap_content"
                         android:layout_height="20dp"
@@ -83,51 +95,142 @@
                         android:paddingLeft="8dp"
                         android:paddingTop="4dp"
                         android:paddingRight="8dp"
-                        android:progress="60"
                         android:progressDrawable="@drawable/progressbar_exp" />
                 </LinearLayout>
+
                 <TextView
                     android:id="@+id/exp_text"
-                    app:layout_constraintTop_toBottomOf="@id/info"
-                    app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    android:layout_marginRight="40dp"
-                    android:layout_marginBottom="16dp"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
+                    android:layout_marginRight="40dp"
+                    android:layout_marginBottom="16dp"
                     android:text="50000 / 100000"
-                    android:textSize="12dp" />
+                    android:textColor="@color/itemColor"
+                    android:textSize="12dp"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/info" />
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
+
         <TextView
-            android:id="@+id/measure_title"
+            android:id="@+id/subject_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/character_view"
-            app:layout_constraintLeft_toLeftOf="parent"
-            android:layout_marginTop="20dp"
-            android:textSize="16dp"
+            android:layout_marginTop="4dp"
+            android:text="과목 목록"
+            android:textColor="@color/itemColor"
+            android:textSize="20sp"
             android:textStyle="bold"
-            android:textColor="@color/black"
-            android:text="측정 목록"/>
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintTop_toTopOf="@id/record" />
+
         <TextView
+            android:id="@+id/subject_subtitle"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            app:layout_constraintTop_toBottomOf="@id/measure_title"
+            android:text="선택한 과목을 측정하세요"
+            android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
-            android:textSize="12dp"
-            android:text="측정하기 버튼을 눌러 측정해보세요"/>
+            app:layout_constraintTop_toBottomOf="@id/subject_title" />
+
         <com.google.android.material.button.MaterialButton
             android:id="@+id/record"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="16dp"
-            app:layout_constraintTop_toBottomOf="@id/character_view"
-            app:layout_constraintRight_toRightOf="parent"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            app:icon="@drawable/ic_play_arrow_white_24dp"
-            app:cornerRadius="20dp"
+            android:layout_marginTop="32dp"
+            android:text="측정하기"
+            android:textColor="@color/white"
             android:textSize="12dp"
-            android:text="측정하기"/>
+            app:cornerRadius="20dp"
+            app:icon="@drawable/ic_play_arrow"
+            app:iconTint="@color/white"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/character_view" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/subject"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="8dp"
+            android:layout_marginBottom="700dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/record">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:padding="16dp">
+
+                <kr.ac.ssu.edugochi.view.CustomListView
+                    android:id="@+id/subject_list"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="8dp"
+                    android:layout_weight="1"
+                    android:divider="#ffffff"
+                    android:scrollbarSize="3dp"
+                    android:scrollbarStyle="outsideOverlay"
+                    android:scrollbars="vertical"
+                    android:scrollingCache="true"
+                    android:smoothScrollbar="true"
+                    app:layout_constraintBottom_toTopOf="@id/subject_add"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/subject_add"
+                    android:layout_width="32dp"
+                    android:layout_height="32dp"
+                    android:layout_marginLeft="1dp"
+                    android:layout_marginBottom="3dp"
+                    android:insetLeft="0dp"
+                    android:insetTop="0dp"
+                    android:insetRight="0dp"
+                    android:insetBottom="0dp"
+                    android:padding="0dp"
+                    android:textColor="@color/black"
+                    app:backgroundTint="@color/white"
+                    app:icon="@drawable/ic_add"
+                    app:iconGravity="textStart"
+                    app:iconPadding="0dp"
+                    app:iconSize="16dp"
+                    app:iconTint="@color/black"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/subject_list"
+                    app:layout_goneMarginTop="0dp"
+                    app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Button.Circle" />
+
+                <TextView
+                    android:id="@+id/add_title"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    app:layout_constraintTop_toTopOf="@id/subject_add"
+                    app:layout_constraintLeft_toRightOf="@id/subject_add"
+                    android:text="과목 추가하기"
+                    android:textSize="14sp"
+                    android:textColor="@color/itemColor"/>
+
+                <TextView
+                    android:id="@+id/add_subtitle"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="16dp"
+                    app:layout_constraintTop_toBottomOf="@id/add_title"
+                    app:layout_constraintLeft_toRightOf="@id/subject_add"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:text="새로운 과목을 추가해보세요."
+                    android:textSize="10sp" />
+
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.core.widget.NestedScrollView>

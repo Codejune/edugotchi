@@ -5,10 +5,12 @@
     android:layout_height="match_parent"
     android:background="@color/background">
 
-    <androidx.constraintlayout.widget.ConstraintLayout
+
+<androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="240dp"
+        android:layout_height="290dp"
         android:background="@color/colorPrimary"
+        android:elevation="100dp"
         android:padding="40dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
@@ -32,11 +34,12 @@
             android:layout_height="wrap_content"
             android:text="00 : 00 : 00"
             android:textColor="@color/white"
-            android:textSize="36dp"
+            android:textSize="36sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toTopOf="@id/record_btn"
             app:layout_constraintBottom_toBottomOf="@id/stop_btn"/>
+
 
         <com.google.android.material.button.MaterialButton
             android:id="@+id/record_btn"
@@ -45,8 +48,10 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             app:cornerRadius="20dp"
-            app:icon="@drawable/ic_play_arrow_white_24dp"
+            app:icon="@drawable/ic_play_arrow"
+            app:iconTint="@color/white"
             android:layout_marginTop="32dp"
+            android:textColor="@color/white"
             app:layout_constraintTop_toBottomOf="@id/measure_title"
             app:layout_constraintRight_toRightOf="parent"
             android:text="측정시작"/>
@@ -58,10 +63,26 @@
             android:layout_height="wrap_content"
             android:backgroundTint="@color/colorPrimaryDark"
             app:cornerRadius="20dp"
-            app:icon="@drawable/ic_stop_white_24dp"
+            android:textColor="@color/white"
+            app:iconTint="@color/white"
+            app:icon="@drawable/ic_stop"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@id/record_btn"
             android:text="측정종료"/>
+
+        <com.google.android.material.button.MaterialButton
+            android:id="@+id/play_btn"
+            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:backgroundTint="@color/colorPrimaryDark"
+            app:cornerRadius="20dp"
+            app:icon="@drawable/ic_play_arrow"
+            app:iconTint="@color/white"
+            android:textColor="@color/white"
+            app:layout_constraintTop_toBottomOf="@id/stop_btn"
+            app:layout_constraintRight_toRightOf="parent"
+            android:text="백색소음재생"/>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -7,6 +7,8 @@
     <color name="black">#000000</color>
     <color name="dark">#212121</color>
     <color name="transparent">#00000000</color>
+    <color name="itemColor">#000000</color>
+    <color name="active_green">#38e86c</color>
 
     <color name="default_inactive_shape_color">#e5e5e5</color>
     <color name="default_inactive_color">#212121</color>
@@ -47,6 +49,7 @@
     <color name="grey_bg_light">#fafafa</color>
 
     <color name="white">#ffffff</color>
+
 <!-- For TimelineFragment -->
     <color name="soongsilPrimary">#009bcb</color>
     <color name="soongsilPrimaryDark">#006694</color>
@@ -56,4 +59,5 @@
     <color name="redPastel">#FFA9B0</color>
     <color name="yellowPastel">#FFDDA6</color>
     <color name="greenPastel">#B8F3B8</color>
+    <color name="edge_background">#ffffff</color>
 </resources>

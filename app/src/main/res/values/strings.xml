@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">Edugochi</string>
+    <string name="app_name">에듀고치</string>
     <string name="home">홈</string>
     <string name="timeline">타임라인</string>
     <string name="todo">ToDo</string>
@@ -24,4 +24,15 @@
 
     <!-- TODO: Remove or change this placeholder text -->
     <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+
+    <string name="signin">로그인</string>
+    <string name="success_login">로그인 성공</string>
+    <string name="failed_login">로그인 실패</string>
+
+    <string name="signup">회원가입</string>
+    <string name="success_signup">회원가입 성공</string>
+    <string name="failed_signup">회원가입 실패</string>
 </resources>

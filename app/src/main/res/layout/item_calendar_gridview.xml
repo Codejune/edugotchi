@@ -1,19 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="35dp"
-    android:layout_height="35dp"
-    android:orientation="vertical"
-    android:gravity="center">
 
-    <TextView
+    <TextView xmlns:android="http://schemas.android.com/apk/res/android"
         android:gravity="center"
         android:id="@+id/tv_item_gridview"
         android:layout_width="35dp"
         android:layout_height="35dp"
-        android:textSize="13sp"
-        android:textColor="@color/dark"/>
-
-
-
-
-</LinearLayout>
+        android:textSize="13sp" />

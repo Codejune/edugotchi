@@ -7,12 +7,12 @@ import android.database.SQLException;
 
 import java.util.ArrayList;
 
-import kr.ac.ssu.edugochi.object.TodoObject;
+import kr.ac.ssu.edugochi.object.TodoItem;
 
 
 public class TodoDBHandler{
     private Context mContext;
-    private ArrayList<TodoObject> data;
+    private ArrayList<TodoItem> data;
 
 
 
@@ -32,17 +32,17 @@ public class TodoDBHandler{
         values.put("memo", memo);
         return TodoDBHelper.getInstance(mContext).insert("tb_todo", values);
     }
-    public ArrayList<TodoObject> getItems() {
+    public ArrayList<TodoItem> getItems() {
 
         Cursor cursor = TodoDBHelper.getInstance(mContext).select("tb_todo", null, null, null, null, null, null);
 
         if (cursor == null || cursor.getCount() == 0) {
             return null;
         }
-        ArrayList<TodoObject> data = new ArrayList<TodoObject>();
+        ArrayList<TodoItem> data = new ArrayList<TodoItem>();
 
         while (cursor.moveToNext()) {
-            TodoObject vo = new TodoObject();
+            TodoItem vo = new TodoItem();
             vo.id = cursor.getInt(0);
             vo.title = cursor.getString(1);
             vo.date = cursor.getString(2);

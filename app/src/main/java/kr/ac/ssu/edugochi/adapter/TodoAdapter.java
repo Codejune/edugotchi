@@ -14,16 +14,16 @@ import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.TodoDB.TodoHolder;
-import kr.ac.ssu.edugochi.object.TodoObject;
+import kr.ac.ssu.edugochi.object.TodoItem;
 
-public class TodoAdapter extends ArrayAdapter<TodoObject> {
+public class TodoAdapter extends ArrayAdapter<TodoItem> {
 
     private View.OnClickListener mOnItemDeleteListener;
-    Context context;
-    int resId;
-    ArrayList<TodoObject> data;
+    private Context context;
+    private int resId;
+    private ArrayList<TodoItem> data;
 
-    public TodoAdapter(Context context, int resId, ArrayList<TodoObject> data, View.OnClickListener onItemDeleteListener) {
+    public TodoAdapter(Context context, int resId, ArrayList<TodoItem> data, View.OnClickListener onItemDeleteListener) {
         super(context, resId);
         this.context = context;
         this.resId = resId;
@@ -51,7 +51,8 @@ public class TodoAdapter extends ArrayAdapter<TodoObject> {
         TextView memoView = holder.memoView;
         ImageView deleteBtn = holder.deleteBtn;
 
-        final TodoObject vo = data.get(position);
+
+        final TodoItem vo = data.get(position);
 
         titleView.setText(vo.title);
         dateView.setText(vo.date);

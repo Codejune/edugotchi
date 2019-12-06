@@ -2,18 +2,21 @@ package kr.ac.ssu.edugochi.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.TextView;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.SettingFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
@@ -23,27 +26,37 @@ import kr.ac.ssu.edugochi.view.CustomNavigationLinearView;
 
 public class MainActivity extends AppCompatActivity {
 
-    TextView title;
-    Toolbar toolbar;
-    final Fragment mainFragment = new MainFragment();
-    final Fragment timelineFragment = new TimelineFragment();
-    final Fragment todoFragment = new TodoFragment();
-    final Fragment settingFragment = new SettingFragment();
-    FragmentManager fragmentManager;
-    FragmentTransaction fragmentTransaction;
-    CustomNavigationLinearView customNavigationLinearView;
+    private Toolbar toolbar;
+    private final Fragment mainFragment = new MainFragment();
+    private final Fragment timelineFragment = new TimelineFragment();
+    private final Fragment todoFragment = new TodoFragment();
+    private final Fragment settingFragment = new SettingFragment();
+    private FragmentManager fragmentManager;
+    private FragmentTransaction fragmentTransaction;
+    private CustomNavigationLinearView customNavigationLinearView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolean themeCheck;
 
-        // 화면 타이틀 id 연결
-        title = findViewById(R.id.title);
+        themeCheck = eduPreManger.getBoolean(this, "darkMode");
 
+        if (themeCheck) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+        }
+
+        // 툴바 설정
         toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
 
+        // Fragment 할당
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         customNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
@@ -82,7 +95,7 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    // 네비게이션 메뉴 생성
+    // 상단 메뉴 아이템 설정
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         MenuInflater inflater = getMenuInflater();
@@ -101,8 +114,9 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    // 각 Bottom Navigation Item 클릭 시 해당 Fragment 이동
     @Override
-        protected void onResume() {
+    protected void onResume() {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
@@ -128,5 +142,12 @@ public class MainActivity extends AppCompatActivity {
         }
         fragmentTransaction.commit();
         super.onResume();
+    }
+
+    @Override
+    public void onBackPressed() {
+        finish();
+        System.exit(0);
+        super.onBackPressed();
     }
 }

@@ -63,7 +63,7 @@ public class AddTodoActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
-        actionBar.setHomeAsUpIndicator(R.drawable.ic_close_black_24dp); //뒤로가기 버튼 이미지 지정
+        //actionBar.setHomeAsUpIndicator(R.id.back_btn); //뒤로가기 버튼 이미지 지정
 
 
     }
@@ -91,7 +91,7 @@ public class AddTodoActivity extends AppCompatActivity {
         switch (item.getItemId()) {
             case android.R.id.home: {
                 onBackPressed();
-                return true;
+                return false;
             }
             case R.id.action_add_task: { // 오른쪽 상단 버튼 눌렀을 때
                 AddClick();

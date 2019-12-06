@@ -1,6 +1,7 @@
 package kr.ac.ssu.edugochi.activity;
 
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -47,7 +48,8 @@ public class LoginActivity extends AppCompatActivity {
         editTextPassword = findViewById(R.id.et_password);
     }
 
-    public void singUp(View view) {
+    public void signUp(View view) {
+        Log.d(TAG, "1. 회원가입");
         email = editTextEmail.getText().toString();
         password = editTextPassword.getText().toString();
 
@@ -93,6 +95,7 @@ public class LoginActivity extends AppCompatActivity {
 
     // 회원가입
     private void createUser(String email, String password) {
+
         firebaseAuth.createUserWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override

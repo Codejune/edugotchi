@@ -16,6 +16,7 @@
 
     <EditText
         android:id="@+id/et_eamil"
+        android:inputType="textEmailAddress"
         android:layout_below="@id/tv_email"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -34,6 +35,7 @@
 
     <EditText
         android:id="@+id/et_password"
+        android:inputType="textPassword"
         android:layout_below="@id/tv_password"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -48,7 +50,7 @@
         <Button
             android:id="@+id/btn_signUp"
             android:text="@string/signup"
-            android:onClick="singUp"
+            android:onClick="signUp"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_weight="1"

@@ -2,20 +2,26 @@ package kr.ac.ssu.edugochi.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
 import android.widget.ImageButton;
-import android.widget.ListView;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
+
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
@@ -33,7 +39,7 @@ public class TodoFragment extends Fragment {
 
     private TodoDBHandler handler;
     private ImageButton AddBtn;
-    private ListView TodoList;
+    private SwipeMenuListView TodoList;
     private TodoAdapter adapter;
     private TextView tv;
 
@@ -60,20 +66,6 @@ public class TodoFragment extends Fragment {
         listItems();
     }
 
-    private View.OnClickListener mOnItemDeleteListener = new View.OnClickListener() {
-        @Override
-        public void onClick(View v) {
-            Object tag = v.getTag();
-            if (tag instanceof TodoItem) {
-                TodoItem vo = (TodoItem) tag;
-                confirmRemoval(vo);
-            } else {
-                Log.w(TAG, " Unexpected tag found. Expected " + TodoItem.class.getSimpleName() + " Found: " + tag.getClass());
-            }
-        }
-    };
-
-
     private void confirmRemoval(final TodoItem vo) {
         AlertDialog dialog = new AlertDialog.Builder(getActivity())
                 .setTitle("정말 삭제하시겠습니까?")
@@ -95,9 +87,7 @@ public class TodoFragment extends Fragment {
             Toasty.error(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_SHORT).show();
         } else {
             Toasty.success(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_SHORT).show();
-            ((ArrayAdapter) TodoList.getAdapter()).remove(vo);            // remove the item to the list
-            ((ArrayAdapter) TodoList.getAdapter()).notifyDataSetChanged();
-            listItems();// update the UI.
+            listItems();// DB에서 삭제후 리스트 갱신
             if (TodoList.getAdapter().getCount() == 0) {
                 listItems();
             }
@@ -113,7 +103,7 @@ public class TodoFragment extends Fragment {
 
 
     private void listItems() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
-        ArrayList<TodoItem> data = getItems();
+        final ArrayList<TodoItem> data = getItems();
 
         if (data == null || data.size() == 0) {
             Log.d(TAG, "아이템 없다");
@@ -125,11 +115,52 @@ public class TodoFragment extends Fragment {
             Log.d(this.getClass().getSimpleName(), "리스트갱신되는중");
             TodoList.setVisibility(View.VISIBLE);
             tv.setVisibility(View.GONE);
-            adapter = new TodoAdapter(getActivity(), R.layout.item_todo, data, mOnItemDeleteListener);
+            adapter = new TodoAdapter(getActivity(), R.layout.item_todo, data);
             TodoList.setAdapter(adapter);
+            TodoList.setMenuCreator(creator);
+            TodoList.setOnSwipeListener(new SwipeMenuListView.OnSwipeListener() {
 
+                @Override
+                public void onSwipeStart(int position) {
+                    // swipe start
+                    TodoList.smoothOpenMenu(position);
+                }
+
+                @Override
+                public void onSwipeEnd(int position) {
+                    // swipe end
+                    TodoList.smoothOpenMenu(position);
+                }
+            });
+            TodoList.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
+                @Override
+                public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                    TodoItem vo = data.get(position);
+                    switch (index) {
+                        case 0:
+                            // open
+                            Log.d("", "--------상세정......");
+                            MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
+                            dialog.setIcon(R.drawable.ic_done_all_black_24dp);
+                            dialog.setTitle(vo.title);
+                            dialog.setMessage("\n기한 : "+vo.date+"\n\n메모 : "+vo.memo);
+                            dialog.setNegativeButton("확인", null);
+                            dialog.create();
+                            dialog.show();
+                            break;
+                        case 1:
+                            confirmRemoval(vo);
+                            break;
+                    }
+                    // false : close the menu; true : not close the menu
+                    return false;
+                }
+            });
         }
+
+
     }
+
 
     private ArrayList<TodoItem> getItems() { //arraylist에 데이터를 받아옴
         return handler.getItems();
@@ -147,6 +178,42 @@ public class TodoFragment extends Fragment {
         }
         return true;
     }
+
+    SwipeMenuCreator creator = new SwipeMenuCreator() {
+
+        @Override
+        public void create(SwipeMenu menu) {
+            // create "open" item
+            SwipeMenuItem openItem = new SwipeMenuItem(
+                    getActivity());
+            // set item background
+            openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
+                    0xCE)));
+            // set item width
+            openItem.setWidth(200);
+            // set item title
+            openItem.setTitle("상세");
+            // set item title fontsize
+            openItem.setTitleSize(18);
+            // set item title font color
+            openItem.setTitleColor(Color.WHITE);
+            // add to menu
+            menu.addMenuItem(openItem);
+
+            // create "delete" item
+            SwipeMenuItem deleteItem = new SwipeMenuItem(
+                    getActivity());
+            // set item background
+            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                    0x3F, 0x25)));
+            // set item width
+            deleteItem.setWidth(200);
+            // set a icon
+            deleteItem.setIcon(R.drawable.ic_delete);
+            // add to menu
+            menu.addMenuItem(deleteItem);
+        }
+    };
 
 }
 

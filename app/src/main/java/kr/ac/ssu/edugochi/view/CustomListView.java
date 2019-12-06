@@ -4,7 +4,9 @@ import android.content.Context;
 import android.util.AttributeSet;
 import android.widget.ListView;
 
-public class CustomListView extends ListView {
+import com.baoyz.swipemenulistview.SwipeMenuListView;
+
+public class CustomListView extends SwipeMenuListView {
 
     public CustomListView(Context context, AttributeSet attrs) {
         super(context, attrs);

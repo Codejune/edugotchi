@@ -4,6 +4,8 @@ import androidx.appcompat.app.AlertDialog;
 
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -18,6 +20,10 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 
+import com.baoyz.swipemenulistview.SwipeMenu;
+import com.baoyz.swipemenulistview.SwipeMenuCreator;
+import com.baoyz.swipemenulistview.SwipeMenuItem;
+import com.baoyz.swipemenulistview.SwipeMenuListView;
 import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
@@ -39,6 +45,7 @@ import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.ExpModule;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
+import kr.ac.ssu.edugochi.util.DpPxConvertor;
 import kr.ac.ssu.edugochi.view.CustomListView;
 
 public class MainFragment extends Fragment {
@@ -109,6 +116,29 @@ public class MainFragment extends Fragment {
         subject_listview = view.findViewById(R.id.subject_list);
         addsubject_btn = view.findViewById(R.id.subject_add);
 
+
+        SwipeMenuCreator creator = new SwipeMenuCreator() {
+            @Override
+            public void create(SwipeMenu menu) {
+                // create "delete" item
+                SwipeMenuItem deleteItem = new SwipeMenuItem(
+                        getContext());
+                // set item background
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
+                        0x3F, 0x25)));
+                // set item width
+                deleteItem.setWidth(DpPxConvertor.dp2px(getContext(), 90));
+                // set a icon
+                deleteItem.setIcon(R.drawable.ic_delete);
+                // add to menu
+                menu.addMenuItem(deleteItem);
+            }
+        };
+
+        // set creator
+        subject_listview.setMenuCreator(creator);
+        // Right
+        subject_listview.setSwipeDirection(SwipeMenuListView.DIRECTION_LEFT);
         //Realm 초기 설정
         RealmInit();
 
@@ -145,17 +175,32 @@ public class MainFragment extends Fragment {
                 ad.setPositiveButton("저장",
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
-                                userRealm.executeTransaction(new Realm.Transaction() {
-                                    @Override
-                                    public void execute(Realm realm) {
-                                        final RealmList<String> subjects = new RealmList<>();
-                                        subjects.addAll(characterList.first().getSubject());
-                                        subjects.add(et.getText().toString());
-                                        characterList.first().setSubject(subjects);
+                                RealmList<String> subjects = new RealmList<>();
+                                String subject = et.getText().toString();
+                                boolean checkSubject = true;
+                                for (int i = 0; i < subjects.size(); i++) {
+                                    Log.d(TAG, "subjects[" + i + "]: " + subjects.get(i));
+                                    if (subjects.get(i).equals(subject)) {
+                                        checkSubject = false;
+                                        Log.d(TAG, subject + " is already exists");
+                                        break;
                                     }
-                                });
-                                dialog.dismiss();
-                                SyncSubject();
+                                }
+                                if(checkSubject) {
+                                    userRealm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+                                            final RealmList<String> subjects = new RealmList<>();
+                                            subjects.addAll(characterList.first().getSubject());
+                                            subjects.add(et.getText().toString());
+                                            characterList.first().setSubject(subjects);
+                                        }
+                                    });
+                                    dialog.dismiss();
+                                    SyncSubject();
+                                } else {
+                                    Log.d(TAG, "이미 존재하는 과목");
+                                }
                             }
                         });
                 ad.setNegativeButton("취소", new DialogInterface.OnClickListener() {

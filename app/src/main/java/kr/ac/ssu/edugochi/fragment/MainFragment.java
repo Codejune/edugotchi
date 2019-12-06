@@ -176,6 +176,7 @@ public class MainFragment extends Fragment {
                         new DialogInterface.OnClickListener() {
                             public void onClick(DialogInterface dialog, int which) {
                                 RealmList<String> subjects = new RealmList<>();
+                                subjects = characterList.first().getSubject();
                                 String subject = et.getText().toString();
                                 boolean checkSubject = true;
                                 for (int i = 0; i < subjects.size(); i++) {

@@ -5,8 +5,6 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.graphics.Typeface;
 import android.os.Bundle;
-import android.provider.CalendarContract;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -24,7 +22,6 @@ import com.google.android.material.tabs.TabLayout;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
 import java.util.List;
 import java.util.Locale;
@@ -53,10 +50,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     // 달력 관련 클래스 변수
     private TextView tvDate;
+    private ViewGroup grid_column;
     private GridAdapter gridAdapter;
     private ArrayList<String> dayList;
     private CustomGridView gridView;
-    private TextView tvItemGridView;
+    private TextView date_text, color_tag;
     private Calendar mCal;
     private Calendar today;
     private int today_position;
@@ -64,7 +62,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 연,월,일을 따로 저장
     SimpleDateFormat curYearFormat = new SimpleDateFormat("yyyy", Locale.KOREA);
     SimpleDateFormat curMonthFormat = new SimpleDateFormat("MM", Locale.KOREA);
-    SimpleDateFormat curDayFormat = new SimpleDateFormat("dd", Locale.KOREA);
     SimpleDateFormat curTotalFormat = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
 
     // 달을 변경하는 버튼 이미지
@@ -215,24 +212,26 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 convertView = inflater.inflate(R.layout.item_calendar_gridview, parent, false);
-                tvItemGridView = convertView.findViewById(R.id.tv_item_gridview);
+                date_text=convertView.findViewById(R.id.tv_item_gridview);
+                color_tag=convertView.findViewById(R.id.color_tag);
+                grid_column=convertView.findViewById(R.id.gridview);
             }
 
             if (position + 1 < dayNum) // 1일 전의 리스트는 클릭이 안되도록 세팅
-                tvItemGridView.setClickable(true);
-            tvItemGridView.setText("" + getItem(position));
+                grid_column.setClickable(true);
+            date_text.setText("" + getItem(position));
 
             // 오늘 날짜는 bold체로 표시
             Integer iToday = today.get(Calendar.DAY_OF_MONTH);
             String sToday = String.valueOf(iToday);
             if (sToday.equals(getItem(position)))
-                tvItemGridView.setTypeface(Typeface.DEFAULT_BOLD);
+                date_text.setTypeface(Typeface.DEFAULT_BOLD);
 
             // 토요일과 일요일에 색깔 지정
             if ((position + 1) % 7 == 1)
-                tvItemGridView.setTextColor(getResources().getColor(R.color.red_inactive));
+                date_text.setTextColor(getResources().getColor(R.color.red_inactive));
             else if ((position + 1) % 7 == 0)
-                tvItemGridView.setTextColor(getResources().getColor(R.color.blue_inactive));
+                date_text.setTextColor(getResources().getColor(R.color.blue_inactive));
 
             long total_time = 0;
             mCal.add(Calendar.DATE, position - dayNum + 1);
@@ -243,13 +242,15 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                     total_time += measureList.get(i).getTimeout();
             }
 
-            if (total_time >= (6 * 60 * 60 * 1000))
-                tvItemGridView.setBackground(getResources().getDrawable(R.drawable.green_circle));
-            else if (total_time >= (3 * 60 * 60 * 1000))
-                tvItemGridView.setBackground(getResources().getDrawable(R.drawable.yellow_circle));
-            else if ((position >= dayNum - 1) && total_time > 0)
-                tvItemGridView.setBackground(getResources().getDrawable(R.drawable.red_circle));
-
+            if(total_time>0) {
+                color_tag.setText("●");
+                if (total_time >= (6 * 60 * 60 * 1000))
+                    color_tag.setTextColor(getResources().getColor(R.color.greenPastel));
+                else if (total_time >= (3 * 60 * 60 * 1000))
+                    color_tag.setTextColor(getResources().getColor(R.color.yellowPastel));
+                else if (position >= dayNum - 1)
+                    color_tag.setTextColor(getResources().getColor(R.color.redPastel));
+            }
             mCal.add(Calendar.DATE, -(position - dayNum + 1));
 
             return convertView;
@@ -297,11 +298,14 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 날짜 클릭시 호출되는 onItemClick 메소드
     @Override
     public void onItemClick(AdapterView<?> parent, View v, int position, long id) {
-        TextView tx = (TextView) v;
-        if (pre_position >= 0)
+        TextView tx = v.findViewById(R.id.tv_item_gridview);
+        if (pre_position >= 0) {
             pre_date.setTextColor(tColor);
+            pre_date.setBackgroundResource(0);
+        }
         tColor = tx.getCurrentTextColor();
         tx.setTextColor(getResources().getColor(R.color.white));
+        tx.setBackground(getResources().getDrawable(R.drawable.list_selector));
         pre_position = position;
         pre_date = tx;
         setTabData(mCal, position);
@@ -494,7 +498,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 } else if (measureList.get(i).getDate().substring(5, 7).equals(curMonthFormat.format(month_day.getTime())))
                     pre_month_total_time += measureList.get(i).getTimeout();
             }
-
+            if (rest < 0) rest = 0;
+            if (pre_rest < 0) pre_rest = 0;
+            if (month_rest < 0) month_rest = 0;
 
             /** 일간 탭호스트 레이아웃 세팅 **/
             circle = getView().findViewById(R.id.day_circle);
@@ -531,7 +537,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview = getView().findViewById(R.id.avg_time);
             textview.setText(makeTimeForm((total_time)));
 
-            if (rest < 0) rest = 0;
             textview = getView().findViewById(R.id.rest_time);
             textview.setText(rest + "회");
 
@@ -569,7 +574,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview = getView().findViewById(R.id.avg_week_time);
             textview.setText(makeTimeForm(total_week_time / (pre_rest+1)));
 
-            if (pre_rest < 0) pre_rest = 0;
             textview = getView().findViewById(R.id.rest_week_time);
             textview.setText(pre_rest + "회");
 
@@ -607,7 +611,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             textview = getView().findViewById(R.id.avg_month_time);
             textview.setText(makeTimeForm(total_week_time / (month_rest+1)));
 
-            if (month_rest < 0) month_rest = 0;
             textview = getView().findViewById(R.id.rest_month_time);
             textview.setText(month_rest + "회");
             mCal.add(Calendar.DATE, -(position - dayNum + 1));

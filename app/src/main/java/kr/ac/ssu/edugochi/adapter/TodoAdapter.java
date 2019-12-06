@@ -5,30 +5,24 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
-import android.widget.ImageView;
 import android.widget.TextView;
-
-import com.google.android.material.dialog.MaterialAlertDialogBuilder;
 
 import java.util.ArrayList;
 
-import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.TodoDB.TodoHolder;
 import kr.ac.ssu.edugochi.object.TodoItem;
 
 public class TodoAdapter extends ArrayAdapter<TodoItem> {
 
-    private View.OnClickListener mOnItemDeleteListener;
     private Context context;
     private int resId;
     private ArrayList<TodoItem> data;
 
-    public TodoAdapter(Context context, int resId, ArrayList<TodoItem> data, View.OnClickListener onItemDeleteListener) {
+    public TodoAdapter(Context context, int resId, ArrayList<TodoItem> data) {
         super(context, resId);
         this.context = context;
         this.resId = resId;
-        this.data = data;
-        mOnItemDeleteListener = onItemDeleteListener;
+        this.data = data;;
     }
 
     @Override
@@ -49,8 +43,6 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         TextView titleView = holder.titleView;
         final TextView dateView = holder.dateView;
         TextView memoView = holder.memoView;
-        ImageView deleteBtn = holder.deleteBtn;
-
 
         final TodoItem vo = data.get(position);
 
@@ -58,25 +50,7 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         dateView.setText(vo.date);
         memoView.setText(vo.memo);
 
-        holder.deleteBtn.setOnClickListener(mOnItemDeleteListener);
-        holder.deleteBtn.setTag(vo);
-        final String Date = dateView.getText().toString();
-        final String Memo = memoView.getText().toString();
 
-        convertView.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
-
-                        dialog.setIcon(R.drawable.ic_done_all_black_24dp);
-                        dialog.setTitle(vo.title);
-                        dialog.setMessage("\n기한 : "+Date+"\n\n메모 : "+Memo);
-                        dialog.setNegativeButton("확인", null);
-                        dialog.create();
-                    dialog.show();
-
-            }
-        });
 
         return convertView;
     }

@@ -257,6 +257,7 @@
             android:background="@drawable/edge_round"
             android:ellipsize="marquee"
             android:gravity="center"
+            android:textStyle="bold"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"

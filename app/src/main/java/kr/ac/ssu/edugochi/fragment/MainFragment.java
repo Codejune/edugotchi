@@ -1,7 +1,5 @@
 package kr.ac.ssu.edugochi.fragment;
 
-import androidx.appcompat.app.AlertDialog;
-
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Color;
@@ -19,6 +17,7 @@ import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.fragment.app.Fragment;
 
 import com.baoyz.swipemenulistview.SwipeMenu;
@@ -29,7 +28,6 @@ import com.bumptech.glide.Glide;
 import com.google.android.material.button.MaterialButton;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Locale;
 
@@ -378,60 +376,67 @@ public class MainFragment extends Fragment {
     private void UpdateCharacter(ImageView ch) {
         ch_check = eduPreManger.getString(getActivity(), "selectCharacter");
         //기본 몰랑이
-        if (ch_check.equals("basic_ch")) {
-            Glide.with(this).load(R.drawable.character).into(ch);
-        }
-        //모찌
-        else if (ch_check.equals("mozzi_ch") && currentLv <= 2) {
-            Glide.with(this).load(R.drawable.mozzi1).into(ch);
-        } else if (ch_check.equals("mozzi_ch") && currentLv <= 4) {
-            Glide.with(this).load(R.drawable.mozzi2).into(ch);
-        } else if (ch_check.equals("mozzi_ch") && currentLv <= 7) {
-            Glide.with(this).load(R.drawable.mozzi3).into(ch);
-        } else if (ch_check.equals("mozzi_ch") && 8 <= currentLv) {
-            Glide.with(this).load(R.drawable.mozzi4).into(ch);
-        } else if (ch_check.equals("mozzi_ch") && 10 <= currentLv) {
-            Glide.with(this).load(R.drawable.mozzi5).into(ch);
-        }
-        //꼬부기~ 메가 거북왕
-        else if (ch_check.equals("water_ch") && currentLv <= 2) {
-            Glide.with(this).load(R.drawable.water1).into(ch);
-        } else if (ch_check.equals("water_ch") && currentLv <= 4) {
-            Glide.with(this).load(R.drawable.water2).into(ch);
-        } else if (ch_check.equals("water_ch") && currentLv <= 7) {
-            Glide.with(this).load(R.drawable.water3).into(ch);
-        } else if (ch_check.equals("water_ch") && 8 <= currentLv) {
-            Glide.with(this).load(R.drawable.water4).into(ch);
-        }
-        //파이리~ 메가 리자몽
-        else if (ch_check.equals("fire_ch") && currentLv <= 2) {
-            Glide.with(this).load(R.drawable.fire1).into(ch);
-        } else if (ch_check.equals("fire_ch") && currentLv <= 4) {
-            Glide.with(this).load(R.drawable.fire2).into(ch);
-        } else if (ch_check.equals("fire_ch") && currentLv <= 7) {
-            Glide.with(this).load(R.drawable.fire3).into(ch);
-        } else if (ch_check.equals("fire_ch") && 8 <= currentLv) {
-            Glide.with(this).load(R.drawable.fire4).into(ch);
-        }
-        //이상해씨 ~ 메가 이상해꽃
-        else if (ch_check.equals("grass_ch") && currentLv <= 2) {
-            Glide.with(this).load(R.drawable.grass1).into(ch);
-        } else if (ch_check.equals("grass_ch") && currentLv <= 4) {
-            Glide.with(this).load(R.drawable.grass2).into(ch);
-        } else if (ch_check.equals("grass_ch") && currentLv <= 7) {
-            Glide.with(this).load(R.drawable.grass3).into(ch);
-        } else if (ch_check.equals("grass_ch") && 8 <= currentLv) {
-            Glide.with(this).load(R.drawable.grass4).into(ch);
-        }
-        //잉어킹 ~ 갸라도스
-        else if (ch_check.equals("fish_ch") && currentLv <= 7) {
-            Glide.with(this).load(R.drawable.fish).into(ch);
-        } else if (ch_check.equals("fish_ch") && currentLv >= 8) {
-            Glide.with(this).load(R.drawable.dragon).into(ch);
-        }
-        //디폴트 초기설정으로 캐릭터 미설정시 몰랑이 출력
-        else {
-            Glide.with(this).load(R.drawable.character).into(ch);
+        switch (ch_check) {
+            case "basic_ch":
+                Glide.with(this).load(R.drawable.character).into(ch);
+                break;
+            //모찌
+            case "mozzi_ch":
+                if (currentLv <= 5)
+                    Glide.with(this).load(R.drawable.mozzi1).into(ch);
+                else if (currentLv <= 10)
+                    Glide.with(this).load(R.drawable.mozzi2).into(ch);
+                else if (currentLv <= 15)
+                    Glide.with(this).load(R.drawable.mozzi3).into(ch);
+                else if (currentLv <= 25)
+                    Glide.with(this).load(R.drawable.mozzi4).into(ch);
+                else
+                    Glide.with(this).load(R.drawable.mozzi5).into(ch);
+                break;
+            //꼬부기~ 메가 거북왕
+            case "water_ch":
+                if (currentLv <= 5)
+                    Glide.with(this).load(R.drawable.water1).into(ch);
+                else if (currentLv <= 15)
+                    Glide.with(this).load(R.drawable.water2).into(ch);
+                else if (currentLv <= 25)
+                    Glide.with(this).load(R.drawable.water3).into(ch);
+                else
+                    Glide.with(this).load(R.drawable.water4).into(ch);
+                break;
+            //파이리~ 메가 리자몽
+            case "fire_ch":
+                if (currentLv <= 5)
+                    Glide.with(this).load(R.drawable.fire1).into(ch);
+                else if (currentLv <= 15)
+                    Glide.with(this).load(R.drawable.fire2).into(ch);
+                else if (currentLv <= 25)
+                    Glide.with(this).load(R.drawable.fire3).into(ch);
+                else
+                    Glide.with(this).load(R.drawable.fire4).into(ch);
+                break;
+            //이상해씨 ~ 메가 이상해꽃
+            case "grass_ch":
+                if (currentLv <= 5)
+                    Glide.with(this).load(R.drawable.grass1).into(ch);
+                else if (currentLv <= 15)
+                    Glide.with(this).load(R.drawable.grass2).into(ch);
+                else if (currentLv <= 25)
+                    Glide.with(this).load(R.drawable.grass3).into(ch);
+                else
+                    Glide.with(this).load(R.drawable.grass4).into(ch);
+                break;
+            //잉어킹 ~ 갸라도스
+            case "fish_ch":
+                if (currentLv <= 25)
+                    Glide.with(this).load(R.drawable.fish).into(ch);
+                else
+                    Glide.with(this).load(R.drawable.dragon).into(ch);
+                break;
+            //디폴트 초기설정으로 캐릭터 미설정시 몰랑이 출력
+            default:
+                Glide.with(this).load(R.drawable.character).into(ch);
+                break;
         }
     }
 

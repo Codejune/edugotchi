@@ -2,8 +2,6 @@ package kr.ac.ssu.edugochi.fragment;
 
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -186,30 +184,17 @@ public class TodoFragment extends Fragment {
             // create "open" item
             SwipeMenuItem openItem = new SwipeMenuItem(
                     getActivity());
-            // set item background
-            openItem.setBackground(new ColorDrawable(Color.rgb(0xC9, 0xC9,
-                    0xCE)));
-            // set item width
-            openItem.setWidth(200);
-            // set item title
-            openItem.setTitle("상세");
-            // set item title fontsize
-            openItem.setTitleSize(18);
-            // set item title font color
-            openItem.setTitleColor(Color.WHITE);
+            openItem.setWidth(100);
+            openItem.setIcon(R.drawable.ic_description);
             // add to menu
             menu.addMenuItem(openItem);
 
             // create "delete" item
             SwipeMenuItem deleteItem = new SwipeMenuItem(
                     getActivity());
-            // set item background
-            deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                    0x3F, 0x25)));
-            // set item width
-            deleteItem.setWidth(200);
+            deleteItem.setWidth(100);
             // set a icon
-            deleteItem.setIcon(R.drawable.ic_delete);
+            deleteItem.setIcon(R.drawable.ic_delete_red);
             // add to menu
             menu.addMenuItem(deleteItem);
         }

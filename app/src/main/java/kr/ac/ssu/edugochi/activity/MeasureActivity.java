@@ -95,10 +95,9 @@ public class MeasureActivity extends AppCompatActivity {
         // Intent에 포함된 과목 이름
         subject = intent.getStringExtra("subject");
 
+        
         if (subject != null)
             title.setText(subject);
-
-        CheckNoise();
 
         // 측정 시작 버튼 클릭
         record_btn.setOnClickListener(new View.OnClickListener() {
@@ -178,6 +177,7 @@ public class MeasureActivity extends AppCompatActivity {
         WN_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+               CheckNoise();
                 switch (WN_status) {
                     case init: // 정지 상태
                         player.start();

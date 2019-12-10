@@ -67,7 +67,6 @@ public class MeasureActivity extends AppCompatActivity {
     private MaterialButton record_btn;
     private MaterialButton stop_btn;
     private MaterialButton WN_btn;
-    private Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +80,7 @@ public class MeasureActivity extends AppCompatActivity {
         RealmInit();
 
         // 뷰 연결
-        chronometer = findViewById(R.id.timer);
+        timer = findViewById(R.id.timer);
         record_btn = findViewById(R.id.record_btn);
         stop_btn = findViewById(R.id.stop_btn);
         WN_btn = findViewById(R.id.play_btn);

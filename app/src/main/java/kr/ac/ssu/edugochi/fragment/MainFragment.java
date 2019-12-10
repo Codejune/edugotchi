@@ -263,9 +263,9 @@ public class MainFragment extends Fragment {
         Log.d(TAG, "캐릭터 데이터 설정");
         try {
             // 캐릭터 설정이 있을 때
-            currentLv = (int) characterList.first().getLv();        // 현재 레벨 획득
+            currentLv = (int) characterList.first().getLv();              // 현재 레벨 획득
             currentExp = characterList.first().getExp();            // 현재 경험치 획득
-            nextLv = currentLv + 1;                                 // 다음 레벨은 현재 레벨 + 1
+            nextLv = currentLv + 1;                            // 다음 레벨은 현재 레벨 + 1
             nextExp = expList.get(currentLv).getExp();              // 다음 레벨 경험치 획득
             nextInterval = expList.get(currentLv).getInterval();    // 다음 레벨까지 필요한 수치 차이 획득
             subjects = characterList.first().getSubject();

@@ -11,6 +11,7 @@ import android.os.Message;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.Chronometer;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -44,9 +45,7 @@ public class MeasureActivity extends AppCompatActivity {
     private static String USERTABLE = "User.realm";
     private Realm userRealm;                        // User.realm 인스턴스
     private RealmConfiguration UserModuleConfig;    // User.realm 모듈 설정
-    private RealmResults<MeasureData> measureList;  // 측정 데이터 Realm 리스트
     private RealmResults<Character> characterList;  // 캐릭터 정보 Realm 리스트(0)
-    RealmList<String> subjects;
 
     // Measure
     private final static int init = 0;  // 정지
@@ -68,7 +67,7 @@ public class MeasureActivity extends AppCompatActivity {
     private MaterialButton record_btn;
     private MaterialButton stop_btn;
     private MaterialButton WN_btn;
-
+    private Chronometer chronometer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,20 +80,16 @@ public class MeasureActivity extends AppCompatActivity {
         // Realm 초기 설정
         RealmInit();
 
-        // 각 리스트 데이터 로드
-        measureList = getMeasureList();
-        characterList = getCharacterList();
-
         // 뷰 연결
+        chronometer = findViewById(R.id.timer);
         record_btn = findViewById(R.id.record_btn);
         stop_btn = findViewById(R.id.stop_btn);
         WN_btn = findViewById(R.id.play_btn);
-        timer = findViewById(R.id.timer);
+        //timer = findViewById(R.id.timer);
         title = findViewById(R.id.measure_title);
 
         // Intent에 포함된 과목 이름
         subject = intent.getStringExtra("subject");
-
         
         if (subject != null)
             title.setText(subject);
@@ -208,11 +203,9 @@ public class MeasureActivity extends AppCompatActivity {
                 .name(USERTABLE)
                 .build();
         userRealm = Realm.getInstance(UserModuleConfig);
-    }
 
-    // 측정 데이터 리스트 반환
-    private RealmResults<MeasureData> getMeasureList() {
-        return userRealm.where(MeasureData.class).findAllAsync();
+        // 각 리스트 데이터 로드
+        characterList = getCharacterList();
     }
 
     // 캐릭터 데이터 리스트 반환
@@ -310,7 +303,6 @@ public class MeasureActivity extends AppCompatActivity {
                 Log.i(TAG, "exp\t\t: " + out_time / 1000);
             }
         });
-        measureList = getMeasureList();
     }
 
     // 캐릭터 정보 갱신
@@ -372,7 +364,6 @@ public class MeasureActivity extends AppCompatActivity {
             player.release();
             player = null;
         }
-        userRealm.close();
     }
 }
 

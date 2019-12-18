@@ -155,7 +155,6 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:text="00 : 00 : 00"
                 android:textSize="10sp" />
 
             <View
@@ -172,7 +171,6 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:layout_marginRight="10dp"
-                android:text="0회"
                 android:textSize="10sp" />
 
         </TableRow>

@@ -99,6 +99,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
+        Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
         UserModuleConfig = new RealmConfiguration.Builder()
                 .modules(new UserModule())
@@ -111,6 +112,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+        Log.i(TAG, "onCreateView");
         View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
         // 클릭리스너 부착 선언
         pre_Button = myView.findViewById((R.id.pre_button));
@@ -173,6 +175,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         characterList = userRealm.where(Character.class).findAll().sort("name");
         today = Calendar.getInstance();
         today_position = today.get(Calendar.DAY_OF_MONTH) - 1;
+
         makeCalendar(); // 달력 생성 함수
         setTabData(mCal, today_position); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
         makeRankTable(); // 랭크테이블 생성 함수
@@ -181,7 +184,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     @Override
     public void onPause() {
         super.onPause();
-        month = 0;
+        month = 0; // 달을 옮겼을 때 적절한 반응 할 수 있도록 세팅
     }
 
     // 그리드뷰 어댑터
@@ -194,77 +197,69 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             this.context = context;
             this.list = list;
         }
-
         @Override
         public int getCount() {
             return list.size();
         }
-
         @Override
         public String getItem(int position) {
             return list.get(position);
         }
-
         @Override
         public long getItemId(int position) {
             return position;
         }
-
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
                 LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
                 convertView = inflater.inflate(R.layout.item_calendar_gridview, parent, false);
-
                 calViewHolder = new CalendarViewHolder();
-                Log.i(TAG, "getitemif " + getItem(position));
                 calViewHolder.date_text = convertView.findViewById(R.id.tv_item_gridview);
                 calViewHolder.color_tag = convertView.findViewById(R.id.color_tag);
                 calViewHolder.grid_column = convertView.findViewById(R.id.grid_column);
                 convertView.setTag(calViewHolder);
-            } else {
-                Log.i(TAG, "getitemelse " + getItem(position));
+            } else
                 calViewHolder = (CalendarViewHolder) convertView.getTag();
-            }
 
             calViewHolder.date_text.setText("" + getItem(position));
             if (position + 1 < dayNum) // 1일 전의 리스트는 클릭이 안되도록 세팅
                 calViewHolder.grid_column.setClickable(true);
-            Log.i(TAG, "getitem" + getItem(position));
 
             // 오늘 날짜는 bold체로 표시
-            int iToday = today.get(Calendar.DAY_OF_MONTH);
-            String sToday = String.valueOf(iToday);
-            if (sToday.equals(getItem(position)))
-                calViewHolder.date_text.setTypeface(Typeface.DEFAULT_BOLD);
-
-            // 토요일과 일요일에 색깔 지정
-            if ((position + 1) % 7 == 1)
-                calViewHolder.date_text.setTextColor(getResources().getColor(R.color.red_inactive));
-            else if ((position + 1) % 7 == 0)
-                calViewHolder.date_text.setTextColor(getResources().getColor(R.color.blue_inactive));
-
-            long total_time = 0;
-            mCal.add(Calendar.DATE, position - dayNum + 1);
-            // DB의 모든 데이터 검사 하는 for문
-            length=measureList.size();
-            for (int i = 0; i < length; i++) {
-                // 날짜 값이 일치할 경우
-                if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime())))
-                    total_time += measureList.get(i).getTimeout();
+            if(month==0) {
+                int iToday = today.get(Calendar.DAY_OF_MONTH);
+                String sToday = String.valueOf(iToday);
+                if (sToday.equals(getItem(position)))
+                    calViewHolder.date_text.setTypeface(Typeface.DEFAULT_BOLD);
             }
 
-            if(total_time>0) {
+            // 토요일과 일요일에 색깔 지정
+                if ((position + 1) % 7 == 1)
+                    calViewHolder.date_text.setTextColor(getResources().getColor(R.color.red_inactive));
+                else if ((position + 1) % 7 == 0)
+                    calViewHolder.date_text.setTextColor(getResources().getColor(R.color.blue_inactive));
+
+                long total_time = 0;
+                mCal.add(Calendar.DATE, position - dayNum + 1);
+                // DB의 모든 데이터 검사 하는 for문
+                length=measureList.size();
+                for (int i = 0; i < length; i++) {
+                    // 날짜 값이 일치할 경우
+                    if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime())))
+                        total_time += measureList.get(i).getTimeout();
+            }
+
+            if(total_time>0&&(position >= dayNum - 1)) {
                 calViewHolder.color_tag.setText("●");
                 if (total_time >= (6 * 60 * 60 * 1000))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.greenPastel));
                 else if (total_time >= (3 * 60 * 60 * 1000))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.yellowPastel));
-                else if (position >= dayNum - 1)
+                else
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.redPastel));
             }
             mCal.add(Calendar.DATE, -(position - dayNum + 1));
-
 
             return convertView;
         }
@@ -392,7 +387,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
             month_day = (Calendar) mCal.clone();
             month_day.add(Calendar.MONTH, -1);
-
 
             length=measureList.size();
             /** 탭호스트 레이아웃의 데이터 세팅 **/
@@ -580,15 +574,11 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             ViewGroup.LayoutParams lp = listview.getLayoutParams();
             lp.height = height;
             listview.setLayoutParams(lp);
-            if (rankList.size() == 1 || rankList.size() == 2) // 과목 1개면 분리선 없애줌
-                listview.setDividerHeight(0);
             listadapter = new RankListAdapter(getActivity(), R.layout.rank_list_item, rankList);
             listview.setAdapter(listadapter);
         } else
             subject_rank_title.setText("과목이 없습니다");
-
     }
-
 
     // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수
     public static String makeTimeForm(long Time) {

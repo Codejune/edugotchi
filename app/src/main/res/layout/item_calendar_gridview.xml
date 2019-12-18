@@ -3,8 +3,7 @@
     android:id="@+id/grid_column"
     android:layout_width="35dp"
     android:layout_height="45dp"
-    android:defaultFocusHighlightEnabled="true"
-    android:layout_marginBottom="1dp"
+    android:layout_marginBottom="16dp"
     android:orientation="vertical">
     <TextView
         android:id="@+id/tv_item_gridview"
@@ -16,6 +15,7 @@
         android:id="@+id/color_tag"
         android:layout_width="35dp"
         android:layout_height="8dp"
-        android:textSize="8sp"
+        android:focusable="false"
+        android:textSize="6sp"
         android:gravity="center"/>
 </LinearLayout>

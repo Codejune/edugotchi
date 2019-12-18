@@ -15,7 +15,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="360sp"
+            android:layout_height="360dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -160,6 +160,7 @@
                     android:layout_marginLeft="6.5sp"
                     android:layout_marginBottom="16dp"
                     android:isScrollContainer="false"
+                    android:listSelector="#00000000"
                     android:numColumns="7"
                     app:layout_constraintBottom_toTopOf="@+id/color_row"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -184,7 +185,7 @@
                         android:layout_marginRight="8dp"
                         android:text="●"
                         android:textColor="@color/greenPastel"
-                        android:textSize="8sp"
+                        android:textSize="6sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toLeftOf="parent"
                         app:layout_constraintRight_toLeftOf="@id/green_text" />
@@ -208,7 +209,7 @@
                         android:layout_marginRight="8dp"
                         android:text="●"
                         android:textColor="@color/yellowPastel"
-                        android:textSize="8sp"
+                        android:textSize="6sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/green_text"
                         app:layout_constraintRight_toLeftOf="@id/yellow_text" />
@@ -231,7 +232,7 @@
                         android:layout_marginRight="8dp"
                         android:text="●"
                         android:textColor="@color/redPastel"
-                        android:textSize="8sp"
+                        android:textSize="6sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/yellow_text"
                         app:layout_constraintRight_toLeftOf="@id/red_text" />
@@ -381,8 +382,7 @@
                     android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:background="@drawable/edge_round"
-                    android:divider="@color/colorPrimary"
-                    android:dividerHeight="1.5dp"
+                    android:divider="#00000000"
                     android:listSelector="@drawable/blank"
                     android:scrollbars="none" />
             </LinearLayout>

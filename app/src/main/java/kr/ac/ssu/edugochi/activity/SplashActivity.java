@@ -35,9 +35,6 @@ public class SplashActivity extends AppCompatActivity {
                     AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-
-
-
         ImageView character = findViewById(R.id.character);
         Glide.with(this).load(R.drawable.character).into(character);
 

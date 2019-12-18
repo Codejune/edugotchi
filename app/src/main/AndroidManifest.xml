@@ -19,6 +19,7 @@
             android:enabled="true"
             android:exported="true"></service>
 
+        <activity android:name=".activity.HistoryActivity"></activity>
         <activity android:name=".activity.LoginActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>

@@ -113,7 +113,7 @@ public class MainFragment extends Fragment {
         character_lv = view.findViewById(R.id.lv);                  // 캐릭터 레벨 텍스트뷰
         expbar = view.findViewById(R.id.exp_bar);                   // 경험치 프로그레스바
         exptext = view.findViewById(R.id.exp_text);                 // 경험치 비교 텍스트뷰
-        record_btn = view.findViewById(R.id.record);                // 시간 측정 버튼
+       // record_btn = view.findViewById(R.id.record);                // 시간 측정 버튼
         subject_listview = view.findViewById(R.id.subject_list);    // 과목 목록 리스트뷰
         addsubject_btn = view.findViewById(R.id.subject_add);       // 과목 추가 버튼
 
@@ -121,13 +121,13 @@ public class MainFragment extends Fragment {
         CreateSwipeMenu();
 
         // 측정 버튼 클릭 시
-        record_btn.setOnClickListener(new View.OnClickListener() {
+        /*record_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MeasureActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         // 과목 추가 버튼 클릭 시
         addsubject_btn.setOnClickListener(new View.OnClickListener() {
@@ -513,7 +513,7 @@ public class MainFragment extends Fragment {
                 Log.d(TAG, "measureList.size: " + measureList.size());
                 for(int i = 0; i < measureList.size(); i++) {
                     if(measureList.get(i).getSubject().equals(subject))
-                        measureList.get(i).setSubject("");
+                        measureList.get(i).deleteFromRealm();
                 }
                 characterList.first().setSubject(newSubjectList);
             }

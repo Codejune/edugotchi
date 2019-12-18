@@ -1,4 +1,4 @@
-package kr.ac.ssu.edugochi.adapter;
+package kr.ac.ssu.edugochi.object;
 
 public class RankListItem {
     private String subject;
@@ -8,7 +8,6 @@ public class RankListItem {
     public void setSubject(String subject) {
         this.subject = subject;
     }
-
     public void plusTime(long time) {
         this.time += time;
     }

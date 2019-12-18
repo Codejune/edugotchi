@@ -104,6 +104,7 @@ public class MainActivity extends AppCompatActivity {
                 inflater.inflate(R.menu.home_menu, menu);
                 break;
             case 1:
+                inflater.inflate(R.menu.timeline_menu, menu);
                 break;
             case 2:
                 inflater.inflate(R.menu.todo_menu, menu);

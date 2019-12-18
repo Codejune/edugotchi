@@ -229,6 +229,13 @@
                     app:layout_constraintBottom_toBottomOf="parent"
                     android:text="새로운 과목을 추가해보세요."
                     android:textSize="10sp" />
+                <Button
+                    android:id="@+id/rank_btn"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    app:layout_constraintBottom_toBottomOf="@+id/add_title"
+                    android:text="랭킹 확인하기"/>
 
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>

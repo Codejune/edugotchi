@@ -47,6 +47,7 @@ public class SplashActivity extends AppCompatActivity {
                 SplashActivity.this.finish();
             }
         }, SPLASH_DISPLAY_TIME);
+        
     }
 
     @Override

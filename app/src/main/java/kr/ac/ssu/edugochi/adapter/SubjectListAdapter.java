@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
+import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 import kr.ac.ssu.edugochi.object.SubjectListItem;
 import kr.ac.ssu.edugochi.view.ViewHolder;
 
@@ -74,7 +75,7 @@ public class SubjectListAdapter extends BaseAdapter {
 
             /* MyItem에 아이템을 setting한다. */
             viewHolder.subject_title.setText(subjects.get(position).getSubject());
-            viewHolder.subject_timeout.setText(String.format("%02d : %02d : %02d", timeout/1000/60/60, timeout/1000/60%60, timeout/1000%60%60));
+            viewHolder.subject_timeout.setText(TimelineFragment.makeTimeForm(timeout));
             viewHolder.measure_subject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {

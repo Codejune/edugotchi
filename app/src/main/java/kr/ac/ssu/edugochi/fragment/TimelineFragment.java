@@ -267,9 +267,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
             if(total_time>0&&(position >= dayNum - 1)) {
                 calViewHolder.color_tag.setText("●");
-                if (total_time >= (6 * 60 * 60 * 1000))
+                if (total_time >= (6 * 60 * 60))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.greenPastel));
-                else if (total_time >= (3 * 60 * 60 * 1000))
+                else if (total_time >= (3 * 60 * 60))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.yellowPastel));
                 else
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.redPastel));
@@ -605,13 +605,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             Time *= -1;
             isMinus = true;
         }
-        nhour = (int) Time / 3600000;
+        nhour = (int) Time / 3600;
         hour = Integer.toString(nhour);
-        Time %= 3600000;
-        nminute = (int) Time / 60000;
+        Time %= 3600;
+        nminute = (int) Time / 60;
         minute = Integer.toString(nminute);
-        Time %= 60000;
-        nseconds = (int) Time / 1000;
+        Time %= 60;
+        nseconds = (int) Time;
         seconds = Integer.toString(nseconds);
 
         // 각 파트별로 10이하면 0을 추가
@@ -630,9 +630,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     private static String colorSelect(long time, int check) {
-        if (((time >= (6 * 60 * 60 * 1000)) && (check == 0)) || ((time >= (30 * 60 * 60 * 1000)) && (check == 1)) || ((time >= (132 * 60 * 60 * 1000)) && (check == 2)))
+        if (((time >= (6 * 60 * 60)) && (check == 0)) || ((time >= (30 * 60 * 60)) && (check == 1)) || ((time >= (132 * 60 * 60)) && (check == 2)))
             return "green";
-        else if (((time >= (3 * 60 * 60 * 1000)) && (check == 0)) || ((time >= (15 * 60 * 60 * 1000)) && (check == 1)) || ((time >= (66 * 60 * 60 * 1000)) && (check == 2)))
+        else if (((time >= (3 * 60 * 60)) && (check == 0)) || ((time >= (15 * 60 * 60)) && (check == 1)) || ((time >= (66 * 60 * 60)) && (check == 2)))
             return "yellow";
         else if (time > 0)
             return "red";

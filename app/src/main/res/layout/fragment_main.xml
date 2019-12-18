@@ -117,13 +117,13 @@
             android:id="@+id/subject_title"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="4dp"
+            android:layout_marginTop="36dp"
             android:text="과목 목록"
             android:textColor="@color/itemColor"
             android:textSize="20sp"
             android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
-            app:layout_constraintTop_toTopOf="@id/record" />
+            app:layout_constraintTop_toBottomOf="@id/character_view" />
 
         <TextView
             android:id="@+id/subject_subtitle"
@@ -133,21 +133,6 @@
             android:textSize="12sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintTop_toBottomOf="@id/subject_title" />
-
-        <com.google.android.material.button.MaterialButton
-            android:id="@+id/record"
-            style="@style/Widget.MaterialComponents.Button.UnelevatedButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="32dp"
-            android:text="측정하기"
-            android:textColor="@color/white"
-            android:textSize="12dp"
-            app:cornerRadius="20dp"
-            app:icon="@drawable/ic_play_arrow"
-            app:iconTint="@color/white"
-            app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/character_view" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/subject"
@@ -160,7 +145,7 @@
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/record">
+            app:layout_constraintTop_toBottomOf="@id/subject_subtitle">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"

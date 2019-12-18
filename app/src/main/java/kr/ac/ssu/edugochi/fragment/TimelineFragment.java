@@ -3,10 +3,12 @@ package kr.ac.ssu.edugochi.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,8 +34,10 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.activity.AddTodoActivity;
+import kr.ac.ssu.edugochi.activity.HistoryActivity;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
-import kr.ac.ssu.edugochi.adapter.RankListItem;
+import kr.ac.ssu.edugochi.object.RankListItem;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
@@ -98,9 +102,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.history_btn:
+                startActivity(new Intent(getActivity(), HistoryActivity.class));
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UserModuleConfig = new RealmConfiguration.Builder()
                 .modules(new UserModule())
                 .migration(new Migration())

@@ -32,7 +32,6 @@ public class AddTodoActivity extends AppCompatActivity {
     private EditText memo;
     private ImageButton DateBtn;
     private TextView mTxtDate;
-    private String emptyTxt = null;
 
     Calendar c = Calendar.getInstance();
     int mYear = c.get(Calendar.YEAR);
@@ -63,8 +62,6 @@ public class AddTodoActivity extends AppCompatActivity {
         ActionBar actionBar = getSupportActionBar();
         actionBar.setDisplayShowTitleEnabled(false); // 기존 title 지우기
         actionBar.setDisplayHomeAsUpEnabled(true); // 뒤로가기 버튼 만들기
-        //actionBar.setHomeAsUpIndicator(R.id.back_btn); //뒤로가기 버튼 이미지 지정
-
 
     }
 

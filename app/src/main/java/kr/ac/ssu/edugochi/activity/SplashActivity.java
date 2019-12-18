@@ -53,7 +53,11 @@ public class SplashActivity extends AppCompatActivity {
             @Override
             public void run(){
                 boolean l_c = login_check;
-                if(l_c) startActivity(new Intent(getApplication(), MainActivity.class));
+                if(l_c){
+                    Log.d(TAG, "메인으로");
+                    startActivity(new Intent(getApplication(), MainActivity.class));
+                }
+
                 else {
                     Log.d(TAG, "액티비티 들어옴");
                     Intent intent = new Intent(getApplication(), LoginActivity.class);

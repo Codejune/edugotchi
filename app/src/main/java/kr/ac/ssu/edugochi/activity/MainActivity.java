@@ -2,11 +2,9 @@ package kr.ac.ssu.edugochi.activity;
 
 import android.os.Bundle;
 import android.util.Log;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
-import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -25,7 +23,7 @@ import kr.ac.ssu.edugochi.listener.CustomNavigationChangeListener;
 import kr.ac.ssu.edugochi.view.CustomNavigationLinearView;
 
 public class MainActivity extends AppCompatActivity {
-
+    private static final String TAG = MainActivity.class.getSimpleName();
     private Toolbar toolbar;
     private final Fragment mainFragment = new MainFragment();
     private final Fragment timelineFragment = new TimelineFragment();
@@ -39,8 +37,8 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        boolean themeCheck;
 
+        boolean themeCheck;
         themeCheck = eduPreManger.getBoolean(this, "darkMode");
 
         if (themeCheck) {

@@ -118,11 +118,8 @@ public class SignUpActivity extends AppCompatActivity {
 
     // 비밀번호 유효성 검사
     private boolean isValidPasswd() {
-        if (password.isEmpty()) {
+        if (password.isEmpty() && !PASSWORD_PATTERN.matcher(password).matches()) {
             // 비밀번호 공백
-            return false;
-        } else if (!PASSWORD_PATTERN.matcher(password).matches()) {
-            // 비밀번호 형식 불일치
             return false;
         } else {
             return true;
@@ -142,7 +139,7 @@ public class SignUpActivity extends AppCompatActivity {
                             onBackPressed();
                         } else {
                             // 회원가입 실패
-                            Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
+                           Toast.makeText(SignUpActivity.this, R.string.failed_signup, Toast.LENGTH_SHORT).show();
                         }
                     }
                 });

@@ -8,6 +8,10 @@
         app:key="login"
         android:layout="@layout/fragment_setting"
         app:defaultValue="false"/>
+    <Preference
+        app:key="id"
+        app:defaultValue="soongsil.ac.kr"
+        app:isPreferenceVisible="false"/>
 
     <SwitchPreferenceCompat
         app:key="darkMode"

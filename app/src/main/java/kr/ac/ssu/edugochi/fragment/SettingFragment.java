@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -24,6 +25,9 @@ import kr.ac.ssu.edugochi.eduPreManger;
 
 public class SettingFragment extends PreferenceFragmentCompat {
     private static final String TAG = SettingFragment.class.getSimpleName();
+    private TextView userid;
+    private String test;
+
 
 
     public SettingFragment() {
@@ -40,6 +44,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        userid = view.findViewById(R.id.user_email);
+        test = eduPreManger.getString(getActivity(),"id");
+        Log.d(TAG, test);
+        userid.setText(eduPreManger.getString(getActivity(), "id"));
 
         Preference user = findPreference("login");
         user.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

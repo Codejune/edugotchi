@@ -35,27 +35,17 @@
                 tools:ignore="MissingConstraints" />
 
             <TextView
-                android:id="@+id/textView"
+                android:id="@+id/user_email"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_marginLeft="32dp"
                 android:text="홍길동"
-                android:textSize="20dp"
                 android:textStyle="bold"
+                android:textColor="@color/colorPrimary"
                 app:layout_constraintTop_toTopOf="@id/imageView"
                 app:layout_constraintLeft_toRightOf="@id/imageView"/>
 
-            <TextView
-                android:id="@+id/textView2"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="2dp"
-                android:layout_marginLeft="32dp"
-                android:text="test@soongsil.ac.kr"
-                android:textColor="@color/colorPrimary"
-                app:layout_constraintTop_toBottomOf="@id/textView"
-                app:layout_constraintLeft_toRightOf="@id/imageView" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

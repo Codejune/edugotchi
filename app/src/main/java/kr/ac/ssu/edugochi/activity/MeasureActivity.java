@@ -71,7 +71,6 @@ public class MeasureActivity extends AppCompatActivity {
     private MaterialButton WN_btn;
 
     TimerService timerService = null;
-    private boolean running;
     private long hour;
     private long minute;
     private long second;
@@ -122,9 +121,8 @@ public class MeasureActivity extends AppCompatActivity {
                         Log.d(TAG, "측정시작");
                         Intent counterIntent = new Intent(MeasureActivity.this, TimerService.class);
                         bindService(counterIntent, connection, BIND_AUTO_CREATE);
-                        running = true;
-                        new Thread(new GetCountThread()).start();
                         timer_status = run;
+                        new Thread(new GetCountThread()).start();
                         timer.setText("00 : 00 : 00");
                         record_btn.setText("일시정지");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
@@ -133,22 +131,20 @@ public class MeasureActivity extends AppCompatActivity {
                     case run:   // 일시정지
                         Log.d(TAG, "측정 일시정지");
                         timerService.setStatus(pause);
-                        running = false;
+                        timer_status = pause;
                         record_btn.setText("다시시작");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         // 현재 상태를 일시정지 상태로 변경
-                        timer_status = pause;
                         break;
                     case pause: // 다시시작
                         // 재시작 시간 설정
                         Log.d(TAG, "다시시작");
-                        timerService.setStatus(run);
-                        running = true;
+                        timer_status = run;
                         new Thread(new GetCountThread()).start();
+                        timerService.setStatus(run);
                         record_btn.setText("일시정지");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         // 현재 상태를 측정 중 상태로 변경
-                        timer_status = run;
                         break;
                 }
             }
@@ -166,10 +162,9 @@ public class MeasureActivity extends AppCompatActivity {
                     case pause:
                     case run:   // 측정 종료 및 데이터 저장
                         timer_status = init;
-                        running = false;
+                        unbindService(connection);
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         record_btn.setText("측정시작");
-                        unbindService(connection);
                         // 만약 Intent로 넘어온 과목 이름이 없을 경우
                         if (subject == null)
                             // 기존에 존재하던 과목에 저장
@@ -368,11 +363,16 @@ public class MeasureActivity extends AppCompatActivity {
         @Override
         public void run() {
             try {
-                Thread.sleep(500);
+                Thread.sleep(100);
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-            while (running) {
+            while (timer_status == run) {
+                try {
+                    Thread.sleep(1000);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
                 handler.post(new Runnable() {
                     @Override
                     public void run() {
@@ -384,11 +384,6 @@ public class MeasureActivity extends AppCompatActivity {
                         timer.setText(String.format("%02d : %02d : %02d", hour, minute, second));
                     }
                 });
-                try {
-                    Thread.sleep(500);
-                } catch (InterruptedException e) {
-                    e.printStackTrace();
-                }
             }
         }
     }

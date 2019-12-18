@@ -18,7 +18,7 @@ import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.activity.LoginActivity;
+import kr.ac.ssu.edugochi.activity.user.LoginActivity;
 import kr.ac.ssu.edugochi.eduPreManger;
 
 
@@ -52,7 +52,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 return false;
             }
         });
-    
+
         final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
         //다크모드 온오프
         darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()

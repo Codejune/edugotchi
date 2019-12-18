@@ -6,7 +6,8 @@
     app:key="root">
     <Preference
         app:key="login"
-        android:layout="@layout/fragment_setting" />
+        android:layout="@layout/fragment_setting"
+        app:defaultValue="false"/>
 
     <SwitchPreferenceCompat
         app:key="darkMode"

@@ -1,4 +1,4 @@
-package kr.ac.ssu.edugochi.activity;
+package kr.ac.ssu.edugochi.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -18,6 +18,8 @@ import com.google.firebase.auth.FirebaseAuth;
 import java.util.regex.Pattern;
 
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.activity.MainActivity;
+import kr.ac.ssu.edugochi.eduPreManger;
 
 
 public class LoginActivity extends AppCompatActivity {
@@ -99,8 +101,10 @@ public class LoginActivity extends AppCompatActivity {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
+                            eduPreManger.setBoolean(LoginActivity.this,"login", true);
                             // 로그인 성공
                             Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            startActivity(new Intent(getApplication(), MainActivity.class));
                         } else {
                             // 로그인 실패
                             Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();

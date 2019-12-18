@@ -3,7 +3,8 @@
 <androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:key="root">
+    app:key="root"
+    app:iconSpaceReserved="false">
     <Preference
         app:key="login"
         android:layout="@layout/fragment_setting" />

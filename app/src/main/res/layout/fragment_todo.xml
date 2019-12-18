@@ -24,7 +24,7 @@
         android:divider="#ffffff"
         android:scrollbarSize="3dp"
         android:scrollbarStyle="outsideOverlay"
-        android:scrollbars="vertical"
+        android:scrollbars="none"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
         android:clipToPadding="false"/>

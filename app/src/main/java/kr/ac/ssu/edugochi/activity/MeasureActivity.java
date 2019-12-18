@@ -2,16 +2,19 @@ package kr.ac.ssu.edugochi.activity;
 
 
 import android.annotation.SuppressLint;
+import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.IBinder;
 import android.os.Message;
+import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
-import android.widget.Chronometer;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -36,6 +39,7 @@ import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
+import kr.ac.ssu.edugochi.service.TimerService;
 
 public class MeasureActivity extends AppCompatActivity {
 
@@ -51,9 +55,7 @@ public class MeasureActivity extends AppCompatActivity {
     private final static int init = 0;  // 정지
     private final static int run = 1;   // 측정 중
     private final static int pause = 2; // 일시정지
-    private long pause_time;            // 일시정지 시간
     private int timer_status = init;    // 현재 상태
-    private long base_time;             // 측정시작 시간
     private long out_time;              // 측정된 시간
     private String subject;             // 과목 이름
 
@@ -68,6 +70,12 @@ public class MeasureActivity extends AppCompatActivity {
     private MaterialButton stop_btn;
     private MaterialButton WN_btn;
 
+    TimerService timerService = null;
+    private boolean running;
+    private long hour;
+    private long minute;
+    private long second;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -75,7 +83,6 @@ public class MeasureActivity extends AppCompatActivity {
 
         // 넘어온 Intent
         Intent intent = getIntent();
-
         // Realm 초기 설정
         RealmInit();
 
@@ -89,9 +96,21 @@ public class MeasureActivity extends AppCompatActivity {
 
         // Intent에 포함된 과목 이름
         subject = intent.getStringExtra("subject");
-        
+
         if (subject != null)
             title.setText(subject);
+
+        final ServiceConnection connection = new ServiceConnection() {
+            @Override
+            public void onServiceConnected(ComponentName componentName, IBinder iBinder) {
+                timerService = ((TimerService.LocalBinder) iBinder).getTimerService();
+            }
+
+            @Override
+            public void onServiceDisconnected(ComponentName componentName) {
+
+            }
+        };
 
         // 측정 시작 버튼 클릭
         record_btn.setOnClickListener(new View.OnClickListener() {
@@ -100,21 +119,21 @@ public class MeasureActivity extends AppCompatActivity {
                 switch (timer_status) {
                     case init:  // 측정시작
                         // 측정 시작 시간 설정
-                        base_time = SystemClock.elapsedRealtime();
                         Log.d(TAG, "측정시작");
-                        // 핸들러에 빈 메세지를 보내서 호출
-                        measureTimer.sendEmptyMessage(0);
+                        Intent counterIntent = new Intent(MeasureActivity.this, TimerService.class);
+                        bindService(counterIntent, connection, BIND_AUTO_CREATE);
+                        running = true;
+                        new Thread(new GetCountThread()).start();
+                        timer_status = run;
+                        timer.setText("00 : 00 : 00");
                         record_btn.setText("일시정지");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
-                        // 현재 상태를 측정 중 상태로 변경
-                        timer_status = run;
+                        //startService(counterIntent);
                         break;
                     case run:   // 일시정지
-                        // 일시 정지한 시간 설정
-                        pause_time = SystemClock.elapsedRealtime();
                         Log.d(TAG, "측정 일시정지");
-                        //핸들러 메세지 제거
-                        measureTimer.removeMessages(0);
+                        timerService.setStatus(pause);
+                        running = false;
                         record_btn.setText("다시시작");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         // 현재 상태를 일시정지 상태로 변경
@@ -122,12 +141,10 @@ public class MeasureActivity extends AppCompatActivity {
                         break;
                     case pause: // 다시시작
                         // 재시작 시간 설정
-                        long now = SystemClock.elapsedRealtime();
                         Log.d(TAG, "다시시작");
-                        // 잠깐 스톱워치를 멈췄다가 다시 시작하면 기준점이 변하게 되므로
-                        base_time += (now - pause_time);
-                        // 핸들러에 빈 메세지를 보내서 호출
-                        measureTimer.sendEmptyMessage(0);
+                        timerService.setStatus(run);
+                        running = true;
+                        new Thread(new GetCountThread()).start();
                         record_btn.setText("일시정지");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         // 현재 상태를 측정 중 상태로 변경
@@ -148,20 +165,18 @@ public class MeasureActivity extends AppCompatActivity {
                         break;
                     case pause:
                     case run:   // 측정 종료 및 데이터 저장
-                        // 핸들러 메세지 제거
-                        measureTimer.removeMessages(0);
-                        // 마지막으로 측정된 시간 출력
-                        timer.setText(getTimeOut());
-                        // 상태 초기화
                         timer_status = init;
+                        running = false;
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         record_btn.setText("측정시작");
+                        unbindService(connection);
                         // 만약 Intent로 넘어온 과목 이름이 없을 경우
                         if (subject == null)
                             // 기존에 존재하던 과목에 저장
                             SelectSubject();
-                        // Intent에 넘어온 과목에 저장
+                            // Intent에 넘어온 과목에 저장
                         else NoSelectSubject();
+                        //stopService(counterIntent);
                         break;
                 }
             }
@@ -171,7 +186,7 @@ public class MeasureActivity extends AppCompatActivity {
         WN_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               CheckNoise();
+                CheckNoise();
                 switch (WN_status) {
                     case init: // 정지 상태
                         player.start();
@@ -295,11 +310,11 @@ public class MeasureActivity extends AppCompatActivity {
                 MeasureData MeasureData = realm.createObject(MeasureData.class);
                 MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
                 MeasureData.setTimeout(out_time); // 원래 out_time
-                MeasureData.setExp(out_time/1000); // 원래 out_time/1000 >> 테스트 위해 기준 변경
+                MeasureData.setExp(out_time); // 원래 out_time/1000 >> 테스트 위해 기준 변경
                 MeasureData.setSubject(selected);
                 Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
                 Log.i(TAG, "timeout\t: " + out_time);
-                Log.i(TAG, "exp\t\t: " + out_time / 1000);
+                Log.i(TAG, "exp\t\t: " + out_time);
             }
         });
     }
@@ -315,7 +330,7 @@ public class MeasureActivity extends AppCompatActivity {
                 RealmList<String> subjects = new RealmList<>();
                 subjects.addAll(characterList.first().getSubject());
 
-                characterList.first().setExp(exp + out_time / 1000);
+                characterList.first().setExp(exp + out_time);
 
                 Log.d(TAG, "subjects.size: " + subjects.size());
                 for (int i = 0; i < subjects.size(); i++) {
@@ -338,30 +353,43 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
 
-    // 타이머 핸들러
-    @SuppressLint("HandlerLeak")
-    Handler measureTimer = new Handler() {
-        public void handleMessage(Message msg) {
-            timer.setText(getTimeOut());
-            //sendEmptyMessage 는 비어있는 메세지를 Handler 에게 전송
-            measureTimer.sendEmptyMessage(0);
-        }
-    };
-
-    // 타이머 갱신
-    @SuppressLint("DefaultLocale")
-    private String getTimeOut() {
-        long current_time = SystemClock.elapsedRealtime(); //애플리케이션이 실행되고나서 실제로 경과된 시간(??)^^;
-        out_time = current_time - base_time;
-        return String.format("%02d : %02d : %02d", out_time / 1000 / 60 / 60, (out_time / 1000) / 60 % 60, (out_time / 1000) % 60 % 60); // 원래 1이아니라 1000 >>테스트 위해 변경
-    }
-
     @Override
     protected void onDestroy() {
         super.onDestroy();
         if (player != null) {
             player.release();
             player = null;
+        }
+    }
+
+    private class GetCountThread implements Runnable {
+        private Handler handler = new Handler();
+
+        @Override
+        public void run() {
+            try {
+                Thread.sleep(500);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+            while (running) {
+                handler.post(new Runnable() {
+                    @Override
+                    public void run() {
+                        out_time = timerService.getCount();
+                        hour = out_time / 60 / 60;
+                        minute = out_time / 60 % 60;
+                        second = out_time % 60 % 60;
+                        Log.d(TAG, timerService.getCount() + "");
+                        timer.setText(String.format("%02d : %02d : %02d", hour, minute, second));
+                    }
+                });
+                try {
+                    Thread.sleep(500);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
+                }
+            }
         }
     }
 }

@@ -8,6 +8,7 @@ import android.content.Intent;
 import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
+import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
 import android.os.Message;
@@ -15,6 +16,7 @@ import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
 import android.view.View;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
@@ -74,6 +76,8 @@ public class MeasureActivity extends AppCompatActivity {
     private long hour;
     private long minute;
     private long second;
+    private ProgressBar progressBarCircle;
+    private CountDownTimer countDownTimer;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -90,8 +94,20 @@ public class MeasureActivity extends AppCompatActivity {
         record_btn = findViewById(R.id.record_btn);
         stop_btn = findViewById(R.id.stop_btn);
         WN_btn = findViewById(R.id.play_btn);
-        //timer = findViewById(R.id.timer);
         title = findViewById(R.id.measure_title);
+        progressBarCircle = findViewById(R.id.progressBarCircle);
+
+        countDownTimer = new CountDownTimer(1000, 1) {
+            @Override
+            public void onTick(long millisUntilFinished) {
+                progressBarCircle.setProgress((int) (millisUntilFinished));
+            }
+
+            @Override
+            public void onFinish() {
+                progressBarCircle.setProgress(1000);
+            }
+        };
 
         // Intent에 포함된 과목 이름
         subject = intent.getStringExtra("subject");
@@ -124,7 +140,6 @@ public class MeasureActivity extends AppCompatActivity {
                         timer_status = run;
                         new Thread(new GetCountThread()).start();
                         timer.setText("00 : 00 : 00");
-                        record_btn.setText("일시정지");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
                         //startService(counterIntent);
                         break;
@@ -132,6 +147,8 @@ public class MeasureActivity extends AppCompatActivity {
                         Log.d(TAG, "측정 일시정지");
                         timerService.setStatus(pause);
                         timer_status = pause;
+                        //countDownTimer.cancel();
+                        progressBarCircle.setProgress(1000);
                         record_btn.setText("다시시작");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         // 현재 상태를 일시정지 상태로 변경
@@ -140,8 +157,8 @@ public class MeasureActivity extends AppCompatActivity {
                         // 재시작 시간 설정
                         Log.d(TAG, "다시시작");
                         timer_status = run;
-                        new Thread(new GetCountThread()).start();
                         timerService.setStatus(run);
+                        new Thread(new GetCountThread()).start();
                         record_btn.setText("일시정지");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         // 현재 상태를 측정 중 상태로 변경
@@ -163,6 +180,8 @@ public class MeasureActivity extends AppCompatActivity {
                     case run:   // 측정 종료 및 데이터 저장
                         timer_status = init;
                         unbindService(connection);
+                        countDownTimer.cancel();
+                        progressBarCircle.setProgress(1000);
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));
                         record_btn.setText("측정시작");
                         // 만약 Intent로 넘어온 과목 이름이 없을 경우
@@ -369,6 +388,7 @@ public class MeasureActivity extends AppCompatActivity {
             }
             while (timer_status == run) {
                 try {
+                    countDownTimer.start();
                     Thread.sleep(1000);
                 } catch (InterruptedException e) {
                     e.printStackTrace();
@@ -380,7 +400,6 @@ public class MeasureActivity extends AppCompatActivity {
                         hour = out_time / 60 / 60;
                         minute = out_time / 60 % 60;
                         second = out_time % 60 % 60;
-                        Log.d(TAG, timerService.getCount() + "");
                         timer.setText(String.format("%02d : %02d : %02d", hour, minute, second));
                     }
                 });

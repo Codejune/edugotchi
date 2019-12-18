@@ -1,5 +1,6 @@
 package kr.ac.ssu.edugochi.fragment;
 
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -12,6 +13,8 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
+
+import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
@@ -110,6 +113,20 @@ public class SettingFragment extends PreferenceFragmentCompat {
                         .setPositiveButton("예", new DialogInterface.OnClickListener() {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
+                                AlertDialog dialog = new AlertDialog.Builder(getActivity())
+                                        .setTitle("초기화 하면 앱이 종료됩니다.")
+                                        .setMessage("초기화 하시겠습니까?")
+                                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                                            @Override
+                                            public void onClick(DialogInterface dialogInterface, int i) {
+                                                Context ctxt = getContext();
+                                                clearApplicationData(ctxt);
+                                                System.exit(0);
+                                            }
+                                        })
+                                        .setNegativeButton("아니오", null)
+                                        .create();
+                                dialog.show();
 
                             }
                         })
@@ -120,6 +137,33 @@ public class SettingFragment extends PreferenceFragmentCompat {
             }
         });
     }
+    private static void clearApplicationData(Context context) {
+        File cache = context.getCacheDir();
+        File appDir = new File(cache.getParent());
+        if (appDir.exists()) {
+            String[] children = appDir.list();
+            for (String s : children) {
+                //다운로드 파일은 지우지 않도록 설정
+                //if(s.equals("lib") || s.equals("files")) continue;
+                deleteDir(new File(appDir, s));
+                Log.d("test", "File /data/data/" + context.getPackageName() + "/" + s + " DELETED");
+            }
+        }
+    }
+    private static boolean deleteDir(File dir) {
+        if (dir != null && dir.isDirectory()) {
+            String[] children = dir.list();
+            for (int i = 0; i < children.length; i++) {
+                boolean success = deleteDir(new File(dir, children[i]));
+                if (!success) {
+                    return false;
+                }
+            }
+        }
+        return dir.delete();
+    }
+
+
     @Override
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preference, rootKey);

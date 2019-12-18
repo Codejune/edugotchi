@@ -13,12 +13,12 @@ import android.widget.LinearLayout;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 
 import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.listener.CustomNavigationChangeListener;
 
-@SuppressWarnings("unused")
 public class CustomNavigationLinearView extends LinearLayout implements View.OnClickListener, ICustomNavigation {
 
     //constants

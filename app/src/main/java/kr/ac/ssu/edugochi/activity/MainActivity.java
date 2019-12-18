@@ -2,18 +2,21 @@ package kr.ac.ssu.edugochi.activity;
 
 import android.os.Bundle;
 import android.util.Log;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.View;
+import android.widget.FrameLayout;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.app.AppCompatDelegate;
 import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
-import kr.ac.ssu.edugochi.Edugochi;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.fragment.MainFragment;
 import kr.ac.ssu.edugochi.fragment.SettingFragment;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
@@ -36,6 +39,18 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        boolean themeCheck;
+
+        themeCheck = eduPreManger.getBoolean(this, "darkMode");
+
+        if (themeCheck) {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_YES);
+        }
+        else {
+            AppCompatDelegate.setDefaultNightMode(
+                    AppCompatDelegate.MODE_NIGHT_NO);
+        }
 
         // 툴바 설정
         toolbar = findViewById(R.id.toolbar);

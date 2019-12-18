@@ -8,6 +8,7 @@
     <color name="dark">#212121</color>
     <color name="transparent">#00000000</color>
     <color name="itemColor">#000000</color>
+    <color name="active_green">#38e86c</color>
 
     <color name="default_inactive_shape_color">#e5e5e5</color>
     <color name="default_inactive_color">#212121</color>

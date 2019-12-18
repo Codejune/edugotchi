@@ -59,7 +59,7 @@
 
             <View
                 android:layout_width="match_parent"
-                android:layout_height="1dp"
+                android:layout_height="0.5dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginBottom="10dp"
                 android:background="@color/colorPrimary" />
@@ -85,38 +85,21 @@
     <TableLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_gravity="center"
-        android:background="@drawable/edge_round">
+        android:layout_gravity="center">
 
         <TableRow>
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
                 android:gravity="center"
-                android:text="Level"
-                android:textSize="11sp"
-                android:textStyle="bold" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="12dp"
-                android:layout_marginLeft="10dp"
-                android:layout_marginTop="8dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/colorPrimary" />
-
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:gravity="center"
+                android:layout_marginLeft="8dp"
                 android:text="획득 경험치"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="12dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
@@ -132,7 +115,7 @@
                 android:textStyle="bold" />
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="12dp"
                 android:layout_marginLeft="10dp"
                 android:layout_marginTop="8dp"
@@ -144,7 +127,7 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:layout_marginRight="10dp"
-                android:text="휴식"
+                android:text="휴식 횟수"
                 android:textSize="11sp"
                 android:textStyle="bold" />
 
@@ -152,31 +135,17 @@
 
         <TableRow>
 
-            <TextView
-                android:id="@+id/month_level"
-                android:layout_width="wrap_content"
-                android:layout_height="20dp"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:textSize="10sp" />
-
-            <View
-                android:layout_width="1dp"
-                android:layout_height="12dp"
-                android:layout_centerInParent="true"
-                android:layout_marginLeft="10dp"
-                android:layout_marginRight="10dp"
-                android:background="@color/colorPrimary" />
 
             <TextView
                 android:id="@+id/total_month_exp"
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
+                android:layout_marginLeft="8dp"
                 android:gravity="center"
                 android:textSize="10sp" />
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="12dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="10dp"
@@ -188,11 +157,10 @@
                 android:layout_width="wrap_content"
                 android:layout_height="20dp"
                 android:gravity="center"
-                android:text="00 : 00 : 00"
                 android:textSize="10sp" />
 
             <View
-                android:layout_width="1dp"
+                android:layout_width="0.5dp"
                 android:layout_height="12dp"
                 android:layout_centerInParent="true"
                 android:layout_marginLeft="10dp"
@@ -205,7 +173,6 @@
                 android:layout_height="20dp"
                 android:gravity="center"
                 android:layout_marginRight="10dp"
-                android:text="0회"
                 android:textSize="10sp" />
 
         </TableRow>

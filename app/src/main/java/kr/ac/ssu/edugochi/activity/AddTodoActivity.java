@@ -125,7 +125,7 @@ public class AddTodoActivity extends AppCompatActivity {
             mHandler = TodoDBHandler.open(this);
         }
         if(todoDate.equals("기한 설정")) {
-            todoDate = null;
+            todoDate = " ";
         }
         mHandler.insert(todoTitle, todoDate, todoMemo);
 

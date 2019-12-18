@@ -15,7 +15,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="320sp"
+            android:layout_height="360dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -34,9 +34,9 @@
                     android:id="@+id/pre_button"
                     android:layout_width="16sp"
                     android:layout_height="16sp"
-                    android:adjustViewBounds="true"
                     android:layout_marginTop="16dp"
                     android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
                     android:background="@drawable/ic_arrow_back"
                     android:backgroundTint="@color/itemColor"
                     app:layout_constraintRight_toLeftOf="@id/tv_date"
@@ -47,8 +47,8 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="12dp"
-                    android:textColor="@color/itemColor"
                     android:gravity="center"
+                    android:textColor="@color/itemColor"
                     android:textSize="16sp"
                     android:textStyle="bold"
                     app:layout_constraintLeft_toLeftOf="parent"
@@ -59,8 +59,8 @@
                     android:id="@+id/fore_button"
                     android:layout_width="16sp"
                     android:layout_height="16sp"
-                    android:layout_marginTop="16dp"
                     android:layout_marginLeft="10dp"
+                    android:layout_marginTop="16dp"
                     android:adjustViewBounds="true"
                     android:background="@drawable/ic_arrow_forward"
                     android:backgroundTint="@color/itemColor"
@@ -69,86 +69,86 @@
 
                 <TextView
                     android:id="@+id/sun"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Sun"
                     android:textColor="@color/red_inactive"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toLeftOf="@id/mon"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
                 <TextView
                     android:id="@+id/mon"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Mon"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toRightOf="@id/sun"
                     app:layout_constraintRight_toLeftOf="@id/tue"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
                 <TextView
                     android:id="@+id/tue"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Tue"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toRightOf="@id/mon"
                     app:layout_constraintRight_toLeftOf="@id/wed"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
                 <TextView
                     android:id="@+id/wed"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Wed"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toRightOf="@id/tue"
                     app:layout_constraintRight_toLeftOf="@id/thu"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
                 <TextView
                     android:id="@+id/thu"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Thu"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toRightOf="@id/wed"
                     app:layout_constraintRight_toLeftOf="@id/fri"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
                 <TextView
                     android:id="@+id/fri"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Fri"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toRightOf="@id/thu"
                     app:layout_constraintRight_toLeftOf="@id/sat"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
 
                 <TextView
                     android:id="@+id/sat"
-                    android:layout_width="0dp"
+                    android:layout_width="35dp"
                     android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
                     android:gravity="center"
                     android:text="Sat"
                     android:textColor="@color/blue_inactive"
                     android:textSize="13sp"
-                    android:layout_marginTop="16dp"
                     app:layout_constraintLeft_toRightOf="@id/fri"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/tv_date" />
@@ -157,84 +157,96 @@
                     android:id="@+id/gridview"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginLeft="10sp"
+                    android:layout_marginLeft="6.5sp"
+                    android:layout_marginBottom="16dp"
                     android:isScrollContainer="false"
-                    android:listSelector="@drawable/list_selector"
+                    android:listSelector="#00000000"
                     android:numColumns="7"
+                    app:layout_constraintBottom_toTopOf="@+id/color_row"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
                     app:layout_constraintTop_toBottomOf="@id/wed" />
 
 
-                <TextView
-                    android:id="@+id/green"
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/color_row"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="●"
-                    android:textSize="8sp"
-                    android:textColor="@color/greenPastel"
-                    app:layout_constraintBottom_toBottomOf="parent"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
                     app:layout_constraintLeft_toLeftOf="parent"
-                    app:layout_constraintRight_toLeftOf="@id/green_text"
-                    app:layout_constraintTop_toBottomOf="@id/gridview"/>
-
-
-                <TextView
-                    android:id="@+id/green_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="6시간 이상"
-                    android:textSize="8sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/green"
-                    app:layout_constraintRight_toLeftOf="@id/yellow"
-                    app:layout_constraintTop_toBottomOf="@id/gridview" />
-
-                <TextView
-                    android:id="@+id/yellow"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="●"
-                    android:textSize="8sp"
-                    android:textColor="@color/yellowPastel"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/green_text"
-                    app:layout_constraintRight_toLeftOf="@id/yellow_text"
-                    app:layout_constraintTop_toBottomOf="@id/gridview"/>
-
-                <TextView
-                    android:id="@+id/yellow_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3 ~ 6시간"
-                    android:textSize="8sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/yellow"
-                    app:layout_constraintRight_toLeftOf="@id/red"
-                    app:layout_constraintTop_toBottomOf="@id/gridview" />
-
-                <TextView
-                    android:id="@+id/red"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="●"
-                    android:textSize="8sp"
-                    android:textColor="@color/redPastel"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/yellow_text"
-                    app:layout_constraintRight_toLeftOf="@id/red_text"
-                    app:layout_constraintTop_toBottomOf="@id/gridview"/>
-
-                <TextView
-                    android:id="@+id/red_text"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="3시간 이하"
-                    android:textSize="8sp"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintLeft_toRightOf="@id/red"
                     app:layout_constraintRight_toRightOf="parent"
-                    app:layout_constraintTop_toBottomOf="@id/gridview" />
+                    app:layout_constraintTop_toBottomOf="@id/gridview">
+
+                    <TextView
+                        android:id="@+id/green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="●"
+                        android:textColor="@color/greenPastel"
+                        android:textSize="6sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/green_text" />
+
+
+                    <TextView
+                        android:id="@+id/green_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="6시간 이상"
+                        android:textSize="8sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/green"
+                        app:layout_constraintRight_toLeftOf="@id/yellow" />
+
+                    <TextView
+                        android:id="@+id/yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="●"
+                        android:textColor="@color/yellowPastel"
+                        android:textSize="6sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/green_text"
+                        app:layout_constraintRight_toLeftOf="@id/yellow_text" />
+
+                    <TextView
+                        android:id="@+id/yellow_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="3 ~ 6시간"
+                        android:textSize="8sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/yellow"
+                        app:layout_constraintRight_toLeftOf="@id/red" />
+
+                    <TextView
+                        android:id="@+id/red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="●"
+                        android:textColor="@color/redPastel"
+                        android:textSize="6sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/yellow_text"
+                        app:layout_constraintRight_toLeftOf="@id/red_text" />
+
+                    <TextView
+                        android:id="@+id/red_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3시간 이하"
+                        android:textSize="8sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/red"
+                        app:layout_constraintRight_toRightOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
             </androidx.constraintlayout.widget.ConstraintLayout>
         </androidx.cardview.widget.CardView>
 
@@ -246,6 +258,7 @@
             android:background="@drawable/edge_round"
             android:ellipsize="marquee"
             android:gravity="center"
+            android:textStyle="bold"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
@@ -254,7 +267,7 @@
             android:textSize="15sp"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendar_view"/>
+            app:layout_constraintTop_toBottomOf="@+id/calendar_view" />
 
         <androidx.cardview.widget.CardView
             android:id="@+id/summary_view"
@@ -352,6 +365,7 @@
                 android:orientation="vertical">
 
                 <TextView
+                    android:id="@+id/subject_rank_title"
                     android:layout_width="150dp"
                     android:layout_height="30dp"
                     android:layout_gravity="center"
@@ -365,13 +379,12 @@
                 <ListView
                     android:id="@+id/rank_listview"
                     android:layout_width="250dp"
-                    android:layout_height="50dp"
+                    android:layout_height="0dp"
                     android:layout_gravity="center"
                     android:background="@drawable/edge_round"
-                    android:divider="@color/colorPrimary"
-                    android:dividerHeight="1.5dp"
+                    android:divider="#00000000"
                     android:listSelector="@drawable/blank"
-                    android:scrollbars="none"></ListView>
+                    android:scrollbars="none" />
             </LinearLayout>
         </androidx.cardview.widget.CardView>
 

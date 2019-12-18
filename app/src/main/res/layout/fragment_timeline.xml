@@ -5,6 +5,8 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
+    android:paddingLeft="40dp"
+    android:paddingRight="40dp"
     android:scrollbarStyle="insideOverlay">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -258,13 +260,13 @@
             android:background="@drawable/edge_round"
             android:ellipsize="marquee"
             android:gravity="center"
-            android:textStyle="bold"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
             android:text="오늘의 각오"
             android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendar_view" />

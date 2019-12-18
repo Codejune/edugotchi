@@ -101,7 +101,7 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
             case 0:
-                inflater.inflate(R.menu.home_menu, menu);
+                //inflater.inflate(R.menu.home_menu, menu);
                 break;
             case 1:
                 inflater.inflate(R.menu.timeline_menu, menu);

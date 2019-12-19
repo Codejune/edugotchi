@@ -83,11 +83,10 @@ public class MainFragment extends Fragment {
     private long nextInterval;  // 다음 레벨과의 경험치 차이
     private String ch_check;
     private String evo_ch_check;
-    private int evo_1 =5;
-    private int evo_2 =15;
+    private int evo_1 = 5;
+    private int evo_2 = 15;
     private int evo_3 = 25;
-    private int evo_sp= 10;
-
+    private int evo_sp = 10;
 
 
     @Override
@@ -113,7 +112,7 @@ public class MainFragment extends Fragment {
         character_lv = view.findViewById(R.id.lv);                  // 캐릭터 레벨 텍스트뷰
         expbar = view.findViewById(R.id.exp_bar);                   // 경험치 프로그레스바
         exptext = view.findViewById(R.id.exp_text);                 // 경험치 비교 텍스트뷰
-        record_btn = view.findViewById(R.id.record);                // 시간 측정 버튼
+        // record_btn = view.findViewById(R.id.record);                // 시간 측정 버튼
         subject_listview = view.findViewById(R.id.subject_list);    // 과목 목록 리스트뷰
         addsubject_btn = view.findViewById(R.id.subject_add);       // 과목 추가 버튼
 
@@ -121,13 +120,13 @@ public class MainFragment extends Fragment {
         CreateSwipeMenu();
 
         // 측정 버튼 클릭 시
-        record_btn.setOnClickListener(new View.OnClickListener() {
+        /*record_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), MeasureActivity.class);
                 startActivity(intent);
             }
-        });
+        });*/
 
         // 과목 추가 버튼 클릭 시
         addsubject_btn.setOnClickListener(new View.OnClickListener() {
@@ -148,7 +147,7 @@ public class MainFragment extends Fragment {
                                 Log.d(TAG, "과목 저장 시도: " + subject);
                                 boolean checkSubject = true;
 
-                                if(subject.equals("") || subject.equals(" ")) {
+                                if (subject.equals("") || subject.equals(" ")) {
                                     Toasty.error(getContext(), "해당 이름은 지정할 수 없습니다.", Toast.LENGTH_SHORT).show();
                                     dialog.dismiss();
                                 }
@@ -181,15 +180,71 @@ public class MainFragment extends Fragment {
             }
         });
 
-        // 과목 목록 스와이프 삭제
+        // 과목 목록 스와이프 리스너
         subject_listview.setOnMenuItemClickListener(new SwipeMenuListView.OnMenuItemClickListener() {
             @Override
             public boolean onMenuItemClick(int position, SwipeMenu menu, int index) {
+                String subject;
                 switch (index) {
-                    // 삭제 버튼 클릭
+                    // 변경 버튼 클릭
                     case 0:
-                        String subject = subjects.get(position);
-                        if(subject.equals("")) {
+                        subject = subjects.get(position);
+                        if (subject.equals("")) {
+                            position++;
+                            subject = subjects.get(position);
+                        }
+                        final EditText editText = new EditText(getContext());
+                        // 다이얼로그 출력
+                        AlertDialog.Builder dialog = new AlertDialog.Builder(getContext());
+                        // 다이얼로그 제목
+                        dialog.setTitle("과목 이름 변경");
+                        // 다이얼로그 뷰 할당
+                        dialog.setView(editText);
+                        // 저장 버튼 클릭 시
+                        final String finalSubject = subject;
+                        dialog.setPositiveButton("저장",
+                                new DialogInterface.OnClickListener() {
+                                    public void onClick(DialogInterface dialog, int which) {
+                                        String rename_subject = editText.getText().toString();
+                                        Log.d(TAG, "과목 이름 변경 시도: " + rename_subject);
+                                        boolean checkSubject = true;
+
+                                        if (rename_subject.equals("") || rename_subject.equals(" ")) {
+                                            Toasty.error(getContext(), "해당 이름은 지정할 수 없습니다.", Toast.LENGTH_SHORT).show();
+                                            dialog.dismiss();
+                                        }
+
+                                        // 입력한 과목 존재 유무 체크
+                                        for (int i = 0; i < subjects.size(); i++) {
+                                            Log.d(TAG, "subjects[" + i + "]: " + subjects.get(i));
+                                            if (subjects.get(i).equals(rename_subject)) {
+                                                checkSubject = false;
+                                                Log.d(TAG, rename_subject + "가 이미 목록에 존재함");
+                                                break;
+                                            }
+                                        }
+
+                                        if (checkSubject) {
+                                            RenameSubject(finalSubject, rename_subject);
+                                            dialog.dismiss();
+                                        } else {
+                                            Log.d(TAG, "이미 존재하는 과목");
+                                        }
+                                    }
+                                });
+                        dialog.setNegativeButton("취소", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                Log.d(TAG, "과목 저장 취소: ");
+                                dialog.dismiss();
+                            }
+                        });
+                        dialog.show();
+                        break;
+                    // 삭제 버튼 클릭
+                    case 1:
+                        subject = subjects.get(position);
+                        if (subject.equals("")) {
                             position++;
                             subject = subjects.get(position);
                         }
@@ -393,7 +448,7 @@ public class MainFragment extends Fragment {
                     Glide.with(this).load(R.drawable.mozzi2).into(ch);
                 else if (currentLv <= evo_2)
                     Glide.with(this).load(R.drawable.mozzi3).into(ch);
-                else if (currentLv <=evo_3)
+                else if (currentLv <= evo_3)
                     Glide.with(this).load(R.drawable.mozzi4).into(ch);
                 else
                     Glide.with(this).load(R.drawable.mozzi5).into(ch);
@@ -468,7 +523,7 @@ public class MainFragment extends Fragment {
             subject_listview.setVisibility(View.VISIBLE);
             subject_listview.setAdapter(listAdapter);
         }
-    }
+}
 
     // 오늘의 모든 과목별 시간 합 리턴
     private long getSumofTime(String subject) {
@@ -500,6 +555,33 @@ public class MainFragment extends Fragment {
         UpdateSubject();
     }
 
+    private void RenameSubject(final String subject, final String rename_subject) {
+        Log.d(TAG, "이름 변경: " + subject + "->" + rename_subject);
+        userRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                RealmList<String> newSubjectList = new RealmList<>();
+                newSubjectList.addAll(characterList.first().getSubject());
+                for (int i = 0; i < newSubjectList.size(); i++) {
+                    if (newSubjectList.get(i).equals(subject))
+                        newSubjectList.set(i, rename_subject);
+                }
+
+                Log.d(TAG, "measureList.size: " + measureList.size());
+                for (int i = 0; i < measureList.size(); i++) {
+                    if (measureList.get(i).getSubject().equals(subject))
+                        measureList.get(i).setSubject(rename_subject);
+                }
+                characterList.first().setSubject(newSubjectList);
+            }
+        });
+        // 변경된 측정 데이터 리스트 업데이트
+        measureList = getMeasureList();
+        Log.d(TAG, "measureList.size: " + measureList.size());
+        // 과목 목록 동기화
+        UpdateSubject();
+    }
+
     // 과목 삭제
     private void RemoveSubject(final String subject) {
         Log.d(TAG, "과목 삭제: " + subject);
@@ -511,9 +593,9 @@ public class MainFragment extends Fragment {
                 newSubjectList.remove(subject);
 
                 Log.d(TAG, "measureList.size: " + measureList.size());
-                for(int i = 0; i < measureList.size(); i++) {
-                    if(measureList.get(i).getSubject().equals(subject))
-                        measureList.get(i).setSubject("");
+                for (int i = 0; i < measureList.size(); i++) {
+                    if (measureList.get(i).getSubject().equals(subject))
+                        measureList.get(i).deleteFromRealm();
                 }
                 characterList.first().setSubject(newSubjectList);
             }
@@ -531,16 +613,20 @@ public class MainFragment extends Fragment {
         swipeMenuCreator = new SwipeMenuCreator() {
             @Override
             public void create(SwipeMenu menu) {
-                // 삭제하기 항목 생성
+                // 항목 생성
+                SwipeMenuItem renameItem = new SwipeMenuItem(getContext());
                 SwipeMenuItem deleteItem = new SwipeMenuItem(getContext());
-                // 삭제하기 항목 배경색상 설정
-                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9,
-                        0x3F, 0x25)));
-                // 삭제하기 항목 너비 설정
+                // 항목 배경색상 설정
+                renameItem.setBackground(new ColorDrawable(Color.rgb(0x50, 0x82, 0xfb)));
+                deleteItem.setBackground(new ColorDrawable(Color.rgb(0xF9, 0x3F, 0x25)));
+                // 항목 너비 설정
+                renameItem.setWidth(DpPxConvertor.dp2px(getContext(), 60));
                 deleteItem.setWidth(DpPxConvertor.dp2px(getContext(), 60));
-                // 삭제하기 항목 아이콘 설정
+                // 항목 아이콘 설정
+                renameItem.setIcon(R.drawable.ic_mode_edit);
                 deleteItem.setIcon(R.drawable.ic_delete);
                 // 스와이프 메뉴에 추가
+                menu.addMenuItem(renameItem);
                 menu.addMenuItem(deleteItem);
             }
         };

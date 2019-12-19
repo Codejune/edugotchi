@@ -3,10 +3,12 @@ package kr.ac.ssu.edugochi.fragment;
 import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.Typeface;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
@@ -32,8 +34,10 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.activity.AddTodoActivity;
+import kr.ac.ssu.edugochi.activity.HistoryActivity;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
-import kr.ac.ssu.edugochi.adapter.RankListItem;
+import kr.ac.ssu.edugochi.object.RankListItem;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
@@ -98,9 +102,20 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.history_btn:
+                startActivity(new Intent(getActivity(), HistoryActivity.class));
+                break;
+        }
+        return true;
+    }
+
+    @Override
     public void onCreate(Bundle savedInstanceState) {
         Log.i(TAG, "onCreate");
         super.onCreate(savedInstanceState);
+        setHasOptionsMenu(true);
         UserModuleConfig = new RealmConfiguration.Builder()
                 .modules(new UserModule())
                 .migration(new Migration())
@@ -252,9 +267,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
             if(total_time>0&&(position >= dayNum - 1)) {
                 calViewHolder.color_tag.setText("●");
-                if (total_time >= (6 * 60 * 60 * 1000))
+                if (total_time >= (6 * 60 * 60))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.greenPastel));
-                else if (total_time >= (3 * 60 * 60 * 1000))
+                else if (total_time >= (3 * 60 * 60))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.yellowPastel));
                 else
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.redPastel));
@@ -590,13 +605,13 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             Time *= -1;
             isMinus = true;
         }
-        nhour = (int) Time / 3600000;
+        nhour = (int) Time / 3600;
         hour = Integer.toString(nhour);
-        Time %= 3600000;
-        nminute = (int) Time / 60000;
+        Time %= 3600;
+        nminute = (int) Time / 60;
         minute = Integer.toString(nminute);
-        Time %= 60000;
-        nseconds = (int) Time / 1000;
+        Time %= 60;
+        nseconds = (int) Time;
         seconds = Integer.toString(nseconds);
 
         // 각 파트별로 10이하면 0을 추가
@@ -615,9 +630,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     }
 
     private static String colorSelect(long time, int check) {
-        if (((time >= (6 * 60 * 60 * 1000)) && (check == 0)) || ((time >= (30 * 60 * 60 * 1000)) && (check == 1)) || ((time >= (132 * 60 * 60 * 1000)) && (check == 2)))
+        if (((time >= (6 * 60 * 60)) && (check == 0)) || ((time >= (30 * 60 * 60)) && (check == 1)) || ((time >= (132 * 60 * 60)) && (check == 2)))
             return "green";
-        else if (((time >= (3 * 60 * 60 * 1000)) && (check == 0)) || ((time >= (15 * 60 * 60 * 1000)) && (check == 1)) || ((time >= (66 * 60 * 60 * 1000)) && (check == 2)))
+        else if (((time >= (3 * 60 * 60)) && (check == 0)) || ((time >= (15 * 60 * 60)) && (check == 1)) || ((time >= (66 * 60 * 60)) && (check == 2)))
             return "yellow";
         else if (time > 0)
             return "red";

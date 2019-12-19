@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
+import kr.ac.ssu.edugochi.object.RankListItem;
 
 public class RankListAdapter extends BaseAdapter {
     TimelineFragment timeline = new TimelineFragment();

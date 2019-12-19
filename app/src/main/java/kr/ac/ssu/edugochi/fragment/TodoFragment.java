@@ -8,7 +8,6 @@ import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageButton;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -30,13 +29,11 @@ import kr.ac.ssu.edugochi.activity.AddTodoActivity;
 import kr.ac.ssu.edugochi.adapter.TodoAdapter;
 import kr.ac.ssu.edugochi.object.TodoItem;
 
-
 public class TodoFragment extends Fragment {
 
     private static final String TAG = TodoFragment.class.getSimpleName();
 
     private TodoDBHandler handler;
-    private ImageButton AddBtn;
     private SwipeMenuListView TodoList;
     private TodoAdapter adapter;
     private TextView tv;
@@ -58,7 +55,6 @@ public class TodoFragment extends Fragment {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         tv = view.findViewById(R.id.empty_view);
-        AddBtn = view.findViewById(R.id.action_add_task);
         TodoList = view.findViewById(R.id.todo_list);
         tv = view.findViewById(R.id.empty_view);
         listItems();
@@ -92,13 +88,11 @@ public class TodoFragment extends Fragment {
         }
     }
 
-
     public void onResume() { // AddTodoActivity 엑티비티에서 복귀 했을때 리스트 갱신
         listItems();
         Log.d(this.getClass().getSimpleName(), "리스트갱신");
         super.onResume();
     }
-
 
     private void listItems() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
         final ArrayList<TodoItem> data = getItems();
@@ -139,7 +133,7 @@ public class TodoFragment extends Fragment {
                             // open
                             Log.d("", "--------상세정......");
                             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
-                            dialog.setIcon(R.drawable.ic_done_all_black_24dp);
+                            dialog.setIcon(R.drawable.ic_done_all);
                             dialog.setTitle(vo.title);
                             dialog.setMessage("\n기한 : "+vo.date+"\n\n메모 : "+vo.memo);
                             dialog.setNegativeButton("확인", null);
@@ -155,10 +149,7 @@ public class TodoFragment extends Fragment {
                 }
             });
         }
-
-
     }
-
 
     private ArrayList<TodoItem> getItems() { //arraylist에 데이터를 받아옴
         return handler.getItems();
@@ -168,10 +159,7 @@ public class TodoFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_task:
-                Intent intent = new Intent(
-                        getActivity(),
-                        AddTodoActivity.class);
-                startActivity(intent);
+                startActivity(new Intent(getActivity(),AddTodoActivity.class));
                 break;
         }
         return true;

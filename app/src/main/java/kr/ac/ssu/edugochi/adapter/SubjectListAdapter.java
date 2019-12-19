@@ -13,6 +13,7 @@ import com.google.android.material.button.MaterialButton;
 import java.util.ArrayList;
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
+import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 import kr.ac.ssu.edugochi.object.SubjectListItem;
 import kr.ac.ssu.edugochi.view.ViewHolder;
 
@@ -21,20 +22,13 @@ public class SubjectListAdapter extends BaseAdapter {
     private Context context;
     private ViewHolder viewHolder;
     private ArrayList<SubjectListItem> subjects = new ArrayList<>();
-    private MaterialButton measure_subject;
-    private TextView subject_title;
-    private TextView subject_timeout;
+
 
     // 생성자에 Context만 넘겨주는 경우
     public SubjectListAdapter (Context context) {
         this.context = context;
     }
 
-    // 생성자에 Context와 리스트를 넘겨주는 경우
-    public SubjectListAdapter (Context context, ArrayList<SubjectListItem> subjects) {
-        this.context = context;
-        this.subjects = subjects;
-    }
 
     @Override
     public int getCount() {
@@ -74,7 +68,7 @@ public class SubjectListAdapter extends BaseAdapter {
 
             /* MyItem에 아이템을 setting한다. */
             viewHolder.subject_title.setText(subjects.get(position).getSubject());
-            viewHolder.subject_timeout.setText(String.format("%02d : %02d : %02d", timeout/1000/60/60, timeout/1000/60%60, timeout/1000%60%60));
+            viewHolder.subject_timeout.setText(TimelineFragment.makeTimeForm(timeout));
             viewHolder.measure_subject.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
@@ -83,6 +77,7 @@ public class SubjectListAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
+            view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }

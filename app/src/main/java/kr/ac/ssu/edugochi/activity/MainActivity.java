@@ -69,22 +69,22 @@ public class MainActivity extends AppCompatActivity {
                 fragmentManager.popBackStack();
                 switch (position) {
                     case 0:
-                        toolbar.setTitle("Home");
+                        toolbar.setTitle(R.string.home);
                         fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
                         Log.d("navigation", "home");
                         break;
                     case 1:
-                        toolbar.setTitle("Timeline");
+                        toolbar.setTitle(R.string.timeline);
                         fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
                         Log.d("navigation", "timeline");
                         break;
                     case 2:
-                        toolbar.setTitle("Todo");
+                        toolbar.setTitle(R.string.todo);
                         fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
                         Log.d("navigation", "todo");
                         break;
                     case 3:
-                        toolbar.setTitle("Settings");
+                        toolbar.setTitle(R.string.settings);
                         fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
                         Log.d("navigation", "setting");
                         break;
@@ -101,9 +101,10 @@ public class MainActivity extends AppCompatActivity {
         MenuInflater inflater = getMenuInflater();
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
             case 0:
-                inflater.inflate(R.menu.home_menu, menu);
+                //inflater.inflate(R.menu.home_menu, menu);
                 break;
             case 1:
+                inflater.inflate(R.menu.timeline_menu, menu);
                 break;
             case 2:
                 inflater.inflate(R.menu.todo_menu, menu);
@@ -121,22 +122,21 @@ public class MainActivity extends AppCompatActivity {
         fragmentTransaction = fragmentManager.beginTransaction();
         fragmentTransaction.addToBackStack(null);
         Log.d("onResume", String.valueOf(customNavigationLinearView.getCurrentActiveItemPosition()));
-
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
             case 0:
-                toolbar.setTitle("Home");
+                toolbar.setTitle(R.string.home);
                 fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
                 break;
             case 1:
-                toolbar.setTitle("Timeline");
+                toolbar.setTitle(R.string.timeline);
                 fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
                 break;
             case 2:
-                toolbar.setTitle("Todo");
+                toolbar.setTitle(R.string.todo);
                 fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
                 break;
             case 3:
-                toolbar.setTitle("Settings");
+                toolbar.setTitle(R.string.settings);
                 fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
                 break;
         }

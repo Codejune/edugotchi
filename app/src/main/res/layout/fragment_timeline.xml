@@ -5,12 +5,14 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:scrollbarStyle="insideOverlay">
+    android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_view"
@@ -162,6 +164,7 @@
                     android:isScrollContainer="false"
                     android:listSelector="#00000000"
                     android:numColumns="7"
+                    android:scrollbars="none"
                     app:layout_constraintBottom_toTopOf="@+id/color_row"
                     app:layout_constraintLeft_toLeftOf="parent"
                     app:layout_constraintRight_toRightOf="parent"
@@ -258,13 +261,13 @@
             android:background="@drawable/edge_round"
             android:ellipsize="marquee"
             android:gravity="center"
-            android:textStyle="bold"
             android:marqueeRepeatLimit="marquee_forever"
             android:paddingLeft="5dp"
             android:paddingRight="5dp"
             android:singleLine="true"
             android:text="오늘의 각오"
             android:textSize="15sp"
+            android:textStyle="bold"
             app:layout_constraintLeft_toLeftOf="parent"
             app:layout_constraintRight_toRightOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/calendar_view" />

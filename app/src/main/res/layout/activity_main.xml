@@ -27,7 +27,6 @@
             app:contentInsetLeft="40dp"
             app:contentInsetRight="40dp"
             app:contentInsetStart="40dp"
-            app:layout_scrollFlags="scroll|enterAlways"
             app:titleTextAppearance="@style/ToolbarTitleText" />
     </com.google.android.material.appbar.AppBarLayout>
 
@@ -37,9 +36,7 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:paddingTop="60sp"
-        android:paddingBottom="60sp"
-        android:paddingLeft="40dp"
-        android:paddingRight="40dp" />
+        android:paddingBottom="60sp"/>
 
     <kr.ac.ssu.edugochi.view.CustomNavigationLinearView
         android:id="@+id/bottom_navigation_view_linear"

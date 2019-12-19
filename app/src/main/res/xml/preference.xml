@@ -3,7 +3,8 @@
 <androidx.preference.PreferenceScreen
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:key="root">
+    app:key="root"
+    app:iconSpaceReserved="false">
     <Preference
         app:key="login"
         android:layout="@layout/fragment_setting" />
@@ -24,7 +25,7 @@
         app:title="캐릭터 설정" />
     <ListPreference
         app:key="white_noise"
-        app:icon="@drawable/ic_music_note_black_24dp"
+        app:icon="@drawable/ic_music_note"
         app:iconTint="@color/itemColor"
         app:dialogTitle="백색소음"
         app:entries="@array/Wn_entries"

@@ -16,7 +16,7 @@ import kr.ac.ssu.edugochi.eduPreManger;
 public class SplashActivity extends AppCompatActivity {
 
     /* 스플래시 화면이 표시되는 시간을 설정(ms) */
-    private final int SPLASH_DISPLAY_TIME = 2500;
+    private final int SPLASH_DISPLAY_TIME = 1000;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -35,8 +35,6 @@ public class SplashActivity extends AppCompatActivity {
                     AppCompatDelegate.MODE_NIGHT_NO);
         }
 
-        ImageView character = findViewById(R.id.character);
-        Glide.with(this).load(R.drawable.character).into(character);
 
         Handler handler = new Handler();
         handler.postDelayed(new Runnable(){

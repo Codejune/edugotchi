@@ -13,6 +13,7 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
+import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 
@@ -36,10 +37,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
     }
 
-
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+        getListView().setPadding(120, 0, 120, 0);
 
         Preference user = findPreference("login");
         user.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {

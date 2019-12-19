@@ -30,7 +30,7 @@
                 android:layout_gravity="center_vertical"
                 android:layout_marginTop="32dp"
                 android:layout_marginLeft="32dp"
-                android:background="@drawable/ic_account_circle_black_24dp"
+                android:background="@drawable/ic_account_circle"
                 android:paddingLeft="20dp"
                 tools:ignore="MissingConstraints" />
 

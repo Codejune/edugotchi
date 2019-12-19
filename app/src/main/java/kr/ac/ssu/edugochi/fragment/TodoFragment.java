@@ -133,7 +133,7 @@ public class TodoFragment extends Fragment {
                             // open
                             Log.d("", "--------상세정......");
                             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
-                            dialog.setIcon(R.drawable.ic_done_all_black_24dp);
+                            dialog.setIcon(R.drawable.ic_done_all);
                             dialog.setTitle(vo.title);
                             dialog.setMessage("\n기한 : "+vo.date+"\n\n메모 : "+vo.memo);
                             dialog.setNegativeButton("확인", null);

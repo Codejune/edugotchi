@@ -1,7 +1,5 @@
 package kr.ac.ssu.edugochi.activity;
 
-
-import android.annotation.SuppressLint;
 import android.content.ComponentName;
 import android.content.DialogInterface;
 import android.content.Intent;
@@ -11,11 +9,8 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.os.Handler;
 import android.os.IBinder;
-import android.os.Message;
-import android.os.RemoteException;
-import android.os.SystemClock;
+
 import android.util.Log;
-import android.view.KeyEvent;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.ProgressBar;
@@ -417,7 +412,7 @@ public class MeasureActivity extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        if(timer_status == init) super.onBackPressed();
+        if (timer_status == init) super.onBackPressed();
         //super.onBackPressed();
     }
 }

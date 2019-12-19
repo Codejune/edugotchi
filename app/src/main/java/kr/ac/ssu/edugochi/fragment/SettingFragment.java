@@ -14,7 +14,6 @@ import androidx.preference.ListPreference;
 import androidx.preference.Preference;
 import androidx.preference.PreferenceFragmentCompat;
 import androidx.preference.SwitchPreferenceCompat;
-import androidx.recyclerview.widget.RecyclerView;
 
 import java.io.File;
 
@@ -45,13 +44,13 @@ public class SettingFragment extends PreferenceFragmentCompat {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setPadding(120, 0, 120, 0);
-        userid = view.findViewById(R.id.user_email);
+       // userid = view.findViewById(R.id.user_email);
         test = eduPreManger.getString(getActivity(),"id");
         Log.d(TAG, test);
-        userid.setText(eduPreManger.getString(getActivity(), "id"));
-
-        Preference user = findPreference("login");
-        user.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        //userid.setText(test);
+        Preference user_id = (Preference) findPreference("id");
+        user_id.setTitle(test);
+        user_id.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
                                 Intent intent = new Intent(

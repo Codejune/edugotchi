@@ -7,12 +7,15 @@
     app:iconSpaceReserved="false">
     <Preference
         app:key="login"
-        android:layout="@layout/fragment_setting"
-        app:defaultValue="false"/>
+        app:isPreferenceVisible="false"/>
+
     <Preference
         app:key="id"
-        app:defaultValue="soongsil.ac.kr"
-        app:isPreferenceVisible="false"/>
+        app:icon="@drawable/ic_account_circle_48dp"
+        app:defaultValue="false"
+        app:title="@string/signin"/>
+
+
 
     <SwitchPreferenceCompat
         app:key="darkMode"

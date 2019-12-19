@@ -18,6 +18,8 @@
             android:name=".service.TimerService"
             android:enabled="true"
             android:exported="true"></service>
+        <service android:name=".service.ScreenService"/>
+        <receiver android:name=".service.ScreenReceiver"/>
 
         <activity android:name=".activity.HistoryActivity"></activity>
         <activity android:name=".activity.LoginActivity" />
@@ -29,7 +31,8 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AddTodoActivity" />
-        <activity android:name=".activity.MeasureActivity" />
+        <activity android:name=".activity.MeasureActivity"
+            android:launchMode="singleTop"/>
         <activity android:name=".activity.MainActivity" />
 
     </application>

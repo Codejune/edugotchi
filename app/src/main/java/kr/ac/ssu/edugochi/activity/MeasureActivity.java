@@ -15,7 +15,9 @@ import android.os.Message;
 import android.os.RemoteException;
 import android.os.SystemClock;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.View;
+import android.view.WindowManager;
 import android.widget.ProgressBar;
 import android.widget.TextView;
 
@@ -41,6 +43,7 @@ import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
+import kr.ac.ssu.edugochi.service.ScreenService;
 import kr.ac.ssu.edugochi.service.TimerService;
 
 public class MeasureActivity extends AppCompatActivity {
@@ -83,6 +86,8 @@ public class MeasureActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_measure);
+
+        getWindow().addFlags(WindowManager.LayoutParams.FLAG_SHOW_WHEN_LOCKED | WindowManager.LayoutParams.FLAG_DISMISS_KEYGUARD);
 
         // 넘어온 Intent
         Intent intent = getIntent();
@@ -141,7 +146,8 @@ public class MeasureActivity extends AppCompatActivity {
                         new Thread(new GetCountThread()).start();
                         timer.setText("00 : 00 : 00");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
-                        //startService(counterIntent);
+                        Intent intent = new Intent(getApplicationContext(), ScreenService.class);
+                        startService(intent);
                         break;
                     case run:   // 일시정지
                         Log.d(TAG, "측정 일시정지");
@@ -190,7 +196,9 @@ public class MeasureActivity extends AppCompatActivity {
                             SelectSubject();
                             // Intent에 넘어온 과목에 저장
                         else NoSelectSubject();
-                        //stopService(counterIntent);
+                        Intent intent = new Intent(getApplicationContext(), ScreenService.class);
+                        stopService(intent);
+
                         break;
                 }
             }
@@ -405,6 +413,12 @@ public class MeasureActivity extends AppCompatActivity {
                 });
             }
         }
+    }
+
+    @Override
+    public void onBackPressed() {
+        if(timer_status == init) super.onBackPressed();
+        //super.onBackPressed();
     }
 }
 

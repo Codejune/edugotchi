@@ -34,12 +34,12 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.activity.AddTodoActivity;
 import kr.ac.ssu.edugochi.activity.HistoryActivity;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
-import kr.ac.ssu.edugochi.object.RankListItem;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
+import kr.ac.ssu.edugochi.object.RankListItem;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
 import kr.ac.ssu.edugochi.view.CalendarViewHolder;
@@ -135,6 +135,9 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         fore_Button = myView.findViewById((R.id.fore_button));
         fore_Button.setOnClickListener(this);
         one_sentence = myView.findViewById((R.id.one_sentence));
+        String pre_text = eduPreManger.getString(getActivity(),"sentence");
+        Log.d(TAG, pre_text);
+        one_sentence.setText(pre_text);
         one_sentence.setOnClickListener(this);
         gridView = myView.findViewById((R.id.gridview));
         gridView.setOnItemClickListener(this);
@@ -303,6 +306,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     one_sentence.setText(et.getText().toString());
+                    eduPreManger.setString(getActivity(),"sentence", String.valueOf(one_sentence));
                     dialog.dismiss();
                 }
             });

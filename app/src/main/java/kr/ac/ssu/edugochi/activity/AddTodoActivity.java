@@ -112,7 +112,7 @@ public class AddTodoActivity extends AppCompatActivity {
     private void AddClick() {
 
         if (title.getText() == null || TextUtils.isEmpty(title.getText().toString())) {
-            Toasty.error(this, "Todo item cannot be empty!", Toast.LENGTH_SHORT).show();
+            Toasty.error(this, "항목이 비어있습니다.", Toast.LENGTH_SHORT).show();
             return;
         }
         final String todoTitle = title.getText().toString();
@@ -127,7 +127,7 @@ public class AddTodoActivity extends AppCompatActivity {
         mHandler.insert(todoTitle, todoDate, todoMemo);
 
         title.setText(null);
-        Toasty.success(this, "Item added", Toast.LENGTH_SHORT).show();
+        Toasty.success(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
         onBackPressed();
         }
     }

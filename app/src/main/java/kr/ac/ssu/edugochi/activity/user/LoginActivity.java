@@ -1,7 +1,8 @@
-package kr.ac.ssu.edugochi.activity;
+package kr.ac.ssu.edugochi.activity.user;
 
 import android.content.Intent;
 import android.os.Bundle;
+import android.util.Log;
 import android.util.Patterns;
 import android.view.View;
 import android.widget.EditText;
@@ -17,11 +18,15 @@ import com.google.firebase.auth.FirebaseAuth;
 
 import java.util.regex.Pattern;
 
+import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.activity.MainActivity;
+import kr.ac.ssu.edugochi.eduPreManger;
 
 
 public class LoginActivity extends AppCompatActivity {
     private static final String TAG = LoginActivity.class.getSimpleName();
+
     // 비밀번호 정규식
     private static final Pattern PASSWORD_PATTERN = Pattern.compile("^[a-zA-Z0-9!@.#$%^&*?_~]{4,16}$");
 
@@ -39,6 +44,12 @@ public class LoginActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
+        boolean login_check = eduPreManger.getBoolean(this, "login");
+        if(login_check){
+            Toasty.error(this, "이미 로그인하셨습니다.", Toast.LENGTH_SHORT).show();
+            onBackPressed();
+        }
 
 
         // 파이어베이스 인증 객체 선언
@@ -93,14 +104,16 @@ public class LoginActivity extends AppCompatActivity {
 
 
     // 로그인
-    private void loginUser(String email, String password) {
+    private void loginUser(final String email, String password) {
         firebaseAuth.signInWithEmailAndPassword(email, password)
                 .addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            // 로그인 성공
-                            Toast.makeText(LoginActivity.this, R.string.success_login, Toast.LENGTH_SHORT).show();
+                            eduPreManger.setBoolean(LoginActivity.this,"login", true);
+                            eduPreManger.setString(LoginActivity.this, "id", email);
+                            Log.d(TAG, "into the unknown");
+                            startActivity(new Intent(getApplication(), MainActivity.class));
                         } else {
                             // 로그인 실패
                             Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();

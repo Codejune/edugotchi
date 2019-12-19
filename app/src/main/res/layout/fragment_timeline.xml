@@ -17,7 +17,7 @@
         <androidx.cardview.widget.CardView
             android:id="@+id/calendar_view"
             android:layout_width="match_parent"
-            android:layout_height="360dp"
+            android:layout_height="345dp"
             android:layout_marginTop="4dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
@@ -200,7 +200,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
                         android:text="6시간 이상"
-                        android:textSize="8sp"
+                        android:textSize="7sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/green"
                         app:layout_constraintRight_toLeftOf="@id/yellow" />
@@ -223,7 +223,7 @@
                         android:layout_height="wrap_content"
                         android:layout_marginRight="8dp"
                         android:text="3 ~ 6시간"
-                        android:textSize="8sp"
+                        android:textSize="7sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/yellow"
                         app:layout_constraintRight_toLeftOf="@id/red" />
@@ -245,7 +245,7 @@
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:text="3시간 이하"
-                        android:textSize="8sp"
+                        android:textSize="7sp"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintLeft_toRightOf="@id/red"
                         app:layout_constraintRight_toRightOf="parent" />
@@ -351,7 +351,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="30dp"
-            android:layout_marginBottom="150dp"
+            android:layout_marginBottom="80dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

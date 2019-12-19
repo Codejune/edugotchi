@@ -12,6 +12,7 @@ import com.bumptech.glide.Glide;
 
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.eduPreManger;
+import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 
 public class SplashActivity extends AppCompatActivity {
 
@@ -23,7 +24,6 @@ public class SplashActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_splash);
         boolean themeCheck;
-
         themeCheck = eduPreManger.getBoolean(this, "darkMode");
 
         if (themeCheck) {

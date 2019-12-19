@@ -37,6 +37,7 @@ import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.AddTodoActivity;
 import kr.ac.ssu.edugochi.activity.HistoryActivity;
 import kr.ac.ssu.edugochi.adapter.RankListAdapter;
+import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.RankListItem;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
@@ -128,17 +129,12 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         Log.i(TAG, "onCreateView");
-        View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
+        final View myView = inflater.inflate(R.layout.fragment_timeline, container, false);
         // 클릭리스너 부착 선언
         pre_Button = myView.findViewById((R.id.pre_button));
-        pre_Button.setOnClickListener(this);
         fore_Button = myView.findViewById((R.id.fore_button));
-        fore_Button.setOnClickListener(this);
         one_sentence = myView.findViewById((R.id.one_sentence));
-        one_sentence.setOnClickListener(this);
         gridView = myView.findViewById((R.id.gridview));
-        gridView.setOnItemClickListener(this);
-
         tabLayout = myView.findViewById(R.id.tabs);
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
@@ -176,6 +172,10 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             public void onTabReselected(TabLayout.Tab tab) {
             }
         });
+        pre_Button.setOnClickListener(this);
+        fore_Button.setOnClickListener(this);
+        one_sentence.setOnClickListener(this);
+        gridView.setOnItemClickListener(this);
         return myView;
     }
 
@@ -190,8 +190,14 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         characterList = userRealm.where(Character.class).findAll().sort("name");
         today = Calendar.getInstance();
         today_position = today.get(Calendar.DAY_OF_MONTH) - 1;
+    }
 
+    @Override
+    public void onResume() {
+        super.onResume();
         makeCalendar(); // 달력 생성 함수
+        one_sentence.setText(eduPreManger.getString(getActivity(),"sentence"));
+        if(one_sentence.getText()=="") one_sentence.setText("오늘의 각오");
         setTabData(mCal, today_position); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
         makeRankTable(); // 랭크테이블 생성 함수
     }
@@ -212,18 +218,22 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             this.context = context;
             this.list = list;
         }
+
         @Override
         public int getCount() {
             return list.size();
         }
+
         @Override
         public String getItem(int position) {
             return list.get(position);
         }
+
         @Override
         public long getItemId(int position) {
             return position;
         }
+
         @Override
         public View getView(int position, View convertView, ViewGroup parent) {
             if (convertView == null) {
@@ -242,7 +252,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 calViewHolder.grid_column.setClickable(true);
 
             // 오늘 날짜는 bold체로 표시
-            if(month==0) {
+            if (month == 0) {
                 int iToday = today.get(Calendar.DAY_OF_MONTH);
                 String sToday = String.valueOf(iToday);
                 if (sToday.equals(getItem(position)))
@@ -250,22 +260,22 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             }
 
             // 토요일과 일요일에 색깔 지정
-                if ((position + 1) % 7 == 1)
-                    calViewHolder.date_text.setTextColor(getResources().getColor(R.color.red_inactive));
-                else if ((position + 1) % 7 == 0)
-                    calViewHolder.date_text.setTextColor(getResources().getColor(R.color.blue_inactive));
+            if ((position + 1) % 7 == 1)
+                calViewHolder.date_text.setTextColor(getResources().getColor(R.color.red_inactive));
+            else if ((position + 1) % 7 == 0)
+                calViewHolder.date_text.setTextColor(getResources().getColor(R.color.blue_inactive));
 
-                long total_time = 0;
-                mCal.add(Calendar.DATE, position - dayNum + 1);
-                // DB의 모든 데이터 검사 하는 for문
-                length=measureList.size();
-                for (int i = 0; i < length; i++) {
-                    // 날짜 값이 일치할 경우
-                    if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime())))
-                        total_time += measureList.get(i).getTimeout();
+            long total_time = 0;
+            mCal.add(Calendar.DATE, position - dayNum + 1);
+            // DB의 모든 데이터 검사 하는 for문
+            length = measureList.size();
+            for (int i = 0; i < length; i++) {
+                // 날짜 값이 일치할 경우
+                if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime())))
+                    total_time += measureList.get(i).getTimeout();
             }
 
-            if(total_time>0&&(position >= dayNum - 1)) {
+            if (total_time > 0 && (position >= dayNum - 1)) {
                 calViewHolder.color_tag.setText("●");
                 if (total_time >= (6 * 60 * 60))
                     calViewHolder.color_tag.setTextColor(getResources().getColor(R.color.greenPastel));
@@ -293,7 +303,6 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         } else if (v == one_sentence) {
             AlertDialog.Builder ad = new AlertDialog.Builder(getActivity());
             ad.setTitle("오늘의 한마디");
-
             final EditText et = new EditText(getActivity());
             ad.setView(et);
             et.setText(one_sentence.getText().toString());
@@ -303,6 +312,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     one_sentence.setText(et.getText().toString());
+                    eduPreManger.setString(getActivity(),"sentence", String.valueOf(one_sentence.getText()));
                     dialog.dismiss();
                 }
             });
@@ -364,7 +374,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     // 해당 월에 표시할 일 수 구하는 함수
     private void setCalendarDate(int month) {
         mCal.set(Calendar.MONTH, month - 1);
-        length= mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
+        length = mCal.getActualMaximum(Calendar.DAY_OF_MONTH);
         for (int i = 0; i < length; i++)
             dayList.add("" + (i + 1));
     }
@@ -403,7 +413,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             month_day = (Calendar) mCal.clone();
             month_day.add(Calendar.MONTH, -1);
 
-            length=measureList.size();
+            length = measureList.size();
             /** 탭호스트 레이아웃의 데이터 세팅 **/
             for (int i = 0; i < length; i++) {
                 if (measureList.get(i).getDate().equals(curTotalFormat.format(mCal.getTime()))) { // 날짜 값이 일치할 경우
@@ -562,7 +572,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         for (int i = 0; i < count; i++)
             items[i].setSubject(subjects.get(i));
 
-        length=measureList.size();
+        length = measureList.size();
         if (subjects.size() > 0) { // 데이타가 있을 때만 실행
             subject_rank_title.setText("과목 랭킹");
             for (int i = 0; i < length; i++)

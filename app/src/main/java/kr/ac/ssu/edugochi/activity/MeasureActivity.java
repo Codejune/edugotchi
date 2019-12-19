@@ -323,15 +323,17 @@ public class MeasureActivity extends AppCompatActivity {
                 //    date      : 측정 완료된 년/월/일
                 //    timeout   : 측정된 시간량
                 //    exp       : 측정된 시간의 경험치
-                SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
-                MeasureData MeasureData = realm.createObject(MeasureData.class);
-                MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
-                MeasureData.setTimeout(out_time); // 원래 out_time
-                MeasureData.setExp(out_time); // 원래 out_time/1000 >> 테스트 위해 기준 변경
-                MeasureData.setSubject(selected);
-                Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
-                Log.i(TAG, "timeout\t: " + out_time);
-                Log.i(TAG, "exp\t\t: " + out_time);
+                if(out_time>0) {
+                    SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
+                    MeasureData MeasureData = realm.createObject(MeasureData.class);
+                    MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
+                    MeasureData.setTimeout(out_time); // 원래 out_time
+                    MeasureData.setExp(out_time); // 원래 out_time/1000 >> 테스트 위해 기준 변경
+                    MeasureData.setSubject(selected);
+                    Log.i(TAG, "date\t\t: " + today_date.format(Calendar.getInstance().getTime()));
+                    Log.i(TAG, "timeout\t: " + out_time);
+                    Log.i(TAG, "exp\t\t: " + out_time);
+                }
             }
         });
     }

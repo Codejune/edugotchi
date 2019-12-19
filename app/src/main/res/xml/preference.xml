@@ -39,6 +39,10 @@
         app:icon="@drawable/ic_reset"
         app:iconTint="@color/itemColor"
         app:title="설정 초기화"/>
+    <Preference
+        app:key="sentence"
+        app:isPreferenceVisible="false"
+        app:defaultValue="오늘의 한마디" />
 
 </androidx.preference.PreferenceScreen>
 

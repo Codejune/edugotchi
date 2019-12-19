@@ -9,9 +9,7 @@ import android.content.ServiceConnection;
 import android.media.MediaPlayer;
 import android.os.Bundle;
 import android.os.CountDownTimer;
-import android.os.Handler;
 import android.os.IBinder;
-
 import android.util.Log;
 import android.view.View;
 import android.view.WindowManager;
@@ -90,6 +88,7 @@ public class MeasureActivity extends AppCompatActivity {
         Intent intent = getIntent();
         // Realm 초기 설정
         RealmInit();
+        CheckNoise();
 
         // 뷰 연결
         timer = findViewById(R.id.timer);
@@ -205,16 +204,17 @@ public class MeasureActivity extends AppCompatActivity {
         WN_btn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                CheckNoise();
                 switch (WN_status) {
-                    case init: // 정지 상태
+                    case init: // 재 상태
+                        Log.d(TAG, "재생");
                         player.start();
                         WN_btn.setText("백색소음정지");
                         WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
                         WN_status = run; //현재상태를 런상태로 변경
                         break;
-                    case run: // 측정 상태
-                        //player.stop();
+                    case run: // 정지 상태
+                       // player.stop();
+                        Log.d(TAG, "정지");
                         player.pause();
                         WN_btn.setText("백색소음재생");
                         WN_btn.setIcon(getResources().getDrawable(R.drawable.ic_play_arrow));

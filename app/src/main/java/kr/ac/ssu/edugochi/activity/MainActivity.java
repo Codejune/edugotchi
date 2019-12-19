@@ -31,6 +31,7 @@ public class MainActivity extends AppCompatActivity {
     private final Fragment timelineFragment = new TimelineFragment();
     private final Fragment todoFragment = new TodoFragment();
     private final Fragment settingFragment = new SettingFragment();
+    private Fragment active;
     private FragmentManager fragmentManager;
     private FragmentTransaction fragmentTransaction;
     private CustomNavigationLinearView customNavigationLinearView;
@@ -59,6 +60,14 @@ public class MainActivity extends AppCompatActivity {
         // Fragment 할당
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
+        fragmentTransaction.add(R.id.content_fragment_layout, mainFragment).show(mainFragment);
+        fragmentTransaction.add(R.id.content_fragment_layout, timelineFragment).hide(timelineFragment);
+        fragmentTransaction.add(R.id.content_fragment_layout, todoFragment).hide(todoFragment);
+        fragmentTransaction.add(R.id.content_fragment_layout, settingFragment).hide(settingFragment);
+        fragmentTransaction.commit();
+
+        active = mainFragment;
+
         customNavigationLinearView = findViewById(R.id.bottom_navigation_view_linear);
 
         customNavigationLinearView.setNavigationChangeListener(new CustomNavigationChangeListener() {
@@ -66,30 +75,36 @@ public class MainActivity extends AppCompatActivity {
             public void onNavigationChanged(View view, int position) {
                 fragmentManager = getSupportFragmentManager();
                 fragmentTransaction = fragmentManager.beginTransaction();
-                fragmentManager.popBackStack();
                 switch (position) {
                     case 0:
                         toolbar.setTitle(R.string.home);
-                        fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
+                        fragmentTransaction.hide(active);
+                        fragmentTransaction.show(mainFragment);
+                        active = mainFragment;
                         Log.d("navigation", "home");
                         break;
                     case 1:
                         toolbar.setTitle(R.string.timeline);
-                        fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
+                        fragmentTransaction.hide(active);
+                        fragmentTransaction.show(timelineFragment);
+                        active = timelineFragment;
                         Log.d("navigation", "timeline");
                         break;
                     case 2:
                         toolbar.setTitle(R.string.todo);
-                        fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
+                        fragmentTransaction.hide(active);
+                        fragmentTransaction.show(todoFragment);
+                        active = todoFragment;
                         Log.d("navigation", "todo");
                         break;
                     case 3:
                         toolbar.setTitle(R.string.settings);
-                        fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
+                        fragmentTransaction.hide(active);
+                        fragmentTransaction.show(settingFragment);
+                        active = settingFragment;
                         Log.d("navigation", "setting");
                         break;
                 }
-                fragmentTransaction.addToBackStack(null);
                 fragmentTransaction.commit();
             }
         });
@@ -120,25 +135,32 @@ public class MainActivity extends AppCompatActivity {
     protected void onResume() {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
-        fragmentTransaction.addToBackStack(null);
         Log.d("onResume", String.valueOf(customNavigationLinearView.getCurrentActiveItemPosition()));
 
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
             case 0:
                 toolbar.setTitle(R.string.home);
-                fragmentTransaction.replace(R.id.content_fragment_layout, mainFragment);
+                fragmentTransaction.hide(active);
+                fragmentTransaction.show(mainFragment);
+                active = mainFragment;
                 break;
             case 1:
                 toolbar.setTitle(R.string.timeline);
-                fragmentTransaction.replace(R.id.content_fragment_layout, timelineFragment);
+                fragmentTransaction.hide(active);
+                fragmentTransaction.show(timelineFragment);
+                active = timelineFragment;
                 break;
             case 2:
                 toolbar.setTitle(R.string.todo);
-                fragmentTransaction.replace(R.id.content_fragment_layout, todoFragment);
+                fragmentTransaction.hide(active);
+                fragmentTransaction.show(todoFragment);
+                active = todoFragment;
                 break;
             case 3:
                 toolbar.setTitle(R.string.settings);
-                fragmentTransaction.replace(R.id.content_fragment_layout, settingFragment);
+                fragmentTransaction.hide(active);
+                fragmentTransaction.show(settingFragment);
+                active = settingFragment;
                 break;
         }
         fragmentTransaction.commit();

@@ -7,7 +7,15 @@
     app:iconSpaceReserved="false">
     <Preference
         app:key="login"
-        android:layout="@layout/fragment_setting" />
+        app:isPreferenceVisible="false"/>
+
+    <Preference
+        app:key="id"
+        app:icon="@drawable/ic_account_circle_48dp"
+        app:defaultValue="false"
+        app:title="@string/signin"/>
+
+
 
     <SwitchPreferenceCompat
         app:key="darkMode"
@@ -42,7 +50,7 @@
     <Preference
         app:key="sentence"
         app:isPreferenceVisible="false"
-        app:defaultValue="오늘의 한마디" />
+        app:defaultValue = "오늘의 한마디"/>
 
 </androidx.preference.PreferenceScreen>
 

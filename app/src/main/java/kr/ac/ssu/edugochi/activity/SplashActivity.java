@@ -3,18 +3,18 @@ package kr.ac.ssu.edugochi.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.widget.ImageView;
+import android.util.Log;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 
-import com.bumptech.glide.Glide;
-
 import kr.ac.ssu.edugochi.R;
+import kr.ac.ssu.edugochi.activity.user.LoginActivity;
 import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
 
 public class SplashActivity extends AppCompatActivity {
+    private static final String TAG = SplashActivity.class.getSimpleName();
 
     /* 스플래시 화면이 표시되는 시간을 설정(ms) */
     private final int SPLASH_DISPLAY_TIME = 1000;
@@ -36,15 +36,31 @@ public class SplashActivity extends AppCompatActivity {
         }
 
 
+
+        Log.d(TAG, "액티비티 안들어옴");
+        final boolean login_check;
+        login_check = eduPreManger.getBoolean(this, "login");
+
+
+        Log.d(TAG, "이게 문제");
         Handler handler = new Handler();
         handler.postDelayed(new Runnable(){
             @Override
             public void run(){
-                startActivity(new Intent(getApplication(), MainActivity.class));
+                if(login_check){
+                    Log.d(TAG, "메인으로");
+                    startActivity(new Intent(getApplication(), MainActivity.class));
+                }
+                else {
+                    Log.d(TAG, "액티비티 들어옴");
+                    Intent intent = new Intent(getApplication(), LoginActivity.class);
+                    startActivity(intent);
+                }
                 /* 스플래시 액티비티를 스택에서 제거. */
                 SplashActivity.this.finish();
             }
         }, SPLASH_DISPLAY_TIME);
+
     }
 
     @Override

@@ -80,6 +80,7 @@ public class MainActivity extends AppCompatActivity {
                         toolbar.setTitle(R.string.home);
                         fragmentTransaction.hide(active);
                         fragmentTransaction.show(mainFragment);
+                        mainFragment.onResume();
                         active = mainFragment;
                         Log.d("navigation", "home");
                         break;
@@ -136,7 +137,6 @@ public class MainActivity extends AppCompatActivity {
         fragmentManager = getSupportFragmentManager();
         fragmentTransaction = fragmentManager.beginTransaction();
         Log.d("onResume", String.valueOf(customNavigationLinearView.getCurrentActiveItemPosition()));
-
         switch (customNavigationLinearView.getCurrentActiveItemPosition()) {
             case 0:
                 toolbar.setTitle(R.string.home);

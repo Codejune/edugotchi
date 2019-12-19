@@ -6,6 +6,7 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -19,12 +20,15 @@ import java.io.File;
 
 import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.activity.LoginActivity;
+import kr.ac.ssu.edugochi.activity.user.LoginActivity;
 import kr.ac.ssu.edugochi.eduPreManger;
 
 
 public class SettingFragment extends PreferenceFragmentCompat {
     private static final String TAG = SettingFragment.class.getSimpleName();
+    private TextView userid;
+    private String test;
+
 
 
     public SettingFragment() {
@@ -41,6 +45,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
         getListView().setPadding(120, 0, 120, 0);
+        userid = view.findViewById(R.id.user_email);
+        test = eduPreManger.getString(getActivity(),"id");
+        Log.d(TAG, test);
+        userid.setText(eduPreManger.getString(getActivity(), "id"));
 
         Preference user = findPreference("login");
         user.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
@@ -53,7 +61,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 return false;
             }
         });
-    
+
         final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
         //다크모드 온오프
         darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()

@@ -78,10 +78,11 @@ public class eduPreManger {
 
     public static String getString(Context context, String key) {
 
+
         SharedPreferences prefs = getPreferences(context);
 
         String value = prefs.getString(key, DEFAULT_VALUE_STRING);
-
+        Log.d(TAG, value);
         return value;
 
     }

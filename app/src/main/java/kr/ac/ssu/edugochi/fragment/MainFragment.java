@@ -1,7 +1,6 @@
 package kr.ac.ssu.edugochi.fragment;
 
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
@@ -37,7 +36,6 @@ import io.realm.RealmConfiguration;
 import io.realm.RealmList;
 import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.activity.MeasureActivity;
 import kr.ac.ssu.edugochi.adapter.SubjectListAdapter;
 import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.Character;
@@ -60,7 +58,7 @@ public class MainFragment extends Fragment {
     private RealmConfiguration ExpModuleConfig;         // ExpTable.realm 모듈 설정
     private RealmResults<MeasureData> measureList;      // 측정 데이터 Realm 리스트
     private RealmResults<Character> characterList;      // 캐릭터 정보 Realm 리스트(0)
-    private RealmResults<ExpTable> expList;             // 경험치 테이블 Realm 리스트
+    private RealmResults<ExpTable> expList;// 경험치 테이블 Realm 리스트
     private RealmList<String> subjects;                 // 과목 목록 리스트
     private SubjectListAdapter listAdapter;             // 과목 목록 리스트뷰 어댑터
 
@@ -75,7 +73,7 @@ public class MainFragment extends Fragment {
     private MaterialButton addsubject_btn;      // 과목 추가 버튼
     private CustomListView subject_listview;    // 과목 목록 리스트뷰
 
-    // Character
+    // CharacterActivity
     private int currentLv;      // 현재 레벨
     private long currentExp;    // 현재 경험치
     private int nextLv;         // 다음 레벨
@@ -87,6 +85,8 @@ public class MainFragment extends Fragment {
     private int evo_2 = 15;
     private int evo_3 = 25;
     private int evo_sp = 10;
+
+    private String nick;
 
 
     @Override
@@ -301,12 +301,13 @@ public class MainFragment extends Fragment {
     // 측정 데이터 DB 저장
     private void initCharacterData() {
         Log.d(TAG, "캐릭터 초기 설정 등록");
+        nick = eduPreManger.getString(getActivity(),"nickname");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 Character Character = userRealm.createObject(Character.class);
                 RealmList<String> subject = new RealmList<>();
-                Character.setName("몰랑잉");
+                Character.setName(nick);
                 Character.setLv(1);
                 Character.setExp(0);
                 Character.setSubject(subject);
@@ -349,7 +350,7 @@ public class MainFragment extends Fragment {
             exptext.setText(String.format("%d / %d", currentExp, nextInterval));
 
         } catch (Exception e) {
-            // Character 설정이 없을 때
+            // CharacterActivity 설정이 없을 때
             e.printStackTrace();
             // 캐릭터 데이터베이스 생성
             initCharacterData();

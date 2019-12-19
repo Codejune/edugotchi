@@ -15,16 +15,19 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
+        <activity android:name=".activity.user.CharacterActivity"></activity>
+
         <service
             android:name=".service.TimerService"
             android:enabled="true"
-            android:exported="true"></service>
-        <service android:name=".service.ScreenService"/>
-        <receiver android:name=".service.ScreenReceiver"/>
+            android:exported="true" />
+        <service android:name=".service.ScreenService" />
 
-        <activity android:name=".activity.HistoryActivity"/>
+        <receiver android:name=".service.ScreenReceiver" />
+
+        <activity android:name=".activity.HistoryActivity" />
         <activity android:name=".activity.user.LoginActivity" />
-        <activity android:name=".activity.user.SignUpActivity"/>
+        <activity android:name=".activity.user.SignUpActivity" />
         <activity android:name=".activity.SplashActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -33,11 +36,12 @@
             </intent-filter>
         </activity>
         <activity android:name=".activity.AddTodoActivity" />
-        <activity android:name=".activity.MeasureActivity"
-            android:launchMode="singleTop"/>
-        <activity android:name=".activity.MainActivity"
-            android:launchMode="singleTask"/>
-
+        <activity
+            android:name=".activity.MeasureActivity"
+            android:launchMode="singleTop" />
+        <activity
+            android:name=".activity.MainActivity"
+            android:launchMode="singleTask" />
     </application>
 
 </manifest>

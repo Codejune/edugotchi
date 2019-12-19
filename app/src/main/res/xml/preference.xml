@@ -12,14 +12,21 @@
     <Preference
         app:key="id"
         app:icon="@drawable/ic_account_circle_48dp"
+        app:iconTint="@color/itemColor"
         app:defaultValue="false"
         app:title="@string/signin"/>
 
 
-
+    <Preference
+        app:key="nickname"
+        app:icon="@drawable/ic_nickname"
+        app:iconTint="@color/itemColor"
+        app:defaultValue="몰랑이"
+        app:title="닉네임 변경"/>
     <SwitchPreferenceCompat
         app:key="darkMode"
         app:icon="@drawable/ic_brightness"
+        app:iconTint="@color/itemColor"
         app:title="다크모드"
         app:defaultValue="false"/>
     <ListPreference
@@ -46,11 +53,12 @@
         app:dialogMessage="초기화 하시겠습니까?"
         app:icon="@drawable/ic_reset"
         app:iconTint="@color/itemColor"
-        app:title="설정 초기화"/>
+        app:title="로그아웃 / 설정 초기화"/>
     <Preference
         app:key="sentence"
         app:isPreferenceVisible="false"
         app:defaultValue = "오늘의 한마디"/>
+
 
 </androidx.preference.PreferenceScreen>
 

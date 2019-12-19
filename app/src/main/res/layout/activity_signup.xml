@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".activity.user.LoginActivity">
+    tools:context=".activity.user.SignUpActivity">
 
     <TextView
         android:id="@+id/tv_email"
@@ -42,29 +42,13 @@
         android:layout_marginLeft="50dp"
         android:layout_marginRight="50dp"/>
 
-    <TextView
-        android:id="@+id/tv_nickname"
-        android:layout_below="@id/et_password"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="닉네임"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp" />
 
-    <EditText
-        android:id="@+id/et_nickname"
-        android:inputType="textEmailAddress"
-        android:layout_below="@id/tv_nickname"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"/>
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:layout_below="@+id/et_nickname">
+        android:layout_below="@+id/et_password">
 
         <Button
             android:id="@+id/btn_signUp"

@@ -2,11 +2,11 @@ package kr.ac.ssu.edugochi.fragment;
 
 import android.content.Context;
 import android.content.DialogInterface;
-import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
-import android.widget.TextView;
+import android.view.ViewGroup;
+import android.widget.EditText;
 
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -18,16 +18,24 @@ import androidx.preference.SwitchPreferenceCompat;
 import java.io.File;
 
 import es.dmoral.toasty.Toasty;
+import io.realm.Realm;
+import io.realm.RealmConfiguration;
+import io.realm.RealmResults;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.activity.user.LoginActivity;
 import kr.ac.ssu.edugochi.eduPreManger;
+import kr.ac.ssu.edugochi.object.Character;
+import kr.ac.ssu.edugochi.realm.module.UserModule;
+import kr.ac.ssu.edugochi.realm.utils.Migration;
 
 
 public class SettingFragment extends PreferenceFragmentCompat {
     private static final String TAG = SettingFragment.class.getSimpleName();
-    private TextView userid;
-    private String test;
-
+    private String id;
+    private String nickname;
+    private static String USERTABLE = "User.realm";
+    private RealmConfiguration UserModuleConfig;
+    private Realm userRealm;
+    private RealmResults<Character> characterList;
 
 
     public SettingFragment() {
@@ -37,26 +45,62 @@ public class SettingFragment extends PreferenceFragmentCompat {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        RealmInit();
 
     }
 
     @Override
     public void onViewCreated(View view, Bundle savedInstanceState) {
         super.onViewCreated(view, savedInstanceState);
+
         getListView().setPadding(120, 0, 120, 0);
-       // userid = view.findViewById(R.id.user_email);
-        test = eduPreManger.getString(getActivity(),"id");
-        Log.d(TAG, test);
-        //userid.setText(test);
-        Preference user_id = (Preference) findPreference("id");
-        user_id.setTitle(test);
-        user_id.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
+        id = eduPreManger.getString(getActivity(),"id");
+        userRealm.executeTransaction(new Realm.Transaction() {
+            @Override
+            public void execute(Realm realm) {
+                characterList = getCharacterList();
+                nickname =characterList.get(0).getName();
+            }
+        });
+        final Preference user_id = (Preference) findPreference("id");
+        user_id.setTitle(nickname);
+        user_id.setSummary(id);
+
+        final EditText input = new EditText(getActivity());
+
+        Preference ChangeNick = (Preference) findPreference("nickname");
+        ChangeNick.setOnPreferenceClickListener(new Preference.OnPreferenceClickListener() {
             @Override
             public boolean onPreferenceClick(Preference preference) {
-                                Intent intent = new Intent(
-                                        getActivity(),
-                                        LoginActivity.class);
-                                startActivity(intent);
+                AlertDialog.Builder nickdialog = new AlertDialog.Builder(getActivity())
+                        .setTitle("변경할 닉네임을 입력해주세요.");
+                if (input.getParent() != null)
+                    ((ViewGroup) input.getParent()).removeView(input);
+                nickdialog.setView(input)
+                        .setPositiveButton("예", new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialogInterface, int i) {
+                                String nicktxt = input.getText().toString();
+                                Log.d(TAG,"@@@@@@@@2"+nicktxt+"@@@@@@@");
+                                if(!nicktxt.isEmpty()) {
+                                    eduPreManger.setString(getActivity(), "nickname", input.getText().toString());
+                                    user_id.setTitle(input.getText().toString());
+                                    userRealm.executeTransaction(new Realm.Transaction() {
+                                        @Override
+                                        public void execute(Realm realm) {
+
+                                            characterList = getCharacterList();
+                                            characterList.get(0).setName(input.getText().toString());
+                                        }
+                                    });
+                                }else{
+                                    Toasty.error(getActivity(),"닉네임이 비어있습니다.",Toasty.LENGTH_SHORT).show();
+                                }
+                            }
+                        })
+                        .setNegativeButton("아니오", null)
+                        .create();
+                nickdialog.show();
                 return false;
             }
         });
@@ -95,6 +139,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
                 String selected= (String) newValue;
+                Log.d(TAG, String.valueOf(newValue));
                 eduPreManger.setString(getActivity(),"selectCharacter", selected);
                 return true;
             }
@@ -176,4 +221,23 @@ public class SettingFragment extends PreferenceFragmentCompat {
     public void onCreatePreferences(Bundle savedInstanceState, String rootKey) {
         setPreferencesFromResource(R.xml.preference, rootKey);
     }
+
+    private void RealmInit() {
+        // User.realm 모듈 설정
+        UserModuleConfig = new RealmConfiguration.Builder()
+                .modules(new UserModule())
+                .migration(new Migration())
+                .schemaVersion(0)
+                .name(USERTABLE)
+                .build();
+
+        userRealm = Realm.getInstance(UserModuleConfig);
+        characterList = getCharacterList();
+    }
+
+    // 캐릭터 데이터 리스트 반환
+    private RealmResults<Character> getCharacterList() {
+        return userRealm.where(Character.class).findAll();
+    }
+
 }

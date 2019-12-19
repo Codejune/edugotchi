@@ -20,7 +20,6 @@ import java.util.regex.Pattern;
 
 import es.dmoral.toasty.Toasty;
 import kr.ac.ssu.edugochi.R;
-import kr.ac.ssu.edugochi.activity.MainActivity;
 import kr.ac.ssu.edugochi.eduPreManger;
 
 
@@ -37,13 +36,18 @@ public class LoginActivity extends AppCompatActivity {
     private EditText editTextEmail;
     private EditText editTextPassword;
 
+
     private String email = "";
     private String password = "";
+
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
+
 
         boolean login_check = eduPreManger.getBoolean(this, "login");
         if(login_check){
@@ -58,6 +62,7 @@ public class LoginActivity extends AppCompatActivity {
         editTextEmail = findViewById(R.id.et_eamil);
         editTextPassword = findViewById(R.id.et_password);
     }
+
 
     public void signUp(View view) {
         Intent intent = new Intent(
@@ -113,7 +118,7 @@ public class LoginActivity extends AppCompatActivity {
                             eduPreManger.setBoolean(LoginActivity.this,"login", true);
                             eduPreManger.setString(LoginActivity.this, "id", email);
                             Log.d(TAG, "into the unknown");
-                            startActivity(new Intent(getApplication(), MainActivity.class));
+                            startActivity(new Intent(getApplication(), CharacterActivity.class));
                         } else {
                             // 로그인 실패
                             Toast.makeText(LoginActivity.this, R.string.failed_login, Toast.LENGTH_SHORT).show();

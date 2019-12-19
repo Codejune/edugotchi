@@ -523,7 +523,7 @@ public class MainFragment extends Fragment {
             subject_listview.setVisibility(View.VISIBLE);
             subject_listview.setAdapter(listAdapter);
         }
-    }
+}
 
     // 오늘의 모든 과목별 시간 합 리턴
     private long getSumofTime(String subject) {

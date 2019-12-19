@@ -4,14 +4,14 @@
     android:id="@+id/nestedScrollView"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:descendantFocusability="blocksDescendants"
     android:scrollbars="none">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:paddingLeft="40dp"
-        android:paddingRight="40dp">
+        android:paddingRight="40dp"
+        android:paddingBottom="160dp">
 
         <androidx.cardview.widget.CardView
             android:id="@+id/character_view"
@@ -143,7 +143,6 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
-            android:layout_marginBottom="700dp"
             app:cardCornerRadius="20dp"
             app:cardElevation="0dp"
             app:layout_constraintBottom_toBottomOf="parent"

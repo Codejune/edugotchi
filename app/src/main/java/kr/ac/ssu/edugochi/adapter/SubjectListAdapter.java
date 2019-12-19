@@ -22,20 +22,13 @@ public class SubjectListAdapter extends BaseAdapter {
     private Context context;
     private ViewHolder viewHolder;
     private ArrayList<SubjectListItem> subjects = new ArrayList<>();
-    private MaterialButton measure_subject;
-    private TextView subject_title;
-    private TextView subject_timeout;
+
 
     // 생성자에 Context만 넘겨주는 경우
     public SubjectListAdapter (Context context) {
         this.context = context;
     }
 
-    // 생성자에 Context와 리스트를 넘겨주는 경우
-    public SubjectListAdapter (Context context, ArrayList<SubjectListItem> subjects) {
-        this.context = context;
-        this.subjects = subjects;
-    }
 
     @Override
     public int getCount() {
@@ -84,6 +77,7 @@ public class SubjectListAdapter extends BaseAdapter {
                     context.startActivity(intent);
                 }
             });
+            view.setTag(viewHolder);
         } else {
             viewHolder = (ViewHolder) view.getTag();
         }

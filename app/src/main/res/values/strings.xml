@@ -1,9 +1,9 @@
 <resources>
     <string name="app_name">에듀고치</string>
-    <string name="home">홈</string>
-    <string name="timeline">타임라인</string>
-    <string name="todo">ToDo</string>
-    <string name="settings">설정</string>
+    <string name="home">Home</string>
+    <string name="timeline">Timeline</string>
+    <string name="todo">Todo</string>
+    <string name="settings">Setting</string>
     <string name="nav_item">아이템</string>
 
     <!-- Timeline Strings-->

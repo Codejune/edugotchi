@@ -1,6 +1,8 @@
 package kr.ac.ssu.edugochi.activity;
 
+import android.app.ActivityManager;
 import android.content.ComponentName;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.ServiceConnection;
@@ -100,12 +102,11 @@ public class MeasureActivity extends AppCompatActivity {
         countDownTimer = new CountDownTimer(1000, 1) {
             @Override
             public void onTick(long millisUntilFinished) {
-                progressBarCircle.setProgress((int) (millisUntilFinished));
+                progressBarCircle.setProgress(1000 - (int) (millisUntilFinished));
             }
 
             @Override
             public void onFinish() {
-                progressBarCircle.setProgress(1000);
             }
         };
 
@@ -139,6 +140,7 @@ public class MeasureActivity extends AppCompatActivity {
                         bindService(counterIntent, connection, BIND_AUTO_CREATE);
                         timer_status = run;
                         new Thread(new GetCountThread()).start();
+                        //new Thread(new ProgressThread()).start();
                         timer.setText("00 : 00 : 00");
                         record_btn.setIcon(getResources().getDrawable(R.drawable.ic_pause));
                         Intent intent = new Intent(getApplicationContext(), ScreenService.class);
@@ -323,7 +325,7 @@ public class MeasureActivity extends AppCompatActivity {
                 //    date      : 측정 완료된 년/월/일
                 //    timeout   : 측정된 시간량
                 //    exp       : 측정된 시간의 경험치
-                if(out_time>0) {
+                if (out_time > 0) {
                     SimpleDateFormat today_date = new SimpleDateFormat("yyyy/MM/dd", Locale.KOREA);
                     MeasureData MeasureData = realm.createObject(MeasureData.class);
                     MeasureData.setDate(today_date.format(Calendar.getInstance().getTime()));
@@ -382,8 +384,6 @@ public class MeasureActivity extends AppCompatActivity {
     }
 
     private class GetCountThread implements Runnable {
-        private Handler handler = new Handler();
-
         @Override
         public void run() {
             try {
@@ -398,14 +398,15 @@ public class MeasureActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                handler.post(new Runnable() {
+                out_time = timerService.getCount();
+                hour = out_time / 60 / 60;
+                minute = out_time / 60 % 60;
+                second = out_time % 60 % 60;
+                runOnUiThread(new Runnable() {
                     @Override
                     public void run() {
-                        out_time = timerService.getCount();
-                        hour = out_time / 60 / 60;
-                        minute = out_time / 60 % 60;
-                        second = out_time % 60 % 60;
                         timer.setText(String.format("%02d : %02d : %02d", hour, minute, second));
+                        progressBarCircle.setProgress(0);
                     }
                 });
             }
@@ -416,6 +417,16 @@ public class MeasureActivity extends AppCompatActivity {
     public void onBackPressed() {
         if (timer_status == init) super.onBackPressed();
         //super.onBackPressed();
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+
+        ActivityManager activityManager = (ActivityManager) getApplicationContext()
+                .getSystemService(Context.ACTIVITY_SERVICE);
+
+        activityManager.moveTaskToFront(getTaskId(), 0);
     }
 }
 

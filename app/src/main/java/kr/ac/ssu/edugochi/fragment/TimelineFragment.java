@@ -483,7 +483,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
             /** 주간 탭호스트 레이아웃 세팅 **/
             circle = getView().findViewById(R.id.week_circle);
-            selectcolor = colorSelect(total_time, 1);
+            selectcolor = colorSelect(total_week_time, 1);
             switch (selectcolor) {
                 case "green":
                     circle.setImageResource(R.drawable.green_wide_circle);
@@ -520,7 +520,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
 
             /** 월간 탭호스트 레이아웃 세팅 **/
             circle = getView().findViewById(R.id.month_circle);
-            selectcolor = colorSelect(total_time, 2);
+            selectcolor = colorSelect(total_month_time, 2);
             switch (selectcolor) {
                 case "green":
                     circle.setImageResource(R.drawable.green_wide_circle);

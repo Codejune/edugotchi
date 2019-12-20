@@ -1,6 +1,38 @@
 <resources>
-    <string name="app_name">Edugochi</string>
-    <string name="title_home">Home</string>
-    <string name="title_dashboard">Dashboard</string>
-    <string name="title_notifications">Notifications</string>
+    <string name="app_name">에듀고치</string>
+    <string name="home">Home</string>
+    <string name="timeline">Timeline</string>
+    <string name="todo">Todo</string>
+    <string name="settings">Setting</string>
+    <string name="nav_item">아이템</string>
+
+    <!-- Timeline Strings-->
+    <string name="pre_month">pre</string>
+    <string name="fore_month">fore</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="clear_list">Clear list</string>
+    <string name="todo_item">Enter todo item</string>
+    <string name="label_add">Add</string>
+    <string name="add_item_success">Item added</string>
+    <string name="add_item_failed">Failed to add item</string>
+    <string name="message_item_not_empty">Todo item cannot be empty!</string>
+    <string name="message_remove_all_failed">Failed to remove all items in list</string>
+    <string name="remove_item_success">Item removed</string>
+    <string name="remove_item_failed">Error deleting item</string>
+    <string name="confirm_remove_item">Are you sure you want to remove this item?</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="email">이메일</string>
+    <string name="password">비밀번호</string>
+
+    <string name="signin">로그인</string>
+    <string name="success_login">로그인 성공</string>
+    <string name="failed_login">로그인 실패</string>
+
+    <string name="signup">회원가입</string>
+    <string name="success_signup">회원가입 성공</string>
+    <string name="failed_signup">회원가입 실패</string>
 </resources>

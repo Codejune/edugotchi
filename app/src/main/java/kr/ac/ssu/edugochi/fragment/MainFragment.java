@@ -369,17 +369,21 @@ public class MainFragment extends Fragment {
         // 캐릭터 레벨 조정
         // 현재 경험치가 다음 레벨까지 필요한 경험치 차이보다 작아질 때 까지 레벨 + 1
         while (!isSuit) {
-            Log.d(TAG, "레벨업 : " + currentLv + "->" + nextLv);
-            currentLv++;
-            nextLv++;
-            // 현재 경험치에서 다음 레벨까지 필요한 경험치 차이를 뺌
-            currentExp -= nextInterval;
-            // 다음 레벨에 필요한 경험치 업데이트
-            nextExp = expList.get(currentLv).getExp();
-            // 다음 레벨까지의 경험치 차이 업데이트
-            nextInterval = expList.get(currentLv).getInterval();
-            // 조건 재비교
-            isSuit = currentExp < nextInterval;
+            try {
+                Log.d(TAG, "레벨업 : " + currentLv + "->" + nextLv);
+                currentLv++;
+                nextLv++;
+                // 현재 경험치에서 다음 레벨까지 필요한 경험치 차이를 뺌
+                currentExp -= nextInterval;
+                // 다음 레벨에 필요한 경험치 업데이트
+                nextExp = expList.get(currentLv).getExp();
+                // 다음 레벨까지의 경험치 차이 업데이트
+                nextInterval = expList.get(currentLv).getInterval();
+                // 조건 재비교
+                isSuit = currentExp < nextInterval;
+            } catch (Exception e) {
+                e.printStackTrace();
+            }
         }
 
         // 조정된 값을 DB에 업데이트

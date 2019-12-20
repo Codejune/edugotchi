@@ -443,53 +443,53 @@ public class MainFragment extends Fragment {
                 break;
             //모찌
             case "mozzi_ch":
-                if (currentLv <= evo_1)
+                if (currentLv < evo_1)
                     Glide.with(this).load(R.drawable.mozzi1).into(ch);
-                else if (currentLv <= evo_sp)
+                else if (currentLv < evo_sp)
                     Glide.with(this).load(R.drawable.mozzi2).into(ch);
-                else if (currentLv <= evo_2)
+                else if (currentLv < evo_2)
                     Glide.with(this).load(R.drawable.mozzi3).into(ch);
-                else if (currentLv <= evo_3)
+                else if (currentLv < evo_3)
                     Glide.with(this).load(R.drawable.mozzi4).into(ch);
                 else
                     Glide.with(this).load(R.drawable.mozzi5).into(ch);
                 break;
             //꼬부기~ 메가 거북왕
             case "water_ch":
-                if (currentLv <= evo_1)
+                if (currentLv < evo_1)
                     Glide.with(this).load(R.drawable.water1).into(ch);
-                else if (currentLv <= evo_2)
+                else if (currentLv < evo_2)
                     Glide.with(this).load(R.drawable.water2).into(ch);
-                else if (currentLv <= evo_3)
+                else if (currentLv < evo_3)
                     Glide.with(this).load(R.drawable.water3).into(ch);
                 else
                     Glide.with(this).load(R.drawable.water4).into(ch);
                 break;
             //파이리~ 메가 리자몽
             case "fire_ch":
-                if (currentLv <= evo_1)
+                if (currentLv < evo_1)
                     Glide.with(this).load(R.drawable.fire1).into(ch);
-                else if (currentLv <= evo_2)
+                else if (currentLv < evo_2)
                     Glide.with(this).load(R.drawable.fire2).into(ch);
-                else if (currentLv <= evo_3)
+                else if (currentLv < evo_3)
                     Glide.with(this).load(R.drawable.fire3).into(ch);
                 else
                     Glide.with(this).load(R.drawable.fire4).into(ch);
                 break;
             //이상해씨 ~ 메가 이상해꽃
             case "grass_ch":
-                if (currentLv <= evo_1)
+                if (currentLv < evo_1)
                     Glide.with(this).load(R.drawable.grass1).into(ch);
-                else if (currentLv <= evo_2)
+                else if (currentLv < evo_2)
                     Glide.with(this).load(R.drawable.grass2).into(ch);
-                else if (currentLv <= evo_3)
+                else if (currentLv < evo_3)
                     Glide.with(this).load(R.drawable.grass3).into(ch);
                 else
                     Glide.with(this).load(R.drawable.grass4).into(ch);
                 break;
             //잉어킹 ~ 갸라도스
             case "fish_ch":
-                if (currentLv <= evo_3)
+                if (currentLv < evo_3)
                     Glide.with(this).load(R.drawable.fish).into(ch);
                 else
                     Glide.with(this).load(R.drawable.dragon).into(ch);

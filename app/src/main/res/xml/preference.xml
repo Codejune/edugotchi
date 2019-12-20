@@ -1,7 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 
 <androidx.preference.PreferenceScreen
-    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     app:key="root"
     app:iconSpaceReserved="false">
@@ -11,8 +10,7 @@
 
     <Preference
         app:key="id"
-        app:icon="@drawable/ic_account_circle_48dp"
-        app:iconTint="@color/itemColor"
+        app:icon="@drawable/ic_account_circle"
         app:defaultValue="false"
         app:title="@string/signin"/>
 

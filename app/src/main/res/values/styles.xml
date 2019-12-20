@@ -7,6 +7,7 @@
         <item name="colorPrimaryDark">@color/background</item>
         <item name="colorAccent">@color/colorPrimaryDark</item>
         <item name="colorOnBackground">@color/background</item>
+        <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
     <style name="ToolbarTitleText">
@@ -30,5 +31,9 @@
     <style name="ShapeAppearanceOverlay.Button.Circle" parent="">
         <item name="cornerFamily">rounded</item>
         <item name="cornerSize">50%</item>
+    </style>
+
+    <style name="PreferenceTheme" parent="@style/PreferenceThemeOverlay.v14.Material">
+        <item name="android:tint">@color/itemColor</item>
     </style>
 </resources>

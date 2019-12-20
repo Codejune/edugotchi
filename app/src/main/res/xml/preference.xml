@@ -2,11 +2,11 @@
 
 <androidx.preference.PreferenceScreen
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    app:key="root"
-    app:iconSpaceReserved="false">
+    app:iconSpaceReserved="false"
+    app:key="root">
     <Preference
-        app:key="login"
-        app:isPreferenceVisible="false"/>
+        app:isPreferenceVisible="false"
+        app:key="login" />
 
     <Preference
         app:key="id"
@@ -16,46 +16,46 @@
 
 
     <Preference
-        app:key="nickname"
+        app:defaultValue="몰랑이"
         app:icon="@drawable/ic_nickname"
         app:iconTint="@color/itemColor"
-        app:defaultValue="몰랑이"
-        app:title="닉네임 변경"/>
+        app:key="nickname"
+        app:title="닉네임 변경" />
     <SwitchPreferenceCompat
-        app:key="darkMode"
+        app:defaultValue="false"
         app:icon="@drawable/ic_brightness"
         app:iconTint="@color/itemColor"
-        app:title="다크모드"
-        app:defaultValue="false"/>
+        app:key="darkMode"
+        app:title="다크모드" />
     <ListPreference
-        app:key="selectCharacter"
-        app:icon="@drawable/ic_insert_emoticon"
-        app:iconTint="@color/itemColor"
+        app:defaultValue="basic_ch"
         app:dialogTitle="캐릭터 선택"
         app:entries="@array/Ch_entries"
         app:entryValues="@array/Ch_values"
-        app:defaultValue="basic_ch"
+        app:icon="@drawable/ic_insert_emoticon"
+        app:iconTint="@color/itemColor"
+        app:key="selectCharacter"
         app:title="캐릭터 설정" />
     <ListPreference
-        app:key="white_noise"
-        app:icon="@drawable/ic_music_note"
-        app:iconTint="@color/itemColor"
+        app:defaultValue="rain"
         app:dialogTitle="백색소음"
         app:entries="@array/Wn_entries"
         app:entryValues="@array/Wn_values"
-        app:defaultValue="rain"
-        app:title="백색소음"/>
+        app:icon="@drawable/ic_music_note"
+        app:iconTint="@color/itemColor"
+        app:key="white_noise"
+        app:title="백색소음" />
 
     <Preference
-        app:key="Reset"
         app:dialogMessage="초기화 하시겠습니까?"
         app:icon="@drawable/ic_reset"
         app:iconTint="@color/itemColor"
-        app:title="로그아웃 / 설정 초기화"/>
+        app:key="Reset"
+        app:title="로그아웃 / 설정 초기화" />
     <Preference
-        app:key="sentence"
+        app:defaultValue="오늘의 한마디"
         app:isPreferenceVisible="false"
-        app:defaultValue = "오늘의 한마디"/>
+        app:key="sentence" />
 
 
 </androidx.preference.PreferenceScreen>

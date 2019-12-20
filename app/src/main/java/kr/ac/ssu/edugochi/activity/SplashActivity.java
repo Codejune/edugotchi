@@ -29,12 +29,10 @@ public class SplashActivity extends AppCompatActivity {
         if (themeCheck) {
             AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_YES);
-        }
-        else {
+        } else {
             AppCompatDelegate.setDefaultNightMode(
                     AppCompatDelegate.MODE_NIGHT_NO);
         }
-
 
 
         Log.d(TAG, "액티비티 안들어옴");
@@ -44,14 +42,13 @@ public class SplashActivity extends AppCompatActivity {
 
         Log.d(TAG, "이게 문제");
         Handler handler = new Handler();
-        handler.postDelayed(new Runnable(){
+        handler.postDelayed(new Runnable() {
             @Override
-            public void run(){
-                if(login_check){
+            public void run() {
+                if (login_check) {
                     Log.d(TAG, "메인으로");
                     startActivity(new Intent(getApplication(), MainActivity.class));
-                }
-                else {
+                } else {
                     Log.d(TAG, "액티비티 들어옴");
                     Intent intent = new Intent(getApplication(), LoginActivity.class);
                     startActivity(intent);

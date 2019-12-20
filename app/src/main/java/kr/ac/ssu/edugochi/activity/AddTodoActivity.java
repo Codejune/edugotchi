@@ -118,10 +118,10 @@ public class AddTodoActivity extends AppCompatActivity {
         final String todoTitle = title.getText().toString();
         String todoDate = mTxtDate.getText().toString();
         final String todoMemo = memo.getText().toString();
-        if( mHandler == null ) {
+        if (mHandler == null) {
             mHandler = TodoDBHandler.open(this);
         }
-        if(todoDate.equals("기한 설정")) {
+        if (todoDate.equals("기한 설정")) {
             todoDate = " ";
         }
         mHandler.insert(todoTitle, todoDate, todoMemo);
@@ -129,6 +129,6 @@ public class AddTodoActivity extends AppCompatActivity {
         title.setText(null);
         Toasty.success(this, "저장되었습니다.", Toast.LENGTH_SHORT).show();
         onBackPressed();
-        }
     }
+}
 

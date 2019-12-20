@@ -78,9 +78,9 @@ public class TodoFragment extends Fragment {
     private void removeItem(TodoItem vo) {
         long rowsAffected = handler.removeItem(vo.id);
         if (rowsAffected == -1) {
-            Toasty.error(getActivity(), getActivity().getString(R.string.remove_item_failed), Toast.LENGTH_SHORT).show();
+            Toasty.error(getActivity(), "삭제 실패", Toast.LENGTH_SHORT).show();
         } else {
-            Toasty.success(getActivity(), getActivity().getString(R.string.remove_item_success), Toast.LENGTH_SHORT).show();
+            Toasty.success(getActivity(), "삭제 성공", Toast.LENGTH_SHORT).show();
             listItems();// DB에서 삭제후 리스트 갱신
             if (TodoList.getAdapter().getCount() == 0) {
                 listItems();
@@ -90,12 +90,13 @@ public class TodoFragment extends Fragment {
 
     public void onResume() { // AddTodoActivity 엑티비티에서 복귀 했을때 리스트 갱신
         listItems();
-        Log.d(this.getClass().getSimpleName(), "리스트갱신");
+
         super.onResume();
     }
 
     private void listItems() { //받아온 데이터를 어뎁터를 통해 리스트뷰에 전달
         final ArrayList<TodoItem> data = getItems();
+        Log.d(this.getClass().getSimpleName(), "리스트갱신");
 
         if (data == null || data.size() == 0) {
             Log.d(TAG, "아이템 없다");
@@ -135,7 +136,7 @@ public class TodoFragment extends Fragment {
                             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
                             dialog.setIcon(R.drawable.ic_done_all);
                             dialog.setTitle(vo.title);
-                            dialog.setMessage("\n기한 : "+vo.date+"\n\n메모 : "+vo.memo);
+                            dialog.setMessage("\n기한 : " + vo.date + "\n\n메모 : " + vo.memo);
                             dialog.setNegativeButton("확인", null);
                             dialog.create();
                             dialog.show();
@@ -145,7 +146,7 @@ public class TodoFragment extends Fragment {
                             break;
                     }
                     // false : close the menu; true : not close the menu
-                    return false;
+                    return true;
                 }
             });
         }
@@ -159,31 +160,24 @@ public class TodoFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_task:
-                startActivity(new Intent(getActivity(),AddTodoActivity.class));
+                startActivity(new Intent(getActivity(), AddTodoActivity.class));
                 break;
         }
         return true;
     }
 
     SwipeMenuCreator creator = new SwipeMenuCreator() {
-
         @Override
         public void create(SwipeMenu menu) {
             // create "open" item
-            SwipeMenuItem openItem = new SwipeMenuItem(
-                    getActivity());
-            openItem.setWidth(100);
+            SwipeMenuItem openItem = new SwipeMenuItem(getActivity());
+            SwipeMenuItem deleteItem = new SwipeMenuItem(getActivity());
+            openItem.setWidth(150);
             openItem.setIcon(R.drawable.ic_description);
-            // add to menu
             menu.addMenuItem(openItem);
 
-            // create "delete" item
-            SwipeMenuItem deleteItem = new SwipeMenuItem(
-                    getActivity());
-            deleteItem.setWidth(100);
-            // set a icon
+            deleteItem.setWidth(150);
             deleteItem.setIcon(R.drawable.ic_delete_red);
-            // add to menu
             menu.addMenuItem(deleteItem);
         }
     };

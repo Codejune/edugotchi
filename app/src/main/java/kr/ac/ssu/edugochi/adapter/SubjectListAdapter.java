@@ -11,6 +11,7 @@ import android.widget.TextView;
 import com.google.android.material.button.MaterialButton;
 
 import java.util.ArrayList;
+
 import kr.ac.ssu.edugochi.R;
 import kr.ac.ssu.edugochi.activity.MeasureActivity;
 import kr.ac.ssu.edugochi.fragment.TimelineFragment;
@@ -25,7 +26,7 @@ public class SubjectListAdapter extends BaseAdapter {
 
 
     // 생성자에 Context만 넘겨주는 경우
-    public SubjectListAdapter (Context context) {
+    public SubjectListAdapter(Context context) {
         this.context = context;
     }
 

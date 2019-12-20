@@ -97,7 +97,7 @@ public class TimerService extends Service {
                         } catch (InterruptedException e) {
                             e.printStackTrace();
                         }
-                        if(status != run) break;
+                        if (status != run) break;
                         count++;
 
                         handler.post(new Runnable() {

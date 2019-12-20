@@ -58,7 +58,7 @@ public class MainFragment extends Fragment {
     private RealmConfiguration ExpModuleConfig;         // ExpTable.realm 모듈 설정
     private RealmResults<MeasureData> measureList;      // 측정 데이터 Realm 리스트
     private RealmResults<Character> characterList;      // 캐릭터 정보 Realm 리스트(0)
-    private RealmResults<ExpTable> expList;// 경험치 테이블 Realm 리스트
+    private RealmResults<ExpTable> expList;             // 경험치 테이블 Realm 리스트
     private RealmList<String> subjects;                 // 과목 목록 리스트
     private SubjectListAdapter listAdapter;             // 과목 목록 리스트뷰 어댑터
 
@@ -69,7 +69,6 @@ public class MainFragment extends Fragment {
     private TextView exptext;                   // 경험치 텍스트뷰
     private TextView character_name;            // 캐릭터 이름 텍스트뷰
     private TextView character_lv;              // 캐릭터 레벨 텍스트뷰
-    private MaterialButton record_btn;          // 시간 측정 버튼
     private MaterialButton addsubject_btn;      // 과목 추가 버튼
     private CustomListView subject_listview;    // 과목 목록 리스트뷰
 
@@ -112,21 +111,11 @@ public class MainFragment extends Fragment {
         character_lv = view.findViewById(R.id.lv);                  // 캐릭터 레벨 텍스트뷰
         expbar = view.findViewById(R.id.exp_bar);                   // 경험치 프로그레스바
         exptext = view.findViewById(R.id.exp_text);                 // 경험치 비교 텍스트뷰
-        // record_btn = view.findViewById(R.id.record);                // 시간 측정 버튼
         subject_listview = view.findViewById(R.id.subject_list);    // 과목 목록 리스트뷰
         addsubject_btn = view.findViewById(R.id.subject_add);       // 과목 추가 버튼
 
         // 스와이프 메뉴 생성
         CreateSwipeMenu();
-
-        // 측정 버튼 클릭 시
-        /*record_btn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Intent intent = new Intent(getActivity(), MeasureActivity.class);
-                startActivity(intent);
-            }
-        });*/
 
         // 과목 추가 버튼 클릭 시
         addsubject_btn.setOnClickListener(new View.OnClickListener() {
@@ -301,7 +290,7 @@ public class MainFragment extends Fragment {
     // 측정 데이터 DB 저장
     private void initCharacterData() {
         Log.d(TAG, "캐릭터 초기 설정 등록");
-        nick = eduPreManger.getString(getActivity(),"nickname");
+        nick = eduPreManger.getString(getActivity(), "nickname");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -524,7 +513,7 @@ public class MainFragment extends Fragment {
             subject_listview.setVisibility(View.VISIBLE);
             subject_listview.setAdapter(listAdapter);
         }
-}
+    }
 
     // 오늘의 모든 과목별 시간 합 리턴
     private long getSumofTime(String subject) {

@@ -398,7 +398,7 @@ public class MeasureActivity extends AppCompatActivity {
                 } catch (InterruptedException e) {
                     e.printStackTrace();
                 }
-                out_time = timerService.getCount();
+                out_time = timerService.getCount()*1000; // 수정해야함
                 hour = out_time / 60 / 60;
                 minute = out_time / 60 % 60;
                 second = out_time % 60 % 60;

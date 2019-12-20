@@ -361,6 +361,7 @@ public class MainFragment extends Fragment {
             Log.d(TAG, "레벨업 : " + currentLv + "->" + nextLv);
             currentLv++;
             nextLv++;
+            if (nextLv == 31) break;
             // 현재 경험치에서 다음 레벨까지 필요한 경험치 차이를 뺌
             currentExp -= nextInterval;
             // 다음 레벨에 필요한 경험치 업데이트
@@ -369,6 +370,7 @@ public class MainFragment extends Fragment {
             nextInterval = expList.get(currentLv).getInterval();
             // 조건 재비교
             isSuit = currentExp < nextInterval;
+
         }
 
         // 조정된 값을 DB에 업데이트

@@ -136,7 +136,7 @@ public class TodoFragment extends Fragment {
                             MaterialAlertDialogBuilder dialog = new MaterialAlertDialogBuilder(getContext());
                             dialog.setIcon(R.drawable.ic_done_all);
                             dialog.setTitle(vo.title);
-                            dialog.setMessage("\n기한 : "+vo.date+"\n\n메모 : "+vo.memo);
+                            dialog.setMessage("\n기한 : " + vo.date + "\n\n메모 : " + vo.memo);
                             dialog.setNegativeButton("확인", null);
                             dialog.create();
                             dialog.show();
@@ -160,7 +160,7 @@ public class TodoFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (item.getItemId()) {
             case R.id.action_add_task:
-                startActivity(new Intent(getActivity(),AddTodoActivity.class));
+                startActivity(new Intent(getActivity(), AddTodoActivity.class));
                 break;
         }
         return true;

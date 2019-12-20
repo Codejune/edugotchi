@@ -54,12 +54,12 @@ public class SettingFragment extends PreferenceFragmentCompat {
         super.onViewCreated(view, savedInstanceState);
 
         getListView().setPadding(120, 0, 120, 0);
-        id = eduPreManger.getString(getActivity(),"id");
+        id = eduPreManger.getString(getActivity(), "id");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 characterList = getCharacterList();
-                nickname =characterList.get(0).getName();
+                nickname = characterList.get(0).getName();
             }
         });
         final Preference user_id = (Preference) findPreference("id");
@@ -81,8 +81,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
                             @Override
                             public void onClick(DialogInterface dialogInterface, int i) {
                                 String nicktxt = input.getText().toString();
-                                Log.d(TAG,"@@@@@@@@2"+nicktxt+"@@@@@@@");
-                                if(!nicktxt.isEmpty()) {
+                                Log.d(TAG, "@@@@@@@@2" + nicktxt + "@@@@@@@");
+                                if (!nicktxt.isEmpty()) {
                                     eduPreManger.setString(getActivity(), "nickname", input.getText().toString());
                                     user_id.setTitle(input.getText().toString());
                                     userRealm.executeTransaction(new Realm.Transaction() {
@@ -93,8 +93,8 @@ public class SettingFragment extends PreferenceFragmentCompat {
                                             characterList.get(0).setName(input.getText().toString());
                                         }
                                     });
-                                }else{
-                                    Toasty.error(getActivity(),"닉네임이 비어있습니다.",Toasty.LENGTH_SHORT).show();
+                                } else {
+                                    Toasty.error(getActivity(), "닉네임이 비어있습니다.", Toasty.LENGTH_SHORT).show();
                                 }
                             }
                         })
@@ -107,8 +107,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
         final SwitchPreferenceCompat darkMode = (SwitchPreferenceCompat) findPreference("darkMode");
         //다크모드 온오프
-        darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener()
-        {
+        darkMode.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference,
                                               Object newValue) {
@@ -117,17 +116,16 @@ public class SettingFragment extends PreferenceFragmentCompat {
                 Log.d(TAG, String.valueOf(switched));
                 if (switched) {
                     Toasty.success(getActivity(), "darkmode on", Toasty.LENGTH_SHORT).show();
-                    eduPreManger.setBoolean(getActivity(),"darkMode", switched);
+                    eduPreManger.setBoolean(getActivity(), "darkMode", switched);
                     AppCompatDelegate.setDefaultNightMode(
                             AppCompatDelegate.MODE_NIGHT_YES);
                     return true;
-                }
-                else {
-                  Toasty.error(getActivity(), "darkmode off", Toasty.LENGTH_SHORT).show();
-                    eduPreManger.setBoolean(getActivity(),"darkMode", switched);
+                } else {
+                    Toasty.error(getActivity(), "darkmode off", Toasty.LENGTH_SHORT).show();
+                    eduPreManger.setBoolean(getActivity(), "darkMode", switched);
                     AppCompatDelegate.setDefaultNightMode(
                             AppCompatDelegate.MODE_NIGHT_NO);
-                  return true;
+                    return true;
                 }
             }
 
@@ -139,9 +137,9 @@ public class SettingFragment extends PreferenceFragmentCompat {
         character.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
             public boolean onPreferenceChange(Preference preference, Object newValue) {
-                String selected= (String) newValue;
+                String selected = (String) newValue;
                 Log.d(TAG, String.valueOf(newValue));
-                eduPreManger.setString(getActivity(),"selectCharacter", selected);
+                eduPreManger.setString(getActivity(), "selectCharacter", selected);
                 return true;
             }
         });
@@ -149,10 +147,10 @@ public class SettingFragment extends PreferenceFragmentCompat {
         ListPreference Wn = (ListPreference) findPreference("white_noise");
         Wn.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {
             @Override
-            public boolean onPreferenceChange(Preference preference, Object newValue){
+            public boolean onPreferenceChange(Preference preference, Object newValue) {
                 Log.d(TAG, String.valueOf(newValue));
-                String selected= (String) newValue;
-                eduPreManger.setString(getActivity(),"white_noise", selected);
+                String selected = (String) newValue;
+                eduPreManger.setString(getActivity(), "white_noise", selected);
                 return true;
             }
         });
@@ -191,6 +189,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
             }
         });
     }
+
     private static void clearApplicationData(Context context) {
         File cache = context.getCacheDir();
         File appDir = new File(cache.getParent());
@@ -204,6 +203,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
             }
         }
     }
+
     private static boolean deleteDir(File dir) {
         if (dir != null && dir.isDirectory()) {
             String[] children = dir.list();

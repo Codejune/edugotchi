@@ -6,6 +6,7 @@ import io.realm.Realm;
 
 public class Edugochi extends Application {
     private static final String TAG = Edugochi.class.getSimpleName();
+
     @Override
     public void onCreate() {
         super.onCreate();

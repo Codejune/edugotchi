@@ -74,7 +74,7 @@ public class RankListAdapter extends BaseAdapter {
         textview = convertView.findViewById(R.id.subject_time);
         textview.setText(timeline.makeTimeForm(rank_items.getTime()));
         textview = convertView.findViewById(R.id.subject_exp);
-        textview.setText(rank_items.getExp()+"exp");
+        textview.setText(rank_items.getExp() + "exp");
 
         return convertView;
 

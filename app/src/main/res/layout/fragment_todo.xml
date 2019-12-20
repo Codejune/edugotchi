@@ -27,6 +27,8 @@
         android:scrollbars="none"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
-        android:clipToPadding="false"/>
+        android:clipToPadding="false"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"/>
 </LinearLayout>
 

@@ -12,21 +12,37 @@ public class Character extends RealmObject {
     @Required
     private RealmList<String> subject;
 
-    public String getName() { return name; }
+    public String getName() {
+        return name;
+    }
 
-    public void setName(String name) { this.name = name; }
+    public void setName(String name) {
+        this.name = name;
+    }
 
-    public long getLv() { return lv; }
+    public long getLv() {
+        return lv;
+    }
 
-    public void setLv(long lv) { this.lv = lv; }
+    public void setLv(long lv) {
+        this.lv = lv;
+    }
 
-    public long getExp() { return exp; }
+    public long getExp() {
+        return exp;
+    }
 
-    public void setExp(long exp) { this.exp = exp; }
+    public void setExp(long exp) {
+        this.exp = exp;
+    }
 
-    public RealmList<String> getSubject() { return subject; }
+    public RealmList<String> getSubject() {
+        return subject;
+    }
 
-    public void setSubject(RealmList<String> subject) { this.subject = subject; }
+    public void setSubject(RealmList<String> subject) {
+        this.subject = subject;
+    }
 
 
 }

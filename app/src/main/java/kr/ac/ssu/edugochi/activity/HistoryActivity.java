@@ -53,14 +53,16 @@ public class HistoryActivity extends AppCompatActivity {
         makeHistoryList();
     }
 
-    private void makeHistoryList(){
+    private void makeHistoryList() {
+        String key[] = {"date", "timeout"};
+        Sort order[] = {Sort.DESCENDING, Sort.DESCENDING};
         RealmInit();
         measureList = getMeasureList();
-        measureList = userRealm.where(MeasureData.class).findAll().sort("date", Sort.DESCENDING);
-        RecyclerView recyclerView = findViewById(R.id.history_list) ;
-        recyclerView.setLayoutManager(new LinearLayoutManager(this)) ;
-        HistoryAdapter adapter = new HistoryAdapter(measureList) ;
-        recyclerView.setAdapter(adapter) ;
+        measureList = userRealm.where(MeasureData.class).findAll().sort(key, order);
+        RecyclerView recyclerView = findViewById(R.id.history_list);
+        recyclerView.setLayoutManager(new LinearLayoutManager(this));
+        HistoryAdapter adapter = new HistoryAdapter(measureList);
+        recyclerView.setAdapter(adapter);
     }
 
     @Override

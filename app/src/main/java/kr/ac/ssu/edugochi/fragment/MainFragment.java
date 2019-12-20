@@ -301,7 +301,7 @@ public class MainFragment extends Fragment {
     // 측정 데이터 DB 저장
     private void initCharacterData() {
         Log.d(TAG, "캐릭터 초기 설정 등록");
-        nick = eduPreManger.getString(getActivity(),"nickname");
+        nick = eduPreManger.getString(getActivity(), "nickname");
         userRealm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
@@ -524,7 +524,7 @@ public class MainFragment extends Fragment {
             subject_listview.setVisibility(View.VISIBLE);
             subject_listview.setAdapter(listAdapter);
         }
-}
+    }
 
     // 오늘의 모든 과목별 시간 합 리턴
     private long getSumofTime(String subject) {

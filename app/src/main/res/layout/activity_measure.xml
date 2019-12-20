@@ -61,8 +61,8 @@
         app:cornerRadius="20dp"
         app:icon="@drawable/ic_play_arrow"
         app:iconTint="@color/white"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintRight_toRightOf="parent" />
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
 
     <com.google.android.material.button.MaterialButton
         android:id="@+id/stop_btn"

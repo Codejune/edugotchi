@@ -50,7 +50,7 @@
 
     <color name="white">#ffffff</color>
 
-<!-- For TimelineFragment -->
+    <!-- For TimelineFragment -->
     <color name="soongsilPrimary">#009bcb</color>
     <color name="soongsilPrimaryDark">#006694</color>
     <color name="soongsilAccent">#60c1c3</color>

@@ -10,20 +10,36 @@ public class MeasureData extends RealmObject {
     private long exp;
     private String subject;
 
-    public String getDate() { return date; }
+    public String getDate() {
+        return date;
+    }
 
-    public void setDate(String date) { this.date = date; }
+    public void setDate(String date) {
+        this.date = date;
+    }
 
-    public long getTimeout() { return timeout; }
+    public long getTimeout() {
+        return timeout;
+    }
 
-    public void setTimeout(long timeout) { this.timeout = timeout; }
+    public void setTimeout(long timeout) {
+        this.timeout = timeout;
+    }
 
-    public long getExp() { return exp; }
+    public long getExp() {
+        return exp;
+    }
 
-    public void setExp(long exp) { this.exp = exp; }
+    public void setExp(long exp) {
+        this.exp = exp;
+    }
 
-    public String getSubject() { return subject; }
+    public String getSubject() {
+        return subject;
+    }
 
-    public void setSubject(String subject) { this.subject = subject; }
+    public void setSubject(String subject) {
+        this.subject = subject;
+    }
 
 }

@@ -213,7 +213,7 @@ public class MeasureActivity extends AppCompatActivity {
                         WN_status = run; //현재상태를 런상태로 변경
                         break;
                     case run: // 정지 상태
-                       // player.stop();
+                        // player.stop();
                         Log.d(TAG, "정지");
                         player.pause();
                         WN_btn.setText("백색소음재생");

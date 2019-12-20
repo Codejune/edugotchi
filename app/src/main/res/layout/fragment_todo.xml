@@ -10,8 +10,8 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_gravity="center"
-        android:textAlignment="center"
         android:text="일정이 없습니다."
+        android:textAlignment="center"
         android:textAppearance="?android:attr/textAppearanceMedium"
         android:textStyle="bold"
         android:visibility="gone" />
@@ -21,12 +21,14 @@
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="1"
+        android:clipToPadding="false"
         android:divider="#ffffff"
         android:scrollbarSize="3dp"
         android:scrollbarStyle="outsideOverlay"
         android:scrollbars="none"
         android:scrollingCache="true"
         android:smoothScrollbar="true"
-        android:clipToPadding="false"/>
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp"/>
 </LinearLayout>
 

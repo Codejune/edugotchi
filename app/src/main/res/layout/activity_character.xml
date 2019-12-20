@@ -9,29 +9,31 @@
     <TextView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_marginLeft="50dp"
+        android:layout_marginTop="100dp"
+        android:layout_marginRight="50dp"
         android:text="캐릭터 설정"
         android:textAlignment="center"
         android:textSize="20dp"
-        android:textStyle="bold"
-        android:layout_marginTop="100dp"
-        android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"/>
+        android:textStyle="bold" />
+
     <TextView
         android:id="@+id/tv_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:text="닉네임"
-        android:layout_marginTop="150dp"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp" />
+        android:layout_marginTop="150dp"
+        android:layout_marginRight="50dp"
+        android:text="닉네임" />
+
     <EditText
         android:id="@+id/et_nickname"
-        android:inputType="textEmailAddress"
-        android:layout_below="@id/tv_nickname"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
+        android:layout_below="@id/tv_nickname"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp"/>
+        android:layout_marginRight="50dp"
+        android:inputType="textEmailAddress" />
 
 
     <TextView
@@ -39,18 +41,18 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/et_nickname"
-        android:text="캐릭터 선택"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp" />
+        android:layout_marginRight="50dp"
+        android:text="캐릭터 선택" />
 
     <RadioGroup
         android:id="@+id/radio_ch"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_below="@id/ch_character"
-        android:checkedButton="@id/basic_ch"
         android:layout_marginLeft="50dp"
-        android:layout_marginRight="50dp">
+        android:layout_marginRight="50dp"
+        android:checkedButton="@id/basic_ch">
 
         <RadioButton
             android:id="@+id/basic_ch"
@@ -63,21 +65,25 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="모찌" />
+
         <RadioButton
             android:id="@+id/water_ch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="꼬부기" />
+
         <RadioButton
             android:id="@+id/fire_ch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="파이리" />
+
         <RadioButton
             android:id="@+id/grass_ch"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="이상해씨" />
+
         <RadioButton
             android:id="@+id/fish_ch"
             android:layout_width="wrap_content"
@@ -96,18 +102,18 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="vertical"
-        android:layout_below="@+id/radio_ch">
+        android:layout_below="@+id/radio_ch"
+        android:orientation="vertical">
 
         <Button
             android:id="@+id/complete_btn"
-            android:text="완료"
-            android:onClick="CompBtn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_weight="1"
+            android:layout_marginLeft="50dp"
             android:layout_marginRight="50dp"
-            android:layout_marginLeft="50dp"/>
+            android:layout_weight="1"
+            android:onClick="CompBtn"
+            android:text="완료" />
 
 
     </LinearLayout>

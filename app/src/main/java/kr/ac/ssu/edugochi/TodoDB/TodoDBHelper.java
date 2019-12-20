@@ -26,13 +26,15 @@ public class TodoDBHelper extends SQLiteOpenHelper {
                 "memo)";
         db.execSQL(todoSQL);
     }
+
     @Override
-   public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
+    public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
         if (newVersion == DATABASE_VERSION) {
-        db.execSQL("drop table tb_todo");
-        onCreate(db);
+            db.execSQL("drop table tb_todo");
+            onCreate(db);
+        }
     }
-    }
+
     public static TodoDBHelper getInstance(Context context) { //db 열어주기
         if (_instance == null) {
             _instance = new TodoDBHelper(context);
@@ -46,9 +48,11 @@ public class TodoDBHelper extends SQLiteOpenHelper {
     public long insert(String tableName, ContentValues contentValues) { //데이터 삽입
         return sqLiteDatabase.insert(tableName, null, contentValues);
     }
+
     public Cursor select(String table, String[] columns, String selection, String[] selectionArgs, String groupBy, String having, String orderBy) {
         return sqLiteDatabase.query(table, columns, selection, selectionArgs, groupBy, having, orderBy);
     }
+
     public int delete(String table, String whereClause, String[] whereArgs) {
         return sqLiteDatabase.delete(table, whereClause, whereArgs);
     }

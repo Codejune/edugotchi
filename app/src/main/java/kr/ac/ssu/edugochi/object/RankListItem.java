@@ -8,6 +8,7 @@ public class RankListItem {
     public void setSubject(String subject) {
         this.subject = subject;
     }
+
     public void plusTime(long time) {
         this.time += time;
     }

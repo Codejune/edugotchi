@@ -133,6 +133,7 @@ public class SettingFragment extends PreferenceFragmentCompat {
 
         });
         //캐릭터 선택
+
         ListPreference character = (ListPreference) findPreference("selectCharacter");
         Log.d(TAG, String.valueOf(character));
         character.setOnPreferenceChangeListener(new Preference.OnPreferenceChangeListener() {

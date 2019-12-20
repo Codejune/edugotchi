@@ -20,11 +20,11 @@
         app:iconGravity="textStart"
         app:iconPadding="0dp"
         app:iconSize="16dp"
+        app:iconTint="@color/white"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Button.Circle"
-        app:iconTint="@color/white" />
+        app:shapeAppearanceOverlay="@style/ShapeAppearanceOverlay.Button.Circle" />
 
     <TextView
         android:id="@+id/subject_string"

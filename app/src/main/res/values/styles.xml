@@ -10,6 +10,7 @@
         <item name="preferenceTheme">@style/PreferenceTheme</item>
         <item name="android:windowLightStatusBar" tools:ignore="NewApi">true</item>
     </style>
+
     <style name="ToolbarTitleText">
         <item name="android:textSize">28dp</item>
         <item name="android:textColor">@color/black</item>

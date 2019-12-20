@@ -16,7 +16,6 @@ public class eduPreManger {
     private static final int DEFAULT_VALUE_INT = -1;
 
 
-
     private static SharedPreferences getPreferences(Context context) {
 
         return context.getSharedPreferences(PREFERENCES_NAME, Context.MODE_PRIVATE);
@@ -36,7 +35,6 @@ public class eduPreManger {
         editor.commit();
 
     }
-
 
 
     public static void setBoolean(Context context, String key, boolean value) {
@@ -60,20 +58,13 @@ public class eduPreManger {
     }
 
 
-
-
-
     /**
-
      * String 값 로드
-
+     *
      * @param whiteNoise
      * @param context
-
      * @param key
-
      * @return
-
      */
 
     public static String getString(Context context, String key) {

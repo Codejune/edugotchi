@@ -22,7 +22,7 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         super(context, resId);
         this.context = context;
         this.resId = resId;
-        this.data = data;;
+        this.data = data;
     }
 
     @Override
@@ -49,7 +49,6 @@ public class TodoAdapter extends ArrayAdapter<TodoItem> {
         titleView.setText(vo.title);
         dateView.setText(vo.date);
         memoView.setText(vo.memo);
-
 
 
         return convertView;

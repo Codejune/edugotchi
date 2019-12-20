@@ -13,7 +13,7 @@ public class TodoHolder {
     public TodoHolder(View root) {
         titleView = root.findViewById(R.id.todo_title);
         dateView = root.findViewById(R.id.todo_date);
-        memoView= root.findViewById(R.id.todo_memo);
+        memoView = root.findViewById(R.id.todo_memo);
     }
 }
 

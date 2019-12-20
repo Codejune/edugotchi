@@ -40,7 +40,6 @@ import kr.ac.ssu.edugochi.eduPreManger;
 import kr.ac.ssu.edugochi.object.RankListItem;
 import kr.ac.ssu.edugochi.object.Character;
 import kr.ac.ssu.edugochi.object.MeasureData;
-import kr.ac.ssu.edugochi.object.RankListItem;
 import kr.ac.ssu.edugochi.realm.module.UserModule;
 import kr.ac.ssu.edugochi.realm.utils.Migration;
 import kr.ac.ssu.edugochi.view.CalendarViewHolder;
@@ -53,7 +52,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     private int dayNum; // 매 달 공백 생성용 변수
     private int pre_position = -1; // 마지막 날짜 선택 날짜 포지션 담는 변수
     private TextView pre_date; // 마지막 날짜 선택된 텍스트뷰 변수
-    private int tColor;
+    private int tColor; // 이전 선택 날짜 색상
     private int length;
 
     // 달력 관련 클래스 변수
@@ -196,8 +195,8 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
     public void onResume() {
         super.onResume();
         makeCalendar(); // 달력 생성 함수
-        one_sentence.setText(eduPreManger.getString(getActivity(),"sentence"));
-        if(one_sentence.getText()=="") one_sentence.setText("오늘의 각오");
+        one_sentence.setText(eduPreManger.getString(getActivity(), "sentence"));
+        if (one_sentence.getText() == "") one_sentence.setText("오늘의 각오");
         setTabData(mCal, today_position); // 오늘 날짜에 해당하는 내용 탭 레이아웃에 세팅
         makeRankTable(); // 랭크테이블 생성 함수
     }
@@ -312,7 +311,7 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
                 @Override
                 public void onClick(DialogInterface dialog, int which) {
                     one_sentence.setText(et.getText().toString());
-                    eduPreManger.setString(getActivity(),"sentence", String.valueOf(one_sentence.getText()));
+                    eduPreManger.setString(getActivity(), "sentence", String.valueOf(one_sentence.getText()));
                     dialog.dismiss();
                 }
             });
@@ -605,6 +604,16 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
             subject_rank_title.setText("과목이 없습니다");
     }
 
+    private static String colorSelect(long time, int check) {
+        if (((time >= (6 * 60 * 60)) && (check == 0)) || ((time >= (30 * 60 * 60)) && (check == 1)) || ((time >= (132 * 60 * 60)) && (check == 2)))
+            return "green";
+        else if (((time >= (3 * 60 * 60)) && (check == 0)) || ((time >= (15 * 60 * 60)) && (check == 1)) || ((time >= (66 * 60 * 60)) && (check == 2)))
+            return "yellow";
+        else if (time > 0)
+            return "red";
+        return "red";
+    }
+
     // long타입 인수를 시간형식에 맞춰 String값을 반환해주는 함수
     public static String makeTimeForm(long Time) {
         String hour, minute, seconds;
@@ -637,15 +646,5 @@ public class TimelineFragment extends Fragment implements View.OnClickListener, 
         else
             return hour + ":" + minute + ":" + seconds;
 
-    }
-
-    private static String colorSelect(long time, int check) {
-        if (((time >= (6 * 60 * 60)) && (check == 0)) || ((time >= (30 * 60 * 60)) && (check == 1)) || ((time >= (132 * 60 * 60)) && (check == 2)))
-            return "green";
-        else if (((time >= (3 * 60 * 60)) && (check == 0)) || ((time >= (15 * 60 * 60)) && (check == 1)) || ((time >= (66 * 60 * 60)) && (check == 2)))
-            return "yellow";
-        else if (time > 0)
-            return "red";
-        return "red";
     }
 }

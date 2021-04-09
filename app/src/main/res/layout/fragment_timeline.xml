@@ -1,0 +1,395 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.core.widget.NestedScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/nestedScrollView"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:scrollbars="none">
+
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingLeft="40dp"
+        android:paddingRight="40dp">
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/calendar_view"
+            android:layout_width="match_parent"
+            android:layout_height="345dp"
+            android:layout_marginTop="4dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.constraintlayout.widget.ConstraintLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+
+                <ImageButton
+                    android:id="@+id/pre_button"
+                    android:layout_width="16sp"
+                    android:layout_height="16sp"
+                    android:layout_marginTop="16dp"
+                    android:layout_marginRight="10dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_arrow_back"
+                    android:backgroundTint="@color/itemColor"
+                    app:layout_constraintRight_toLeftOf="@id/tv_date"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/tv_date"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="12dp"
+                    android:gravity="center"
+                    android:textColor="@color/itemColor"
+                    android:textSize="16sp"
+                    android:textStyle="bold"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <ImageButton
+                    android:id="@+id/fore_button"
+                    android:layout_width="16sp"
+                    android:layout_height="16sp"
+                    android:layout_marginLeft="10dp"
+                    android:layout_marginTop="16dp"
+                    android:adjustViewBounds="true"
+                    android:background="@drawable/ic_arrow_forward"
+                    android:backgroundTint="@color/itemColor"
+                    app:layout_constraintLeft_toRightOf="@id/tv_date"
+                    app:layout_constraintTop_toTopOf="parent" />
+
+                <TextView
+                    android:id="@+id/sun"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Sun"
+                    android:textColor="@color/red_inactive"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toLeftOf="@id/mon"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <TextView
+                    android:id="@+id/mon"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Mon"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/sun"
+                    app:layout_constraintRight_toLeftOf="@id/tue"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <TextView
+                    android:id="@+id/tue"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Tue"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/mon"
+                    app:layout_constraintRight_toLeftOf="@id/wed"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <TextView
+                    android:id="@+id/wed"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Wed"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/tue"
+                    app:layout_constraintRight_toLeftOf="@id/thu"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <TextView
+                    android:id="@+id/thu"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Thu"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/wed"
+                    app:layout_constraintRight_toLeftOf="@id/fri"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <TextView
+                    android:id="@+id/fri"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Fri"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/thu"
+                    app:layout_constraintRight_toLeftOf="@id/sat"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <TextView
+                    android:id="@+id/sat"
+                    android:layout_width="35dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="16dp"
+                    android:gravity="center"
+                    android:text="Sat"
+                    android:textColor="@color/blue_inactive"
+                    android:textSize="13sp"
+                    app:layout_constraintLeft_toRightOf="@id/fri"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/tv_date" />
+
+                <kr.ac.ssu.edugochi.view.CustomGridView
+                    android:id="@+id/gridview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="6.5sp"
+                    android:layout_marginBottom="16dp"
+                    android:isScrollContainer="false"
+                    android:listSelector="#00000000"
+                    android:numColumns="7"
+                    android:scrollbars="none"
+                    app:layout_constraintBottom_toTopOf="@+id/color_row"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/wed" />
+
+
+                <androidx.constraintlayout.widget.ConstraintLayout
+                    android:id="@+id/color_row"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="10dp"
+                    android:orientation="horizontal"
+                    app:layout_constraintLeft_toLeftOf="parent"
+                    app:layout_constraintRight_toRightOf="parent"
+                    app:layout_constraintTop_toBottomOf="@id/gridview">
+
+                    <TextView
+                        android:id="@+id/green"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="●"
+                        android:textColor="@color/greenPastel"
+                        android:textSize="6sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toLeftOf="parent"
+                        app:layout_constraintRight_toLeftOf="@id/green_text" />
+
+
+                    <TextView
+                        android:id="@+id/green_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="6시간 이상"
+                        android:textSize="7sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/green"
+                        app:layout_constraintRight_toLeftOf="@id/yellow" />
+
+                    <TextView
+                        android:id="@+id/yellow"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="●"
+                        android:textColor="@color/yellowPastel"
+                        android:textSize="6sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/green_text"
+                        app:layout_constraintRight_toLeftOf="@id/yellow_text" />
+
+                    <TextView
+                        android:id="@+id/yellow_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="3 ~ 6시간"
+                        android:textSize="7sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/yellow"
+                        app:layout_constraintRight_toLeftOf="@id/red" />
+
+                    <TextView
+                        android:id="@+id/red"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginRight="8dp"
+                        android:text="●"
+                        android:textColor="@color/redPastel"
+                        android:textSize="6sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/yellow_text"
+                        app:layout_constraintRight_toLeftOf="@id/red_text" />
+
+                    <TextView
+                        android:id="@+id/red_text"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:text="3시간 이하"
+                        android:textSize="7sp"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintLeft_toRightOf="@id/red"
+                        app:layout_constraintRight_toRightOf="parent" />
+                </androidx.constraintlayout.widget.ConstraintLayout>
+            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.cardview.widget.CardView>
+
+        <TextView
+            android:id="@+id/one_sentence"
+            android:layout_width="250dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="30dp"
+            android:background="@drawable/edge_round"
+            android:ellipsize="marquee"
+            android:gravity="center"
+            android:marqueeRepeatLimit="marquee_forever"
+            android:paddingLeft="5dp"
+            android:paddingRight="5dp"
+            android:singleLine="true"
+            android:text="오늘의 각오"
+            android:textSize="15sp"
+            android:textStyle="bold"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/calendar_view" />
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/summary_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/one_sentence">
+
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/tabs"
+                android:layout_width="match_parent"
+                android:layout_height="32dp"
+                android:layout_marginLeft="32dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginRight="32dp"
+                android:background="@drawable/tab_layout_background"
+                app:tabBackground="@drawable/tab_layout_selector"
+                app:tabIndicatorHeight="0dp"
+                app:tabRippleColor="@null"
+                app:tabSelectedTextColor="@color/white"
+                app:tabTextAppearance="@style/TabTextAppearance">
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab_day"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="일간" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab_week"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="주간" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:id="@+id/tab_month"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="월간" />
+            </com.google.android.material.tabs.TabLayout>
+
+            <include
+                android:id="@+id/content_day"
+                layout="@layout/tabitem_dayreport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                app:layout_constraintTop_toBottomOf="@id/tabs" />
+
+            <include
+                android:id="@+id/content_week"
+                layout="@layout/tabitem_weekreport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@id/tabs" />
+
+            <include
+                android:id="@+id/content_month"
+                layout="@layout/tabitem_monthreport"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="32dp"
+                android:layout_marginBottom="16dp"
+                android:visibility="invisible"
+                app:layout_constraintTop_toBottomOf="@id/tabs" />
+        </androidx.cardview.widget.CardView>
+
+        <androidx.cardview.widget.CardView
+            android:id="@+id/rank_view"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30dp"
+            android:layout_marginBottom="80dp"
+            app:cardCornerRadius="20dp"
+            app:cardElevation="0dp"
+            app:layout_constraintBottom_toBottomOf="parent"
+            app:layout_constraintLeft_toLeftOf="parent"
+            app:layout_constraintRight_toRightOf="parent"
+            app:layout_constraintTop_toBottomOf="@id/summary_view">
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="26dp"
+                android:layout_marginBottom="32dp"
+                android:orientation="vertical">
+
+                <TextView
+                    android:id="@+id/subject_rank_title"
+                    android:layout_width="150dp"
+                    android:layout_height="30dp"
+                    android:layout_gravity="center"
+                    android:layout_marginBottom="16dp"
+                    android:background="@drawable/edge_round"
+                    android:gravity="center"
+                    android:text="과목 랭킹"
+                    android:textSize="15sp"
+                    android:textStyle="bold" />
+
+                <ListView
+                    android:id="@+id/rank_listview"
+                    android:layout_width="250dp"
+                    android:layout_height="0dp"
+                    android:layout_gravity="center"
+                    android:background="@drawable/edge_round"
+                    android:divider="#00000000"
+                    android:listSelector="@drawable/blank"
+                    android:scrollbars="none" />
+            </LinearLayout>
+        </androidx.cardview.widget.CardView>
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</androidx.core.widget.NestedScrollView>
